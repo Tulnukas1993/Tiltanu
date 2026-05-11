@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국어 단어 연습 — слова к картинкам</title>
+  <style>
+    :root {
+      --bg: #f6f1ea;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #6fae9a;
+      --accent-dark: #3d7d6b;
+      --soft: #eef8f4;
+      --right: #2a9d8f;
+      --wrong: #e76f51;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: linear-gradient(135deg, #f6f1ea, #edf7f3);
+      color: var(--text);
+      padding: 22px;
+    }
+
+    .app {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    header, .word-bank {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    button:hover { transform: translateY(-1px); opacity: .92; }
+    .primary { background: var(--accent-dark); color: #fff; }
+    .secondary { background: #e5e7eb; color: #111827; }
+
+    .word-bank {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+    }
+
+    .word-bank-title {
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--accent-dark);
+    }
+
+    .words {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .word {
+      background: var(--soft);
+      border: 2px solid var(--accent);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 17px;
+      font-weight: 800;
+      color: #23443a;
+      cursor: grab;
+      user-select: none;
+      transition: .2s;
+    }
+
+    .word:hover { transform: translateY(-2px); background: #def1e9; }
+    .word.selected { outline: 3px solid var(--accent-dark); }
+    .word.used { opacity: .35; }
+
+    .worksheet-wrap {
+      background: #fff;
+      border-radius: 24px;
+      padding: 12px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+      overflow-x: auto;
+    }
+
+    .worksheet {
+      position: relative;
+      width: min(100%, 1050px);
+      min-width: 760px;
+      margin: 0 auto;
+    }
+
+    .worksheet img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .dropzone {
+      position: absolute;
+      height: 3.2%;
+      width: 15.5%;
+      transform: translate(-50%, -50%);
+      border: 2px dashed #9ca3af;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3px;
+      font-size: clamp(12px, 1.5vw, 18px);
+      font-weight: 900;
+      color: var(--accent-dark);
+      background: rgba(255,255,255,.88);
+      cursor: pointer;
+    }
+
+    .dropzone.active {
+      background: #dff0e9;
+      border-color: var(--accent-dark);
+    }
+
+    .dropzone.filled {
+      border-style: solid;
+      border-color: var(--accent);
+    }
+
+    .dropzone.correct {
+      border-color: var(--right);
+      background: rgba(241, 251, 248, .96);
+    }
+
+    .dropzone.incorrect {
+      border-color: var(--wrong);
+      background: rgba(255, 246, 243, .96);
+    }
+
+    .result {
+      display: none;
+      background: #111827;
+      color: white;
+      border-radius: 22px;
+      padding: 22px;
+      margin-top: 18px;
+    }
+
+    .result.show { display: block; }
+
+    .small-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 12px; }
+      h1 { font-size: 23px; }
+      .worksheet-wrap { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>한국어 단어 연습: слова к картинкам</h1>
+      <p class="subtitle">Перетащите корейское слово на пустую линию под нужной картинкой. Можно нажать на слово, а потом на линию.</p>
+      <div class="controls">
+        <button class="primary" onclick="checkAnswers()">Проверить</button>
+        <button class="secondary" onclick="resetExercise()">Сбросить</button>
+        <button class="secondary" onclick="showAnswers()">Показать ответы</button>
+      </div>
+    </header>
+
+    <section class="word-bank">
+      <div class="word-bank-title">Слова для переноса</div>
+      <div class="words" id="wordBank"></div>
+      <p class="small-note">Важно: картинка должна лежать рядом с этим HTML-файлом и называться <b>kawaii_vocabulary_matching_worksheet.png</b>.</p>
+    </section>
+
+    <section class="worksheet-wrap">
+      <div class="worksheet" id="worksheet">
+        <img src="kawaii_vocabulary_matching_worksheet.png" alt="Korean vocabulary worksheet" />
+      </div>
+    </section>
+
+    <section class="result" id="resultBox"></section>
+  </main>
+
+  <script>
+    const items = [
+      { id: 1, word: "바지" },
+      { id: 2, word: "치마" },
+      { id: 3, word: "티셔츠" },
+      { id: 4, word: "코트" },
+      { id: 5, word: "모자" },
+      { id: 6, word: "가방" },
+      { id: 7, word: "양말" },
+      { id: 8, word: "구두" },
+      { id: 9, word: "고양이" },
+      { id: 10, word: "개" },
+      { id: 11, word: "생선" },
+      { id: 12, word: "표" },
+      { id: 13, word: "빵" },
+      { id: 14, word: "레몬" },
+      { id: 15, word: "아이스크림" },
+      { id: 16, word: "포도" },
+      { id: 17, word: "오렌지" },
+      { id: 18, word: "사과" },
+      { id: 19, word: "초콜릿" },
+      { id: 20, word: "케이크" }
+    ];
+
+    const positions = [
+      { x: 11, y: 25.2 }, { x: 30.5, y: 25.2 }, { x: 50, y: 25.2 }, { x: 69.5, y: 25.2 }, { x: 89, y: 25.2 },
+      { x: 11, y: 51.0 }, { x: 30.5, y: 51.0 }, { x: 50, y: 51.0 }, { x: 69.5, y: 51.0 }, { x: 89, y: 51.0 },
+      { x: 11, y: 75.7 }, { x: 30.5, y: 75.7 }, { x: 50, y: 75.7 }, { x: 69.5, y: 75.7 }, { x: 89, y: 75.7 },
+      { x: 11, y: 96.7 }, { x: 30.5, y: 96.7 }, { x: 50, y: 96.7 }, { x: 69.5, y: 96.7 }, { x: 89, y: 96.7 }
+    ];
+
+    let selectedWord = null;
+
+    function shuffle(array) {
+      return [...array].sort(() => Math.random() - 0.5);
+    }
+
+    function renderWordBank() {
+      const bank = document.getElementById("wordBank");
+      bank.innerHTML = "";
+      shuffle(items).forEach(item => {
+        const word = document.createElement("div");
+        word.className = "word";
+        word.textContent = item.word;
+        word.draggable = true;
+        word.dataset.word = item.word;
+
+        word.addEventListener("dragstart", event => {
+          event.dataTransfer.setData("text/plain", item.word);
+        });
+
+        word.addEventListener("click", () => {
+          selectedWord = item.word;
+          document.querySelectorAll(".word").forEach(w => w.classList.remove("selected"));
+          word.classList.add("selected");
+        });
+
+        bank.appendChild(word);
+      });
+    }
+
+    function renderDropzones() {
+      const worksheet = document.getElementById("worksheet");
+
+      items.forEach((item, index) => {
+        const zone = document.createElement("div");
+        zone.className = "dropzone";
+        zone.textContent = "";
+        zone.dataset.answer = item.word;
+        zone.dataset.id = item.id;
+        zone.style.left = positions[index].x + "%";
+        zone.style.top = positions[index].y + "%";
+
+        zone.addEventListener("dragover", event => {
+          event.preventDefault();
+          zone.classList.add("active");
+        });
+
+        zone.addEventListener("dragleave", () => zone.classList.remove("active"));
+
+        zone.addEventListener("drop", event => {
+          event.preventDefault();
+          const word = event.dataTransfer.getData("text/plain");
+          fillZone(zone, word);
+        });
+
+        zone.addEventListener("click", () => {
+          if (selectedWord) {
+            fillZone(zone, selectedWord);
+          } else if (zone.dataset.chosen) {
+            clearZone(zone);
+          }
+        });
+
+        worksheet.appendChild(zone);
+      });
+    }
+
+    function fillZone(zone, word) {
+      if (zone.dataset.chosen) setWordUsed(zone.dataset.chosen, false);
+      zone.textContent = word;
+      zone.dataset.chosen = word;
+      zone.classList.add("filled");
+      zone.classList.remove("active", "correct", "incorrect");
+      setWordUsed(word, true);
+      document.getElementById("resultBox").classList.remove("show");
+    }
+
+    function clearZone(zone) {
+      setWordUsed(zone.dataset.chosen, false);
+      zone.textContent = "";
+      delete zone.dataset.chosen;
+      zone.classList.remove("filled", "correct", "incorrect");
+    }
+
+    function setWordUsed(word, used) {
+      document.querySelectorAll(`.word[data-word="${word}"]`).forEach(el => {
+        el.classList.toggle("used", used);
+      });
+    }
+
+    function checkAnswers() {
+      let correct = 0;
+
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        const chosen = zone.dataset.chosen || "";
+        const answer = zone.dataset.answer;
+
+        zone.classList.remove("correct", "incorrect");
+
+        if (chosen === answer) {
+          correct++;
+          zone.classList.add("correct");
+        } else {
+          zone.classList.add("incorrect");
+          if (!chosen) zone.textContent = "?";
+        }
+      });
+
+      const total = items.length;
+      const percent = Math.round(correct / total * 100);
+      const resultBox = document.getElementById("resultBox");
+      resultBox.classList.add("show");
+      resultBox.innerHTML = `
+        <h2>Результат: ${correct} / ${total}</h2>
+        <p>Процент: ${percent}%</p>
+        <p>${percent >= 80 ? "아주 좋아요! Отлично." : "괜찮아요. Попробуйте ещё раз."}</p>
+      `;
+      resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function resetExercise() {
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        zone.textContent = "";
+        delete zone.dataset.chosen;
+        zone.classList.remove("filled", "active", "correct", "incorrect");
+      });
+      document.getElementById("resultBox").classList.remove("show");
+      selectedWord = null;
+      renderWordBank();
+    }
+
+    function showAnswers() {
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        fillZone(zone, zone.dataset.answer);
+      });
+    }
+
+    renderWordBank();
+    renderDropzones();
+  </script>
+</body>
+</html>
