@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국어 연습 — 몇 / 얼마 / 뭘 / счетные слова</title>
+  <style>
+    :root {
+      --bg: #f6f1ea;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #6b7280;
+      --accent: #8fb8a8;
+      --accent-dark: #4f8f79;
+      --wrong: #e76f51;
+      --right: #2a9d8f;
+      --line: #e5e7eb;
+      --soft: #f0f7f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: linear-gradient(135deg, #f6f1ea, #eef6f2);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .word-bank {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .word {
+      border: 2px solid var(--accent);
+      background: var(--soft);
+      color: #23443a;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+      transition: 0.2s;
+    }
+
+    .word:hover {
+      transform: translateY(-2px);
+      background: #dff0e9;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .primary {
+      background: var(--accent-dark);
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .task-card {
+      background: var(--card);
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.045);
+      border: 2px solid transparent;
+    }
+
+    .task-card.correct {
+      border-color: var(--right);
+      background: #f1fbf8;
+    }
+
+    .task-card.incorrect {
+      border-color: var(--wrong);
+      background: #fff6f3;
+    }
+
+    .task-number {
+      color: var(--accent-dark);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .dialogue {
+      font-size: 23px;
+      line-height: 2.1;
+    }
+
+    .speaker {
+      display: inline-block;
+      font-weight: 800;
+      color: #6b7280;
+      width: 34px;
+    }
+
+    .dropzone {
+      min-width: 110px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 3px solid #6b7280;
+      margin: 0 6px;
+      padding: 2px 8px;
+      min-height: 40px;
+      color: var(--accent-dark);
+      font-weight: 800;
+      background: #f9fafb;
+      border-radius: 10px 10px 0 0;
+      cursor: pointer;
+    }
+
+    .dropzone.active {
+      background: #dff0e9;
+      border-bottom-color: var(--accent-dark);
+    }
+
+    .dropzone.filled {
+      border-bottom-color: var(--accent-dark);
+    }
+
+    .feedback {
+      margin-top: 12px;
+      min-height: 24px;
+      font-weight: 700;
+    }
+
+    .feedback.good {
+      color: var(--right);
+    }
+
+    .feedback.bad {
+      color: var(--wrong);
+    }
+
+    .result {
+      background: #111827;
+      color: white;
+      border-radius: 22px;
+      padding: 22px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .writing-section {
+      background: var(--card);
+      border-radius: 22px;
+      padding: 24px;
+      margin-top: 20px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.045);
+    }
+
+    .writing-item {
+      border-top: 1px solid var(--line);
+      padding: 16px 0;
+      font-size: 20px;
+      line-height: 1.8;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 680px;
+      padding: 12px 14px;
+      border: 2px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+
+    .teacher-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 12px;
+      }
+
+      header, .task-card, .writing-section {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .dialogue {
+        font-size: 19px;
+      }
+
+      .word {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>한국어 연습: 몇 / 얼마 / 뭘 / счетные слова</h1>
+      <p class="subtitle">Перетащите подходящее слово в пропуск. Можно также нажать на слово, а потом на пропуск.</p>
+
+      <div class="word-bank" id="wordBank"></div>
+
+      <div class="controls">
+        <button class="primary" onclick="checkAnswers()">Проверить ответы</button>
+        <button class="secondary" onclick="resetExercise()">Сбросить</button>
+        <button class="secondary" onclick="showAnswers()">Показать ответы</button>
+      </div>
+    </header>
+
+    <section id="tasks"></section>
+
+    <section class="result" id="resultBox"></section>
+
+    <section class="writing-section">
+      <h2>Дополнительное задание</h2>
+      <p class="subtitle">Ответьте полным предложением. Эти ответы проверяет учитель.</p>
+
+      <div class="writing-item">
+        <strong>1.</strong> A: 뭘 찾으세요?<br />
+        B: <input type="text" placeholder="Например: 한국어 책을 찾고 있어요." />
+      </div>
+
+      <div class="writing-item">
+        <strong>2.</strong> A: 책을 몇 권 샀어요?<br />
+        B: <input type="text" placeholder="Например: 두 권 샀어요." />
+      </div>
+
+      <div class="writing-item">
+        <strong>3.</strong> A: 신발을 몇 켤레 샀어요?<br />
+        B: <input type="text" placeholder="Например: 한 켤레 샀어요." />
+      </div>
+
+      <div class="writing-item">
+        <strong>4.</strong> A: 이 가방은 얼마예요?<br />
+        B: <input type="text" placeholder="Например: 50,000원이에요." />
+      </div>
+
+      <div class="writing-item">
+        <strong>5.</strong> A: 교실에 학생이 몇 명 있어요?<br />
+        B: <input type="text" placeholder="Например: 열 명 있어요." />
+      </div>
+
+      <p class="teacher-note">Совет: ученик может сделать скрин результата и отправить вам после выполнения.</p>
+    </section>
+  </main>
+
+  <script>
+    const words = ["뭘", "몇", "얼마", "권", "켤레", "벌", "개", "보세요"];
+
+    const tasks = [
+      {
+        a: "______ 찾으세요?",
+        b: "한국어 책을 찾고 있어요.",
+        answers: ["뭘"],
+        hint: "Что ищете?"
+      },
+      {
+        a: "책상 위에 무엇이 있어요?",
+        b: "일본어 책 두 ______이/가 있어요.",
+        answers: ["권"],
+        hint: "Счётное слово для книг."
+      },
+      {
+        a: "백화점에서 뭘 샀어요?",
+        b: "운동화 한 ______하고 구두 한 ______를 샀어요.",
+        answers: ["켤레", "켤레"],
+        hint: "Счётное слово для пары обуви."
+      },
+      {
+        a: "이 바지는 ______이에요/예요?",
+        b: "25,000원이에요.",
+        answers: ["얼마"],
+        hint: "Вопрос о цене."
+      },
+      {
+        a: "커피를 ______ 잔 마셨어요?",
+        b: "두 잔 마셨어요.",
+        answers: ["몇"],
+        hint: "Вопрос о количестве."
+      },
+      {
+        a: "선생님, 책을 ______ 쪽 읽어요?",
+        b: "10쪽부터 15쪽까지 읽으세요.",
+        answers: ["몇"],
+        hint: "Сколько страниц?"
+      },
+      {
+        a: "이 가방은 ______이에요/예요?",
+        b: "50,000원이에요.",
+        answers: ["얼마"],
+        hint: "Сколько стоит?"
+      },
+      {
+        a: "교실에 학생이 ______ 명 있어요?",
+        b: "열 명 있어요.",
+        answers: ["몇"],
+        hint: "Сколько человек?"
+      },
+      {
+        a: "연필을 ______ 개 샀어요?",
+        b: "다섯 개 샀어요.",
+        answers: ["몇"],
+        hint: "Сколько штук?"
+      },
+      {
+        a: "이 모자를 한번 써 ______.",
+        b: "네, 좋아요.",
+        answers: ["보세요"],
+        hint: "Попробуйте надеть."
+      }
+    ];
+
+    let selectedWord = null;
+
+    function renderWordBank() {
+      const bank = document.getElementById("wordBank");
+      bank.innerHTML = "";
+      words.forEach(word => {
+        const el = document.createElement("div");
+        el.className = "word";
+        el.textContent = word;
+        el.draggable = true;
+        el.addEventListener("dragstart", event => {
+          event.dataTransfer.setData("text/plain", word);
+        });
+        el.addEventListener("click", () => {
+          selectedWord = word;
+          document.querySelectorAll(".word").forEach(w => w.style.outline = "none");
+          el.style.outline = "3px solid #4f8f79";
+        });
+        bank.appendChild(el);
+      });
+    }
+
+    function makeLine(text, taskIndex) {
+      let blankCounter = 0;
+      return text.replace(/______/g, () => {
+        const id = `t${taskIndex}-b${blankCounter}`;
+        blankCounter++;
+        return `<span class="dropzone" data-task="${taskIndex}" data-blank="${blankCounter - 1}" id="${id}"></span>`;
+      });
+    }
+
+    function renderTasks() {
+      const container = document.getElementById("tasks");
+      container.innerHTML = "";
+
+      tasks.forEach((task, index) => {
+        const card = document.createElement("article");
+        card.className = "task-card";
+        card.id = `card-${index}`;
+        card.innerHTML = `
+          <div class="task-number">Задание ${index + 1}</div>
+          <div class="dialogue">
+            <div><span class="speaker">A</span>${makeLine(task.a, index)}</div>
+            <div><span class="speaker">B</span>${makeLine(task.b, index)}</div>
+          </div>
+          <div class="feedback" id="feedback-${index}"></div>
+        `;
+        container.appendChild(card);
+      });
+
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        zone.addEventListener("dragover", event => {
+          event.preventDefault();
+          zone.classList.add("active");
+        });
+
+        zone.addEventListener("dragleave", () => {
+          zone.classList.remove("active");
+        });
+
+        zone.addEventListener("drop", event => {
+          event.preventDefault();
+          const word = event.dataTransfer.getData("text/plain");
+          fillZone(zone, word);
+        });
+
+        zone.addEventListener("click", () => {
+          if (selectedWord) {
+            fillZone(zone, selectedWord);
+          } else if (zone.textContent.trim()) {
+            zone.textContent = "";
+            zone.classList.remove("filled");
+          }
+        });
+      });
+    }
+
+    function fillZone(zone, word) {
+      zone.textContent = word;
+      zone.classList.remove("active");
+      zone.classList.add("filled");
+      const taskIndex = zone.dataset.task;
+      document.getElementById(`card-${taskIndex}`).classList.remove("correct", "incorrect");
+      document.getElementById(`feedback-${taskIndex}`).textContent = "";
+      document.getElementById("resultBox").classList.remove("show");
+    }
+
+    function getUserAnswers(taskIndex) {
+      return Array.from(document.querySelectorAll(`[data-task="${taskIndex}"]`))
+        .sort((a, b) => Number(a.dataset.blank) - Number(b.dataset.blank))
+        .map(zone => zone.textContent.trim());
+    }
+
+    function checkAnswers() {
+      let correctCount = 0;
+      let total = tasks.length;
+
+      tasks.forEach((task, index) => {
+        const card = document.getElementById(`card-${index}`);
+        const feedback = document.getElementById(`feedback-${index}`);
+        const userAnswers = getUserAnswers(index);
+        const isCorrect = task.answers.every((answer, i) => userAnswers[i] === answer);
+
+        card.classList.remove("correct", "incorrect");
+        feedback.classList.remove("good", "bad");
+
+        if (isCorrect) {
+          correctCount++;
+          card.classList.add("correct");
+          feedback.classList.add("good");
+          feedback.textContent = "맞아요! Правильно.";
+        } else {
+          card.classList.add("incorrect");
+          feedback.classList.add("bad");
+          feedback.textContent = `틀렸어요. Подсказка: ${task.hint}`;
+        }
+      });
+
+      const percent = Math.round((correctCount / total) * 100);
+      const resultBox = document.getElementById("resultBox");
+      resultBox.classList.add("show");
+      resultBox.innerHTML = `
+        <h2>Результат: ${correctCount} / ${total}</h2>
+        <p>Процент выполнения: ${percent}%</p>
+        <p>${percent >= 80 ? "아주 좋아요! Отличный результат." : "괜찮아요. Попробуйте ещё раз."}</p>
+      `;
+      resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function resetExercise() {
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        zone.textContent = "";
+        zone.classList.remove("filled", "active");
+      });
+      document.querySelectorAll(".task-card").forEach(card => {
+        card.classList.remove("correct", "incorrect");
+      });
+      document.querySelectorAll(".feedback").forEach(f => {
+        f.textContent = "";
+        f.className = "feedback";
+      });
+      document.querySelectorAll("input").forEach(input => input.value = "");
+      document.getElementById("resultBox").classList.remove("show");
+      selectedWord = null;
+      document.querySelectorAll(".word").forEach(w => w.style.outline = "none");
+    }
+
+    function showAnswers() {
+      tasks.forEach((task, index) => {
+        const zones = Array.from(document.querySelectorAll(`[data-task="${index}"]`))
+          .sort((a, b) => Number(a.dataset.blank) - Number(b.dataset.blank));
+        zones.forEach((zone, i) => fillZone(zone, task.answers[i]));
+      });
+    }
+
+    renderWordBank();
+    renderTasks();
+  </script>
+</body>
+</html>
