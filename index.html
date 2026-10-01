@@ -1,21 +1,91 @@
- </style>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiltanu — каталог упражнений</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#f5f7fb;color:#1f2937;font-family:Arial,"Microsoft YaHei",sans-serif}
+  .wrap{max-width:1050px;margin:0 auto;padding:32px 20px 60px}
+  h1{font-size:36px;margin:0 0 8px}
+  .lead{color:#6b7280;font-size:18px;margin:0 0 26px}
+  .status{padding:16px;border-radius:14px;background:#fff;border:1px solid #e5e7eb;color:#6b7280}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px}
+  .card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:20px;box-shadow:0 5px 18px rgba(0,0,0,.06);transition:.15s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+  .tag{display:inline-block;background:#eef3ff;color:#3157d5;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:700;margin-bottom:12px}
+  .card h2{font-size:20px;margin:0 0 8px;word-break:break-word}
+  .card p{color:#6b7280;margin:0;line-height:1.45}
+  .file{font-size:13px;color:#9ca3af;margin-top:12px;word-break:break-all}
+  .error{background:#fff3f3;color:#b42318}
+</style>
 </head>
 <body>
+<div class="wrap">
   <h1>Tiltanu — каталог упражнений</h1>
-  <p>Выберите интерактивное упражнение.</p>
+  <p class="lead">Новые HTML‑упражнения, добавленные в репозиторий, появляются здесь автоматически.</p>
+  <div id="status" class="status">Загружаю упражнения…</div>
+  <div id="grid" class="grid"></div>
+</div>
+<script>
+const OWNER = 'Tulnukas1993';
+const REPO = 'Tiltanu';
+const BRANCH = 'main';
 
-  <div class="grid">
-    <a class="card" href="korean_drag_words_to_pictures.html">
-      <div class="tag">한국어</div>
-      <h2>Слова к картинкам</h2>
-      <p>Перетащите корейские слова к нужным картинкам.</p>
-    </a>
+function prettyName(filename){
+  return filename
+    .replace(/\.html?$/i,'')
+    .replace(/[_-]+/g,' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
 
-    <a class="card" href="korean_interactive_exercise_index.html">
-      <div class="tag">한국어</div>
-      <h2>몇 / 얼마 / счётные слова</h2>
-      <p>Упражнение на пропуски и проверку ответов.</p>
-    </a>
-  </div>
+function detectTag(name){
+  const s = name.toLowerCase();
+  if(s.includes('korean') || s.includes('topik')) return '한국어 · Korean';
+  if(s.includes('chinese') || s.includes('hsk')) return '中文 · Chinese';
+  if(s.includes('german')) return 'Deutsch';
+  if(s.includes('french')) return 'Français';
+  if(s.includes('english')) return 'English';
+  return 'Interactive';
+}
+
+async function loadExercises(){
+  const status = document.getElementById('status');
+  const grid = document.getElementById('grid');
+  try{
+    const api = `https://api.github.com/repos/${OWNER}/${REPO}/contents/?ref=${BRANCH}`;
+    const res = await fetch(api, {headers:{'Accept':'application/vnd.github+json'}});
+    if(!res.ok) throw new Error(`GitHub API: ${res.status}`);
+    const items = await res.json();
+    const files = items
+      .filter(x => x.type === 'file' && /\.html?$/i.test(x.name) && x.name.toLowerCase() !== 'index.html')
+      .sort((a,b)=>a.name.localeCompare(b.name));
+
+    if(!files.length){
+      status.textContent = 'HTML‑упражнения пока не найдены.';
+      return;
+    }
+
+    status.style.display = 'none';
+    files.forEach(file => {
+      const card = document.createElement('a');
+      card.className = 'card';
+      card.href = encodeURI(file.name);
+      card.innerHTML = `
+        <div class="tag">${detectTag(file.name)}</div>
+        <h2>${prettyName(file.name)}</h2>
+        <p>Открыть интерактивное упражнение</p>
+        <div class="file">${file.name}</div>`;
+      grid.appendChild(card);
+    });
+  }catch(err){
+    status.classList.add('error');
+    status.innerHTML = 'Не удалось загрузить список автоматически. Проверь, что репозиторий открыт и GitHub Pages включён.<br><small>' + err.message + '</small>';
+  }
+}
+
+loadExercises();
+</script>
 </body>
 </html>
