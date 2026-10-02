@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中文麻将练习 — Mahjong Board</title>
+<style>
+:root{
+  --felt:#1f6a55; --felt2:#123f34; --wood:#74492b; --wood2:#422919;
+  --tile:#fbf7e9; --tile2:#ddd2b9; --ink:#202722; --red:#9c3029;
+  --gold:#d7b86b; --good:#60d29a; --bad:#ef786f;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; color:#fff;
+  font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 20% 12%,rgba(255,255,255,.07),transparent 25%),
+    linear-gradient(135deg,var(--felt),var(--felt2));
+}
+.app{max-width:1180px;margin:auto;padding:16px}
+.frame{
+  border:14px solid var(--wood); border-right-color:var(--wood2); border-bottom-color:var(--wood2);
+  border-radius:28px; overflow:hidden; background:rgba(7,43,35,.45);
+  box-shadow:0 18px 45px rgba(0,0,0,.35);
+}
+header{padding:18px 20px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(26px,4vw,42px)}
+header p{margin:6px 0 0;color:#d9eee6}
+.badge{background:var(--tile);color:var(--ink);padding:9px 13px;border-radius:12px;font-weight:900;box-shadow:0 4px 0 var(--tile2)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)}
+.tab{border:0;border-radius:11px;padding:10px 13px;background:rgba(255,255,255,.11);color:#fff;font-weight:800;cursor:pointer}
+.tab.active{background:var(--tile);color:var(--ink);box-shadow:0 4px 0 var(--tile2)}
+.progress-wrap{padding:14px 18px 0}
+.progress{height:9px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden}
+.progress>div{height:100%;width:0;background:var(--gold);transition:.2s}
+.score{font-weight:800;color:#f2dfab;margin-top:7px}
+main{padding:18px}
+.panel{display:none}.panel.active{display:block}
+h2{margin:0 0 6px;font-size:27px}
+.instruction{margin:0 0 18px;color:#d6eee5}
+.mahjong-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:11px}
+.tile{
+  min-height:74px;border:0;border-radius:13px;cursor:pointer;user-select:none;
+  display:flex;align-items:center;justify-content:center;padding:8px;
+  background:linear-gradient(155deg,#fffdf7,var(--tile) 55%,var(--tile2));
+  color:var(--ink);font-size:31px;font-weight:900;
+  box-shadow:0 7px 0 #c7baa0,0 12px 18px rgba(0,0,0,.28);
+  transition:.12s transform,.12s box-shadow;
+}
+.tile:hover{transform:translateY(-2px)}
+.tile:active{transform:translateY(4px);box-shadow:0 3px 0 #c7baa0,0 6px 10px rgba(0,0,0,.25)}
+.tile.selected{outline:4px solid var(--gold)}
+.tile.correct{outline:4px solid var(--good)}
+.tile.wrong{outline:4px solid var(--bad);animation:shake .22s linear 2}
+.tile.used{opacity:.25;pointer-events:none;box-shadow:none}
+.tile.small{min-height:60px;font-size:22px}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:17px;padding:15px;margin-bottom:16px}
+.feedback{margin-top:13px;padding:10px 12px;border-radius:11px;background:rgba(255,255,255,.08);min-height:43px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.btn{border:0;border-radius:11px;padding:10px 15px;background:var(--gold);color:#332815;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #9f8246}
+.btn.secondary{background:rgba(255,255,255,.15);color:#fff;box-shadow:none}
+.result-label{font-weight:900;color:#e9d494;margin:14px 0 8px}
+.result-rack{display:flex;gap:9px;flex-wrap:wrap;min-height:82px;padding:10px;border:2px dashed rgba(255,255,255,.25);border-radius:14px}
+.result-tile{
+  width:58px;height:68px;border-radius:10px;background:var(--tile);color:var(--red);
+  display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;
+  box-shadow:0 5px 0 var(--tile2)
+}
+.pinyin-big{text-align:center;font-size:44px;font-weight:900;color:#f5e4ae;margin:4px 0 14px}
+.round-info{text-align:center;color:#d4eae2;margin-bottom:10px}
+.tone-word{text-align:center;font-size:40px;font-weight:900;margin:5px 0}
+.tone-pinyin{text-align:center;font-size:25px;color:#f1dc9f;margin-bottom:15px;font-weight:800}
+.dialogue{background:rgba(255,255,255,.07);border-radius:16px;padding:15px;font-size:21px;line-height:2.15}
+.blank{display:inline-flex;min-width:120px;min-height:42px;align-items:center;justify-content:center;padding:0 8px;margin:0 4px;border-bottom:3px solid #fff;cursor:pointer;font-weight:900}
+.blank.active{background:rgba(215,184,107,.2);border-radius:8px}
+ruby{ruby-position:over}
+rt{font-size:.52em;color:#f1dc9f;font-weight:700}
+.transform-item{background:rgba(255,255,255,.07);border-radius:15px;padding:14px;margin:12px 0}
+.source{font-size:24px;font-weight:900;margin-bottom:11px}
+.answer-row{display:grid;grid-template-columns:125px 1fr;gap:9px;align-items:center;margin:8px 0}
+.answer-box{
+  min-height:48px;border:2px solid rgba(255,255,255,.22);border-radius:10px;
+  padding:9px 11px;font-size:21px;background:rgba(255,255,255,.05);cursor:pointer;
+  display:flex;align-items:center;letter-spacing:1px
+}
+.answer-box.active{border-color:var(--gold);background:rgba(215,184,107,.15)}
+.answer-box.ok{border-color:var(--good)} .answer-box.no{border-color:var(--bad)}
+.answer-label{font-weight:800;color:#d8ebe4}
+.drawer{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:rgba(12,45,36,.98);border-top:3px solid var(--wood);
+  padding:12px 14px 14px;box-shadow:0 -12px 30px rgba(0,0,0,.32);
+  transform:translateY(110%);transition:.22s transform;
+}
+.drawer.open{transform:translateY(0)}
+.drawer-inner{max-width:1100px;margin:auto}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}
+.drawer-title{font-weight:900;color:#f4dfa9}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(46px,1fr));gap:7px}
+.key{
+  min-height:48px;border:0;border-radius:9px;background:var(--tile);color:var(--ink);
+  font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--tile2)
+}
+.drawer-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.mini{font-size:14px;color:#cce4dc}
+@media(max-width:650px){
+  .app{padding:7px}.frame{border-width:8px;border-radius:18px}main{padding:12px}.tabs{padding:10px}
+  .tile{min-height:63px;font-size:27px}.dialogue{font-size:18px}.answer-row{grid-template-columns:1fr}.pinyin-big{font-size:38px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="frame">
+<header>
+  <div><h1>中文麻将练习</h1><p>Интерактивная доска в стиле маджонг</p></div>
+  <div class="badge">🀄 初级汉语</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="t1">1. Собери иероглиф</button>
+  <button class="tab" data-tab="t2">2. Найди по pinyin</button>
+  <button class="tab" data-tab="t3">3. Найди pinyin</button>
+  <button class="tab" data-tab="t4">4. Пропуски</button>
+  <button class="tab" data-tab="t5">5. 不 / 吗</button>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="score" id="score">Выполнено: 0 / 5</div>
+</div>
+
+<main>
+<section class="panel active" id="t1">
+  <h2>1. Собери иероглиф из двух частей</h2>
+  <p class="instruction">Заранее иероглиф не показан. Найди две плитки, которые образуют настоящий иероглиф. После верной пары он появится внизу.</p>
+  <div class="card">
+    <div class="feedback" id="buildFeedback">Выбери две плитки.</div>
+    <div class="result-label">Полученные иероглифы</div>
+    <div class="result-rack" id="resultRack"></div>
+  </div>
+  <div class="mahjong-grid" id="componentGrid"></div>
+  <div class="actions">
+    <button class="btn secondary" onclick="resetPairSelection()">Сбросить выбор</button>
+    <button class="btn secondary" onclick="restartBuild()">Начать заново</button>
+  </div>
+</section>
+
+<section class="panel" id="t2">
+  <h2>2. Найди иероглиф по pinyin</h2>
+  <p class="instruction">Сверху дано чтение. Среди похожих плиток найди правильный иероглиф.</p>
+  <div class="card">
+    <div class="round-info" id="findRound"></div>
+    <div class="pinyin-big" id="findPinyin">shì</div>
+    <div class="mahjong-grid" id="findGrid"></div>
+    <div class="feedback" id="findFeedback">Выбери одну плитку.</div>
+  </div>
+  <div class="actions"><button class="btn" onclick="nextFind()">Следующий</button></div>
+</section>
+
+<section class="panel" id="t3">
+  <h2>3. Найди правильный pinyin</h2>
+  <p class="instruction">Посмотри на китайское слово и найди его правильный pinyin среди 10 вариантов. Только один вариант правильный.</p>
+  <div class="card">
+    <div class="round-info" id="toneRound"></div>
+    <div class="tone-word" id="toneWord"></div>
+    <div class="mahjong-grid" id="toneGrid"></div>
+    <div class="feedback" id="toneFeedback">Выбери вариант.</div>
+  </div>
+  <div class="actions"><button class="btn" onclick="nextTone()">Следующее слово</button></div>
+  <p class="mini">Цель: узнавать правильное чтение и тоны по pinyin.</p>
+</section>
+
+<section class="panel" id="t4">
+  <h2>4. Вставь пропущенное слово</h2>
+  <p class="instruction">Нажми на пропуск, затем на нужную плитку.</p>
+  <div class="dialogue">
+    <div><ruby>玛莎<rt>Mǎshā</rt></ruby>：你叫什么 <span class="blank" data-answer="名字">______</span>？</div>
+    <div><ruby>李军<rt>Lǐ Jūn</rt></ruby>：我叫李军。</div>
+    <div><ruby>玛莎<rt>Mǎshā</rt></ruby>：你是 <span class="blank" data-answer="老师">______</span> 吗？</div>
+    <div><ruby>李军<rt>Lǐ Jūn</rt></ruby>：我不是老师，我是 <span class="blank" data-answer="学生">______</span>。他是老师。</div>
+    <div><ruby>玛莎<rt>Mǎshā</rt></ruby>：<span class="blank" data-answer="谢谢">______</span>！</div>
+    <div><ruby>李军<rt>Lǐ Jūn</rt></ruby>：不客气。</div>
+  </div>
+  <div class="mahjong-grid" style="margin-top:15px">
+    <button class="tile small fillword">学生</button>
+    <button class="tile small fillword">名字</button>
+    <button class="tile small fillword">谢谢</button>
+    <button class="tile small fillword">老师</button>
+  </div>
+  <div class="feedback" id="fillFeedback">Выбери пропуск.</div>
+  <div class="actions">
+    <button class="btn secondary" onclick="resetFill()">Сбросить</button>
+    <button class="btn" onclick="checkFill()">Проверить</button>
+  </div>
+</section>
+
+<section class="panel" id="t5">
+  <h2>5. Сделай отрицание и вопрос</h2>
+  <p class="instruction">Нажми на поле ответа — снизу выдвинется перемешанная клавиатура из иероглифов. Собери отрицание и вопрос.</p>
+  <div id="transformWrap"></div>
+  <div class="actions">
+    <button class="btn secondary" onclick="resetTransform()">Сбросить ответы</button>
+    <button class="btn" onclick="checkTransform()">Проверить всё</button>
+  </div>
+  <div class="feedback" id="transformFeedback">Выбери поле ответа.</div>
+</section>
+</main>
+</div>
+</div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-title">麻将键盘 · нажимай на иероглифы</div>
+        <div class="mini" id="drawerHint"></div>
+      </div>
+      <button class="btn secondary" onclick="closeDrawer()">Закрыть</button>
+    </div>
+    <div class="keygrid" id="keyGrid"></div>
+    <div class="drawer-actions">
+      <button class="btn secondary" onclick="backspaceKey()">↶ Удалить</button>
+      <button class="btn secondary" onclick="clearActiveAnswer()">Очистить</button>
+      <button class="btn" onclick="closeDrawer()">Готово</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const done=new Set();
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const norm=s=>(s||'').replace(/\s/g,'').replace(/[。！？!?]/g,'');
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); document.getElementById(b.dataset.tab).classList.add('active');
+});
+function markDone(n){
+  done.add(n);
+  document.getElementById('score').textContent=`Выполнено: ${done.size} / 5`;
+  document.getElementById('progressBar').style.width=(done.size/5*100)+'%';
+}
+
+/* 1. build without showing the target */
+const builds=[
+  ['号',['口','丂']],['名',['夕','口']],['明',['日','月']],['昨',['日','乍']],
+  ['姓',['女','生']],['星',['日','生']],['留',['卯','田']],['叫',['口','丩']],
+  ['起',['走','己']],['对',['又','寸']],['关',['丷','天']],['老',['耂','匕']],
+  ['师',['丨','帀']],['学',['⺍冖','子']]
+];
+let buildTiles=[], selectedTiles=[], collected=new Set();
+
+function createBuildBoard(){
+  buildTiles=[];
+  builds.forEach((b,bi)=>b[1].forEach((part,pi)=>buildTiles.push({part,bi,pi,id:`${bi}-${pi}-${Math.random()}`})));
+  buildTiles=shuffle(buildTiles);
+  const grid=document.getElementById('componentGrid'); grid.innerHTML='';
+  buildTiles.forEach(obj=>{
+    const btn=document.createElement('button');
+    btn.className='tile'; btn.textContent=obj.part; btn.dataset.id=obj.id;
+    btn.onclick=()=>selectComponent(btn,obj);
+    grid.appendChild(btn);
+  });
+}
+function selectComponent(btn,obj){
+  if(btn.classList.contains('used')) return;
+  if(btn.classList.contains('selected')){
+    btn.classList.remove('selected'); selectedTiles=selectedTiles.filter(x=>x.obj.id!==obj.id); return;
+  }
+  if(selectedTiles.length===2) resetPairSelection();
+  btn.classList.add('selected'); selectedTiles.push({btn,obj});
+  if(selectedTiles.length===2) checkPair();
+}
+function pairMatches(parts,targetParts){
+  const a=[...parts].sort().join('|'), b=[...targetParts].sort().join('|');
+  return a===b;
+}
+function checkPair(){
+  const parts=selectedTiles.map(x=>x.obj.part);
+  const candidate=builds.find(x=>!collected.has(x[0]) && pairMatches(parts,x[1]));
+  if(candidate){
+    selectedTiles.forEach(x=>{x.btn.classList.remove('selected');x.btn.classList.add('correct','used')});
+    collected.add(candidate[0]);
+    const r=document.createElement('div');r.className='result-tile';r.textContent=candidate[0];
+    document.getElementById('resultRack').appendChild(r);
+    document.getElementById('buildFeedback').textContent=`✓ Получился иероглиф ${candidate[0]}`;
+    selectedTiles=[];
+    if(collected.size===builds.length){document.getElementById('buildFeedback').textContent='✓ Все иероглифы собраны!';markDone(1)}
+  }else{
+    selectedTiles.forEach(x=>x.btn.classList.add('wrong'));
+    document.getElementById('buildFeedback').textContent='Эти две части не образуют нужный иероглиф. Попробуй другую пару.';
+    setTimeout(()=>resetPairSelection(),550);
+  }
+}
+function resetPairSelection(){
+  selectedTiles.forEach(x=>x.btn.classList.remove('selected','wrong'));
+  selectedTiles=[]; 
+}
+function restartBuild(){
+  collected.clear();selectedTiles=[];document.getElementById('resultRack').innerHTML='';
+  document.getElementById('buildFeedback').textContent='Выбери две плитки.';
+  createBuildBoard();
+}
+
+/* 2. pinyin -> visually similar character */
+const findRounds=[
+ {p:'shì',a:'是',o:['是','足','走','先','昰','定','早','昱','旦','显','昂','昔']},
+ {p:'liú',a:'留',o:['留','畱','田','男','略','雷','富','番','畄','思','胃','界']},
+ {p:'xué',a:'学',o:['学','字','觉','党','受','孚','子','安','室','宰','宗','孛']},
+ {p:'shēng',a:'生',o:['生','牛','午','年','失','先','壬','朱','手','丰','主','王']},
+ {p:'lǎo',a:'老',o:['老','考','者','孝','耆','耄','毛','耂','孚','著','孝','耋']},
+ {p:'shī',a:'师',o:['师','帥','帅','币','巿','市','吊','布','帝','席','帀','帅']},
+ {p:'zuó',a:'昨',o:['昨','作','炸','诈','乍','昕','昨','旺','咋','昨','昭','昨']},
+ {p:'xìng',a:'姓',o:['姓','性','星','牲','笙','生','妊','姝','妨','娘','姪','姣']},
+ {p:'xīng',a:'星',o:['星','姓','性','晶','晴','晨','昨','显','旦','昌','景','曐']},
+ {p:'qǐ',a:'起',o:['起','走','足','赶','赵','超','趣','越','趁','赴','趟','趋']},
+ {p:'qì',a:'气',o:['气','汽','乞','氛','氧','氢','氦','氨','气','吃','迄','忾']},
+ {p:'bù',a:'不',o:['不','木','本','末','未','下','丕','否','坏','杯','还','夫']},
+ {p:'méi',a:'没',o:['没','沿','投','股','殳','波','设','役','段','般','毁','殴']},
+ {p:'guān',a:'关',o:['关','天','夫','失','夹','并','兴','共','兰','美','吴','买']},
+ {p:'xì',a:'系',o:['系','糸','紧','素','索','累','紫','繁','絮','紊','絲','繁']},
+ {p:'xiè',a:'谢',o:['谢','射','讨','诗','说','谁','课','语','请','识','读','记']}
+];
+let findIndex=0,findHits=new Set();
+function renderFind(){
+  const r=findRounds[findIndex];
+  document.getElementById('findRound').textContent=`${findIndex+1} / ${findRounds.length}`;
+  document.getElementById('findPinyin').textContent=r.p;
+  document.getElementById('findFeedback').textContent='Выбери одну плитку.';
+  const g=document.getElementById('findGrid');g.innerHTML='';
+  shuffle([...new Set(r.o)]).forEach(ch=>{
+    const b=document.createElement('button');b.className='tile';b.textContent=ch;
+    b.onclick=()=>{
+      document.querySelectorAll('#findGrid .tile').forEach(x=>x.classList.remove('correct','wrong'));
+      if(ch===r.a){b.classList.add('correct');findHits.add(findIndex);document.getElementById('findFeedback').textContent=`✓ ${r.p} = ${r.a}`;if(findHits.size===findRounds.length)markDone(2)}
+      else{b.classList.add('wrong');document.getElementById('findFeedback').textContent='Похож, но это не тот иероглиф.'}
+    };
+    g.appendChild(b);
+  })
+}
+function nextFind(){findIndex=(findIndex+1)%findRounds.length;renderFind()}
+
+/* 3. find the correct pinyin */
+const tones=[
+ {w:'对不起',a:'duì bu qǐ',o:[
+  'duì bu qǐ','duī bù qí','duǐ bù qī','duì bǔ qí','duī bu qǐ',
+  'duì bù qī','duǐ bu qí','duī bǔ qǐ','duì bu qí','duì bù qǐ'
+ ]},
+ {w:'没关系',a:'méi guān xi',o:[
+  'méi guān xi','měi guān xī','méi guǎn xì','mèi guān xi','méi guàn xī',
+  'měi guǎn xi','méi guān xǐ','mèi guǎn xì','méi guàn xi','měi guān xì'
+ ]},
+ {w:'不客气',a:'bú kè qi',o:[
+  'bú kè qi','bù kē qí','bǔ kè qī','bú kě qì','bū kè qi',
+  'bù kè qí','bú kē qǐ','bǔ kě qi','bù kè qì','bú kě qí'
+ ]},
+ {w:'星期',a:'xīng qī',o:[
+  'xīng qī','xíng qī','xīng qí','xǐng qì','xìng qī',
+  'xíng qí','xīng qǐ','xǐng qī','xìng qí','xīng qì'
+ ]},
+ {w:'姓什么',a:'xìng shén me',o:[
+  'xìng shén me','xīng shěn mè','xǐng shén mē','xìng shēn me','xíng shèn mè',
+  'xìng shěn mé','xīng shén me','xǐng shēn mè','xìng shèn mē','xíng shén mè'
+ ]},
+ {w:'名字',a:'míng zi',o:[
+  'míng zi','mǐng zì','mìng zī','mīng zǐ','míng zì',
+  'mǐng zi','mìng zǐ','mīng zi','míng zī','mǐng zī'
+ ]},
+ {w:'昨天',a:'zuó tiān',o:[
+  'zuó tiān','zuǒ tián','zuò tiān','zuō tiǎn','zuó tiǎn',
+  'zuǒ tiān','zuò tián','zuō tiān','zuó tián','zuǒ tiǎn'
+ ]},
+ {w:'明天',a:'míng tiān',o:[
+  'míng tiān','mǐng tián','mìng tiān','mīng tiǎn','míng tiǎn',
+  'mǐng tiān','mìng tián','mīng tiān','míng tián','mǐng tiǎn'
+ ]},
+ {w:'今天',a:'jīn tiān',o:[
+  'jīn tiān','jín tiān','jǐn tián','jìn tiān','jīn tiǎn',
+  'jǐn tiān','jín tián','jìn tiǎn','jīn tián','jìn tián'
+ ]},
+ {w:'你好吗',a:'nǐ hǎo ma',o:[
+  'nǐ hǎo ma','ní hǎo má','nǐ hào ma','nì hǎo mà','nī hǎo ma',
+  'nǐ hāo má','ní hào ma','nǐ hǎo mà','nì hāo ma','nī hào má'
+ ]}
+];
+let toneIndex=0,toneHits=new Set();
+
+function renderTone(){
+ const t=tones[toneIndex];
+ document.getElementById('toneRound').textContent=`${toneIndex+1} / ${tones.length}`;
+ document.getElementById('toneWord').textContent=t.w;
+ document.getElementById('toneFeedback').textContent='Найди правильный pinyin.';
+ const g=document.getElementById('toneGrid');g.innerHTML='';
+ shuffle(t.o).forEach(o=>{
+  const b=document.createElement('button');
+  b.className='tile small';
+  b.textContent=o;
+  b.onclick=()=>{
+   document.querySelectorAll('#toneGrid .tile').forEach(x=>x.classList.remove('correct','wrong'));
+   if(o===t.a){
+    b.classList.add('correct');
+    toneHits.add(toneIndex);
+    document.getElementById('toneFeedback').textContent=`✓ Верно: ${t.a}`;
+    if(toneHits.size===tones.length) markDone(3);
+   }else{
+    b.classList.add('wrong');
+    document.getElementById('toneFeedback').textContent='Нет. Сравни инициали, финали и тоны.';
+   }
+  };
+  g.appendChild(b);
+ })
+}
+function nextTone(){toneIndex=(toneIndex+1)%tones.length;renderTone()}
+
+/* 4. fill */
+let activeBlank=null;
+document.querySelectorAll('.blank').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.blank').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');activeBlank=b;
+});
+document.querySelectorAll('.fillword').forEach(w=>w.onclick=()=>{
+ if(!activeBlank){document.getElementById('fillFeedback').textContent='Сначала нажми на пропуск.';return}
+ activeBlank.textContent=w.textContent;activeBlank.dataset.value=w.textContent;activeBlank.classList.remove('active');activeBlank=null;
+});
+function resetFill(){
+ document.querySelectorAll('.blank').forEach(b=>{b.textContent='______';b.dataset.value='';b.classList.remove('active');b.style.color=''});
+ activeBlank=null;document.getElementById('fillFeedback').textContent='Выбери пропуск.';
+}
+function checkFill(){
+ const bs=[...document.querySelectorAll('.blank')],ok=bs.every(b=>b.dataset.value===b.dataset.answer);
+ bs.forEach(b=>b.style.color=b.dataset.value===b.dataset.answer?'#cffff0':'#ffd0cc');
+ document.getElementById('fillFeedback').textContent=ok?'✓ Всё правильно!':'Есть ошибки.';
+ if(ok)markDone(4);
+}
+
+/* 5. click -> slide-up shuffled character keyboard */
+const transforms=[
+ {s:'她是老师。',html:'她是老师。',n:'她不是老师。',q:'她是老师吗？'},
+ {s:'我是李军。',html:'我是<ruby>李军<rt>Lǐ Jūn</rt></ruby>。',n:'我不是李军。',q:'我是李军吗？'},
+ {s:'我叫玛莎。',html:'我叫<ruby>玛莎<rt>Mǎshā</rt></ruby>。',n:'我不叫玛莎。',q:'我叫玛莎吗？'},
+ {s:'你是留学生。',html:'你是留学生。',n:'你不是留学生。',q:'你是留学生吗？'},
+ {s:'他是学生。',html:'他是学生。',n:'他不是学生。',q:'他是学生吗？'}
+];
+const extras=['我','你','他','她','是','不','叫','吗','老','师','学','生','留','李','军','玛','莎','名','字','好','的','很','也','？','。'];
+let activeAnswer=null;
+function renderTransforms(){
+ const w=document.getElementById('transformWrap');w.innerHTML='';
+ transforms.forEach((t,i)=>{
+  const d=document.createElement('div');d.className='transform-item';
+  d.innerHTML=`<div class="source">${i+1}. ${t.html}</div>
+    <div class="answer-row"><div class="answer-label">否定句</div><div class="answer-box" data-i="${i}" data-type="n"></div></div>
+    <div class="answer-row"><div class="answer-label">问句</div><div class="answer-box" data-i="${i}" data-type="q"></div></div>`;
+  w.appendChild(d);
+ });
+ document.querySelectorAll('.answer-box').forEach(box=>box.onclick=()=>openKeyboard(box));
+}
+function charsForBox(box){
+ const i=+box.dataset.i, type=box.dataset.type;
+ const answer=transforms[i][type];
+ const needed=[...answer.replace(/[。！？!?]/g,'')];
+ const pool=[...new Set([...needed,...shuffle(extras).slice(0,14)])];
+ return shuffle(pool);
+}
+function openKeyboard(box){
+ document.querySelectorAll('.answer-box').forEach(x=>x.classList.remove('active'));
+ box.classList.add('active');activeAnswer=box;
+ const i=+box.dataset.i,type=box.dataset.type;
+ document.getElementById('drawerHint').textContent=`${type==='n'?'Собери отрицание':'Собери вопрос'} для: ${transforms[i].s}`;
+ const g=document.getElementById('keyGrid');g.innerHTML='';
+ charsForBox(box).forEach(ch=>{
+  const b=document.createElement('button');b.className='key';b.textContent=ch;
+  b.onclick=()=>{activeAnswer.textContent+=ch};g.appendChild(b);
+ });
+ document.getElementById('drawer').classList.add('open');
+}
+function closeDrawer(){
+ document.getElementById('drawer').classList.remove('open');
+ if(activeAnswer)activeAnswer.classList.remove('active');
+}
+function backspaceKey(){if(activeAnswer)activeAnswer.textContent=activeAnswer.textContent.slice(0,-1)}
+function clearActiveAnswer(){if(activeAnswer)activeAnswer.textContent=''}
+function resetTransform(){
+ closeDrawer();activeAnswer=null;renderTransforms();document.getElementById('transformFeedback').textContent='Выбери поле ответа.';
+}
+function checkTransform(){
+ let good=0;
+ document.querySelectorAll('.answer-box').forEach(box=>{
+  const i=+box.dataset.i,type=box.dataset.type;
+  const ok=norm(box.textContent)===norm(transforms[i][type]);
+  box.classList.toggle('ok',ok);box.classList.toggle('no',!ok);
+ });
+ transforms.forEach((t,i)=>{
+  const n=document.querySelector(`.answer-box[data-i="${i}"][data-type="n"]`);
+  const q=document.querySelector(`.answer-box[data-i="${i}"][data-type="q"]`);
+  if(norm(n.textContent)===norm(t.n)&&norm(q.textContent)===norm(t.q))good++;
+ });
+ document.getElementById('transformFeedback').textContent=good===transforms.length?'✓ Все предложения собраны правильно!':`Полностью верно: ${good} / ${transforms.length}`;
+ if(good===transforms.length)markDone(5);
+}
+
+/* init */
+createBuildBoard();renderFind();renderTone();renderTransforms();
+</script>
+</body>
+</html>
