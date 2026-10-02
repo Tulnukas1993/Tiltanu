@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文麻将练习 2</title>
+<style>
+:root{--g:#1d6853;--g2:#103d32;--w:#74482b;--w2:#412818;--t:#fbf7e9;--t2:#dbcfb5;--i:#202722;--r:#9b3029;--gold:#d7b86b;--ok:#60d29a;--bad:#ef786f}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,var(--g),var(--g2));color:white;font-family:"Noto Sans SC","Microsoft YaHei",Arial,sans-serif}.app{max-width:1180px;margin:auto;padding:14px}.frame{border:13px solid var(--w);border-right-color:var(--w2);border-bottom-color:var(--w2);border-radius:26px;overflow:hidden;background:#0b4237aa;box-shadow:0 18px 40px #0006}header{padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{margin:0;font-size:clamp(26px,4vw,40px)}header p{margin:5px 0 0;color:#d5ebe3}.badge{background:var(--t);color:var(--i);padding:9px 12px;border-radius:11px;font-weight:900}.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-block:1px solid #ffffff1d}.tab{border:0;border-radius:10px;padding:10px 12px;background:#ffffff18;color:white;font-weight:800;cursor:pointer}.tab.active{background:var(--t);color:var(--i)}.progress-wrap{padding:13px 16px 0}.progress{height:9px;border-radius:99px;background:#ffffff20;overflow:hidden}.progress div{height:100%;background:var(--gold);width:0}.score{color:#f1dda5;font-weight:800;margin-top:7px}main{padding:17px}.panel{display:none}.panel.active{display:block}h2{margin:0 0 6px}.instruction{margin:0 0 16px;color:#d5ebe3}.card{background:#ffffff0d;border:1px solid #ffffff20;border-radius:16px;padding:14px;margin-bottom:15px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:10px}.tile{min-height:68px;border:0;border-radius:12px;background:linear-gradient(155deg,#fffdf7,var(--t) 58%,var(--t2));color:var(--i);font-size:29px;font-weight:900;box-shadow:0 6px 0 #c5b89d,0 10px 16px #0004;cursor:pointer}.tile:hover{transform:translateY(-2px)}.tile.selected{outline:4px solid var(--gold)}.tile.correct{outline:4px solid var(--ok)}.tile.wrong{outline:4px solid var(--bad)}.tile.used{opacity:.23;pointer-events:none;box-shadow:none}.tile.word{font-size:23px}.feedback{margin-top:12px;background:#ffffff12;padding:10px;border-radius:10px;min-height:42px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--gold);font-weight:900;color:#332815;cursor:pointer}.btn.secondary{background:#ffffff1d;color:white}.result-rack{min-height:78px;border:2px dashed #ffffff42;border-radius:13px;padding:9px;display:flex;gap:8px;flex-wrap:wrap}.result{min-width:55px;height:64px;padding:0 8px;border-radius:9px;background:var(--t);color:var(--r);font-size:32px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 0 var(--t2)}.label{color:#ecd79b;font-weight:900;margin:12px 0 7px}.big{font-size:40px;font-weight:900;text-align:center;color:#f4e0a7}.source{text-align:center;font-size:30px;font-weight:900;margin:8px 0 14px}.round{text-align:center;color:#d4e9e2;margin-bottom:7px}.sentence-box{min-height:72px;border:2px solid #ffffff30;border-radius:13px;padding:12px;display:flex;gap:7px;flex-wrap:wrap;background:#ffffff0b}.chip{min-width:46px;min-height:50px;border-radius:8px;background:var(--t);color:var(--i);font-size:25px;font-weight:900;display:flex;align-items:center;justify-content:center}.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(50px,1fr));gap:8px;margin-top:12px}.key{min-height:54px;border:0;border-radius:9px;background:var(--t);color:var(--i);font-size:26px;font-weight:900;box-shadow:0 5px 0 var(--t2);cursor:pointer}.key.used{opacity:.23;pointer-events:none}@media(max-width:640px){.app{padding:6px}.frame{border-width:8px}.tile{font-size:25px}.big{font-size:34px}}
+</style></head>
+<body><div class="app"><div class="frame">
+<header><div><h1>中文麻将练习 2</h1><p>Транспорт • профессии • распорядок дня</p></div><div class="badge">🀄 初级汉语</div></header>
+<div class="tabs">
+<button class="tab active" data-tab="t1">1. Собери иероглиф</button>
+<button class="tab" data-tab="t2">2. Найди иероглиф</button>
+<button class="tab" data-tab="t3">3. Найди слово</button>
+<button class="tab" data-tab="t4">4. Собери предложение</button>
+</div>
+<div class="progress-wrap"><div class="progress"><div id="bar"></div></div><div class="score" id="score">Выполнено: 0 / 4</div></div>
+<main>
+<section class="panel active" id="t1">
+<h2>1. Собери иероглиф из двух частей</h2><p class="instruction">Иероглиф заранее не показан. Найди две части. Верный иероглиф появится внизу.</p>
+<div class="card"><div class="feedback" id="bfb">Выбери две плитки.</div><div class="label">Полученные иероглифы</div><div class="result-rack" id="rack"></div></div>
+<div class="grid" id="parts"></div>
+<div class="actions"><button class="btn secondary" onclick="resetPair()">Сбросить выбор</button><button class="btn secondary" onclick="restartBuild()">Начать заново</button></div>
+</section>
+
+<section class="panel" id="t2">
+<h2>2. Найди нужный иероглиф</h2><p class="instruction">Дан pinyin и слово с пропуском. Выбери нужный иероглиф. Порядок заданий случайный.</p>
+<div class="card"><div class="round" id="cr"></div><div class="big" id="cp"></div><div class="source" id="cs"></div><div class="grid" id="cg"></div><div class="feedback" id="cf">Выбери иероглиф.</div></div>
+<div class="actions"><button class="btn" onclick="nextChar()">Следующий</button></div>
+</section>
+
+<section class="panel" id="t3">
+<h2>3. Найди слово по pinyin</h2><p class="instruction">Найди правильное слово среди визуально похожих вариантов. Например: 电车 / 电东 / 由东 / 油车.</p>
+<div class="card"><div class="round" id="wr"></div><div class="big" id="wp"></div><div class="grid" id="wg"></div><div class="feedback" id="wf">Выбери слово.</div></div>
+<div class="actions"><button class="btn" onclick="nextWord()">Следующее</button></div>
+</section>
+
+<section class="panel" id="t4">
+<h2>4. Расставь иероглифы в правильном порядке</h2><p class="instruction">Нажимай на плитки по порядку. Если у предложения есть несколько естественных вариантов порядка слов, они тоже засчитываются как правильные.</p>
+<div class="card"><div class="round" id="sr"></div><div class="sentence-box" id="sbox"></div><div class="keys" id="skeys"></div><div class="feedback" id="sf">Собери предложение.</div>
+<div class="actions"><button class="btn secondary" onclick="undoSent()">↶ Удалить</button><button class="btn secondary" onclick="renderSent()">Сбросить</button><button class="btn" onclick="checkSent()">Проверить</button><button class="btn" onclick="nextSent()">Следующее</button></div></div>
+</section>
+</main></div></div>
+
+<script>
+const shuffle=a=>[...a].sort(()=>Math.random()-.5),done=new Set(),norm=s=>(s||'').replace(/[\s。！？!?]/g,'');
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
+function mark(n){done.add(n);score.textContent=`Выполнено: ${done.size} / 4`;bar.style.width=(done.size/4*100)+'%'}
+
+/* 1 */
+const builds=[
+['给',['纟','合']],['地',['土','也']],['铁',['钅','失']],['组',['纟','且']],['汽',['氵','气']],['飞',['⺄','丿']],['机',['木','几']],['船',['舟','几口']],['点',['占','灬']],['电',['日','乚']],['经',['纟','ス工']],['理',['王','里']],['律',['彳','聿']],['饭',['饣','反']],['晚',['日','免']],['早',['日','十']],['吃',['口','乞']],['共',['廿','八']],['放',['方','攵']],['学',['⺍冖','子']],['话',['讠','舌']],['语',['讠','吾']],['认',['讠','人']],['识',['讠','只']]
+];
+let sel=[],collected=new Set(),partObjs=[];
+function makeParts(){parts.innerHTML='';partObjs=[];builds.forEach((x,i)=>x[1].forEach((p,j)=>partObjs.push({p,id:i+'-'+j+'-'+Math.random()})));shuffle(partObjs).forEach(o=>{let b=document.createElement('button');b.className='tile';b.textContent=o.p;b.onclick=()=>pickPart(b,o);parts.appendChild(b)})}
+function pickPart(b,o){if(b.classList.contains('used'))return;if(b.classList.contains('selected')){b.classList.remove('selected');sel=sel.filter(x=>x.o.id!==o.id);return}if(sel.length===2)resetPair();b.classList.add('selected');sel.push({b,o});if(sel.length===2)checkPair()}
+function checkPair(){let ps=sel.map(x=>x.o.p),c=builds.find(x=>!collected.has(x[0])&&[...x[1]].sort().join('|')===[...ps].sort().join('|'));if(c){sel.forEach(x=>{x.b.classList.remove('selected');x.b.classList.add('used','correct')});collected.add(c[0]);let r=document.createElement('div');r.className='result';r.textContent=c[0];rack.appendChild(r);bfb.textContent='✓ Получился '+c[0];sel=[];if(collected.size===builds.length){bfb.textContent='✓ Все иероглифы собраны!';mark(1)}}else{sel.forEach(x=>x.b.classList.add('wrong'));bfb.textContent='Эти части не подходят.';setTimeout(resetPair,500)}}
+function resetPair(){sel.forEach(x=>x.b.classList.remove('selected','wrong'));sel=[]}
+function restartBuild(){collected.clear();sel=[];rack.innerHTML='';bfb.textContent='Выбери две плитки.';makeParts()}
+
+/* 2 */
+const charsBase=[
+{p:'chū',a:'出',s:'出租车'},{p:'zū',a:'租',s:'出租车'},{p:'chē',a:'车',s:'出租车'},
+{p:'huǒ',a:'火',s:'火车'},{p:'qì',a:'汽',s:'汽车'},{p:'diàn',a:'电',s:'电车'},
+{p:'chuán',a:'船',s:'船'},{p:'gōng',a:'公',s:'公共汽车'},{p:'gòng',a:'共',s:'公共汽车'},
+{p:'chī',a:'吃',s:'吃饭'},{p:'fàn',a:'饭',s:'吃饭'},{p:'wǔ',a:'午',s:'午饭'},
+{p:'wǎn',a:'晚',s:'晚饭'},{p:'shàng',a:'上',s:'上午'},{p:'xià',a:'下',s:'下午'}
+];
+let chars=shuffle(charsBase),ci=0,chits=new Set();const cpool=[...new Set(charsBase.flatMap(x=>[...x.s]))];
+function mask(s,a){let i=s.indexOf(a);return s.slice(0,i)+'＿'+s.slice(i+1)}
+function renderChar(){let r=chars[ci];cr.textContent=`${ci+1} / ${chars.length}`;cp.textContent=r.p;cs.textContent='из слова: '+mask(r.s,r.a);cf.textContent='Выбери иероглиф.';cg.innerHTML='';shuffle(cpool).forEach(ch=>{let b=document.createElement('button');b.className='tile';b.textContent=ch;b.onclick=()=>{document.querySelectorAll('#cg .tile').forEach(x=>x.classList.remove('correct','wrong'));if(ch===r.a){b.classList.add('correct');chits.add(r.p+'|'+r.s);cf.textContent=`✓ ${r.p} = ${r.a} → ${r.s}`;if(chits.size===chars.length)mark(2)}else{b.classList.add('wrong');cf.textContent='Не тот иероглиф.'}};cg.appendChild(b)})}
+function nextChar(){ci=(ci+1)%chars.length;renderChar()}
+
+/* 3 */
+const wordRounds=[
+ {a:'出租车',p:'chūzūchē',o:['出租车','出租东','出组车','出粗车','山租车','出且车','出祖车','山组车','出租年','出粗东']},
+ {a:'火车',p:'huǒchē',o:['火车','灭车','火东','大车','灰车','犬车','炎车','火年','火午','灯车']},
+ {a:'汽车',p:'qìchē',o:['汽车','油车','气车','汽东','汔车','没车','沃车','洗车','汽年','汽午']},
+ {a:'电车',p:'diànchē',o:['电车','电东','由东','油车','由车','甲车','申车','电年','电午','田车']},
+ {a:'船',p:'chuán',o:['船','舟','般','舶','舰','舱','艘','舷','航','艇']},
+ {a:'公共汽车',p:'gōnggòng qìchē',o:['公共汽车','共公汽车','公共气车','公共油车','公井汽车','公开汽车','公共汽东','共用汽车','公关汽车','公井气车']},
+ {a:'吃饭',p:'chīfàn',o:['吃饭','吃反','吃饮','乞饭','吹饭','吃板','叫饭','吃坂','吃版','叶饭']},
+ {a:'午饭',p:'wǔfàn',o:['午饭','牛饭','午反','午饮','年饭','午板','牛反','午版','午坂','午坂']},
+ {a:'晚饭',p:'wǎnfàn',o:['晚饭','免饭','晚反','晩饭','晚板','昨饭','晚饮','晚坂','晚版','免反']},
+ {a:'上午',p:'shàngwǔ',o:['上午','上牛','土午','下牛','止午','上年','上王','上末','上未','上天']},
+ {a:'下午',p:'xiàwǔ',o:['下午','下牛','上牛','下年','下未','下末','下王','不午','下天','下夫']},
+ {a:'经理',p:'jīnglǐ',o:['经理','经里','径理','经埋','组理','精理','经狸','经理','理经','经王']},
+ {a:'商人',p:'shāngrén',o:['商人','商入','高人','商八','常人','尚人','商仁','高入','尚入','商大']},
+ {a:'律师',p:'lǜshī',o:['律师','律帅','津师','律币','律市','津帅','聿师','律巾','建师','律帀']},
+ {a:'老师',p:'lǎoshī',o:['老师','考师','老帅','老币','者师','老市','考帅','耆师','孝师','老帀']},
+ {a:'医生',p:'yīshēng',o:['医生','医牛','区生','医主','医先','匡生','医王','医年','区牛','匠生']}
+];
+let wordOrder=shuffle(wordRounds.map((_,i)=>i)),wi=0,whits=new Set();
+function renderWord(){
+  let idx=wordOrder[wi],t=wordRounds[idx];
+  wr.textContent=`${wi+1} / ${wordRounds.length}`;
+  wp.textContent=t.p;
+  wf.textContent='Выбери слово.';
+  wg.innerHTML='';
+  shuffle([...new Set(t.o)]).forEach(h=>{
+    let b=document.createElement('button');b.className='tile word';b.textContent=h;
+    b.onclick=()=>{
+      document.querySelectorAll('#wg .tile').forEach(x=>x.classList.remove('correct','wrong'));
+      if(h===t.a){
+        b.classList.add('correct');whits.add(idx);
+        wf.textContent=`✓ ${t.p} = ${t.a}`;
+        if(whits.size===wordRounds.length)mark(3);
+      }else{
+        b.classList.add('wrong');wf.textContent='Похоже, но это не то слово.';
+      }
+    };
+    wg.appendChild(b)
+  })
+}
+function nextWord(){wi=(wi+1)%wordOrder.length;renderWord()}
+
+/* 4 */
+const sentTasks=[
+ {answers:['我开车上班','我上班开车']},
+ {answers:['我妈妈坐公共汽车上班','我妈妈上班坐公共汽车']},
+ {answers:['我的朋友坐飞机去中国','我的朋友去中国坐飞机']},
+ {answers:['我的朋友坐地铁上学','我的朋友上学坐地铁']},
+ {answers:['经理坐火车去北京','经理去北京坐火车']},
+ {answers:['医生不会说英语']},
+ {answers:['我的朋友给我打电话','我的朋友打电话给我']},
+ {answers:['老师给学生发电子邮件','老师发电子邮件给学生']},
+ {answers:['我八点吃午饭','八点我吃午饭']}
+];
+let so=shuffle(sentTasks.map((_,i)=>i)),si=0,current=[],shits=new Set();
+
+function renderSent(){
+  current=[];
+  let task=sentTasks[so[si]],base=task.answers[0];
+  sr.textContent=`${si+1} / ${sentTasks.length}`;
+  sf.textContent=task.answers.length>1
+    ? `Собери предложение. Здесь засчитывается ${task.answers.length} естественных варианта.`
+    : 'Собери предложение.';
+  sbox.innerHTML='';skeys.innerHTML='';
+  let arr=shuffle([...base].map((ch,i)=>({ch,id:i+'-'+Math.random()})));
+  arr.forEach(o=>{
+    let b=document.createElement('button');b.className='key';b.textContent=o.ch;b.dataset.id=o.id;
+    b.onclick=()=>{
+      if(b.classList.contains('used'))return;
+      current.push(o);b.classList.add('used');drawSent()
+    };
+    skeys.appendChild(b)
+  })
+}
+function drawSent(){
+  sbox.innerHTML='';
+  current.forEach(o=>{
+    let c=document.createElement('div');c.className='chip';c.textContent=o.ch;sbox.appendChild(c)
+  })
+}
+function undoSent(){
+  let x=current.pop();if(!x)return;
+  let b=document.querySelector(`[data-id="${x.id}"]`);
+  if(b)b.classList.remove('used');
+  drawSent()
+}
+function checkSent(){
+  let task=sentTasks[so[si]],built=current.map(x=>x.ch).join('');
+  let ok=task.answers.some(a=>norm(a)===norm(built));
+  if(ok){
+    shits.add(so[si]);
+    sf.textContent='✓ Верно! Этот порядок слов принимается.';
+    if(shits.size===sentTasks.length)mark(4);
+  }else{
+    sf.textContent='Порядок пока неверный. Попробуй переставить плитки.';
+  }
+}
+function nextSent(){si=(si+1)%so.length;renderSent()}
+
+makeParts();renderChar();renderWord();renderSent();
+</script></body></html>
