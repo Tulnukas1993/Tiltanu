@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Poisoned by Plastic — Full Interactive Lesson</title>
+<link rel="stylesheet" href="styles.css">
+<script src="img1.js"></script>
+<script src="img2.js"></script>
+<script src="img3.js"></script>
+<script src="img4.js"></script>
+</head>
+<body>
+<div id="lesson">Loading lesson…</div>
+<script>
+const PARTS=["part1.html", "part2.html", "part3.html", "part4.html", "part5.html"];
+Promise.all(PARTS.map(p=>fetch(p).then(r=>{if(!r.ok)throw new Error(p);return r.text();})))
+  .then(parts=>{
+    document.getElementById('lesson').outerHTML=parts.join('');
+    const s=document.createElement('script');
+    s.src='app.js';
+    document.body.appendChild(s);
+  })
+  .catch(err=>{
+    document.getElementById('lesson').textContent='Could not load lesson: '+err;
+  });
+</script>
+</body>
+</html>
