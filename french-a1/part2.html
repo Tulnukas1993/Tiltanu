@@ -1,0 +1,189 @@
+<section class="section">
+    <h2>7. Les verbes en -ER au présent</h2>
+    <div class="note">Écrivez seulement la forme correcte du verbe.</div>
+
+    <div class="question textq"><div class="qtitle">a. Tu (continuer) ______ tout droit.</div><input class="short txt" data-answer="continues" type="text"></div>
+    <div class="question textq"><div class="qtitle">b. Elles (habiter) ______ à Nantes.</div><input class="short txt" data-answer="habitent" type="text"></div>
+    <div class="question textq"><div class="qtitle">c. Vous (visiter) ______ souvent la France ?</div><input class="short txt" data-answer="visitez" type="text"></div>
+    <div class="question textq"><div class="qtitle">d. Ils (parler) ______ beaucoup de langues ?</div><input class="short txt" data-answer="parlent" type="text"></div>
+    <div class="question textq"><div class="qtitle">e. Je (traverser) ______ la rue.</div><input class="short txt" data-answer="traverse" type="text"></div>
+    <div class="question textq"><div class="qtitle">f. Nous (chercher) ______ l’avenue de la Glacière.</div><input class="short txt" data-answer="cherchons" type="text"></div>
+    <div class="btns"><button class="primary" onclick="checkTexts(this)">Vérifier</button></div>
+  </section>
+<section class="section">
+    <h2>8. Masculin et féminin des professions</h2>
+    <div class="note">Choisissez la forme correcte.</div>
+
+    <div class="question" data-answer="informaticienne"><div class="qtitle">a. Maïté est…</div><label class="opt"><input type="radio" name="q8a" value="informaticien">informaticien</label><label class="opt"><input type="radio" name="q8a" value="informaticienne">informaticienne</label><div class="feedback"></div></div>
+    <div class="question" data-answer="infirmier"><div class="qtitle">b. Yan est…</div><label class="opt"><input type="radio" name="q8b" value="infirmier">infirmier</label><label class="opt"><input type="radio" name="q8b" value="infirmière">infirmière</label><div class="feedback"></div></div>
+    <div class="question" data-answer="professeur"><div class="qtitle">c. Henry est…</div><label class="opt"><input type="radio" name="q8c" value="professeur">professeur</label><label class="opt"><input type="radio" name="q8c" value="professeure">professeure</label><div class="feedback"></div></div>
+    <div class="question" data-answer="animatrice"><div class="qtitle">d. Nathalie est…</div><label class="opt"><input type="radio" name="q8d" value="animateur">animateur</label><label class="opt"><input type="radio" name="q8d" value="animatrice">animatrice</label><div class="feedback"></div></div>
+    <div class="question" data-answer="serveur"><div class="qtitle">e. Lucas est…</div><label class="opt"><input type="radio" name="q8e" value="serveur">serveur</label><label class="opt"><input type="radio" name="q8e" value="serveuse">serveuse</label><div class="feedback"></div></div>
+    <div class="question" data-answer="coiffeuse"><div class="qtitle">f. Adeline est…</div><label class="opt"><input type="radio" name="q8f" value="coiffeur">coiffeur</label><label class="opt"><input type="radio" name="q8f" value="coiffeuse">coiffeuse</label><div class="feedback"></div></div>
+    <div class="btns"><button class="primary" onclick="checkSection(this)">Vérifier</button></div>
+  </section>
+<section class="section">
+    <h2>9. Indiquer le chemin</h2>
+    <div class="note">J’ai remplacé l’ancien schéma par une carte plus claire, pour que l’élève puisse décrire l’itinéraire à l’oral.</div>
+
+    <div class="source">
+      <div class="source-title">Plan simplifié du métro / tram</div>
+      <div style="border:1px solid var(--line);border-radius:18px;padding:18px;background:#ffffff;overflow:auto">
+        <svg viewBox="0 0 980 520" width="100%" style="min-width:780px;height:auto;display:block">
+          <rect x="0" y="0" width="980" height="520" fill="#fbfdff"/>
+          <text x="30" y="38" font-size="28" font-weight="800" fill="#1f2937">Plan métro-tramway</text>
+          <text x="30" y="68" font-size="17" fill="#475569">Départ : Vieux-Centre  →  Destination : Aéroport</text>
+          <path d="M110 330 L250 330 L360 430 L500 430 L680 430 L860 430" stroke="#22c55e" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <text x="865" y="438" font-size="18" font-weight="700" fill="#166534">Ligne D</text>
+          <path d="M500 430 L500 300 L500 195 L620 195 L730 195" stroke="#3b82f6" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <text x="740" y="200" font-size="18" font-weight="700" fill="#1d4ed8">Ligne B</text>
+          <path d="M500 195 L650 195 L790 195 L910 195" stroke="#ef4444" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <text x="818" y="176" font-size="18" font-weight="700" fill="#b91c1c">Tramway 3</text>
+          <path d="M250 330 L250 190 L250 95" stroke="#f59e0b" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+          <text x="262" y="98" font-size="16" font-weight="700" fill="#92400e">Ligne C</text>
+          <g font-size="16" fill="#111827">
+            <circle cx="110" cy="330" r="10" fill="#ffffff" stroke="#166534" stroke-width="5"/>
+            <text x="40" y="320" font-weight="700">Vieux-Centre</text>
+            <text x="55" y="348" font-size="13" fill="#475569">Vous êtes ici</text>
+            <circle cx="250" cy="330" r="9" fill="#ffffff" stroke="#166534" stroke-width="4"/>
+            <text x="210" y="316">Le Clos</text>
+            <circle cx="360" cy="430" r="9" fill="#ffffff" stroke="#166534" stroke-width="4"/>
+            <text x="315" y="458">Pinel</text>
+            <circle cx="500" cy="430" r="12" fill="#ffffff" stroke="#111827" stroke-width="5"/>
+            <text x="468" y="462" font-weight="700">Jaurès</text>
+            <circle cx="680" cy="430" r="9" fill="#ffffff" stroke="#166534" stroke-width="4"/>
+            <text x="640" y="458">Victor Hugo</text>
+            <circle cx="860" cy="430" r="9" fill="#ffffff" stroke="#166534" stroke-width="4"/>
+            <text x="810" y="458">Gare de Saquin</text>
+          </g>
+          <g font-size="16" fill="#111827">
+            <circle cx="500" cy="300" r="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="4"/>
+            <text x="455" y="292">République</text>
+            <circle cx="500" cy="195" r="12" fill="#ffffff" stroke="#111827" stroke-width="5"/>
+            <text x="445" y="180" font-weight="700">Correspondance</text>
+            <circle cx="620" cy="195" r="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="4"/>
+            <text x="590" y="180">St-Paul</text>
+            <circle cx="730" cy="195" r="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="4"/>
+            <text x="688" y="180">Marie Curie</text>
+          </g>
+          <g font-size="16" fill="#111827">
+            <circle cx="650" cy="195" r="9" fill="#ffffff" stroke="#b91c1c" stroke-width="4"/>
+            <text x="628" y="225">Pujol</text>
+            <circle cx="790" cy="195" r="9" fill="#ffffff" stroke="#b91c1c" stroke-width="4"/>
+            <text x="760" y="225">Tisserands</text>
+            <circle cx="910" cy="195" r="11" fill="#ffffff" stroke="#b91c1c" stroke-width="5"/>
+            <text x="875" y="225" font-weight="700">Aéroport</text>
+          </g>
+          <g font-size="15" fill="#111827">
+            <circle cx="250" cy="190" r="8" fill="#ffffff" stroke="#92400e" stroke-width="4"/>
+            <text x="265" y="194">Université</text>
+            <circle cx="250" cy="95" r="8" fill="#ffffff" stroke="#92400e" stroke-width="4"/>
+            <text x="265" y="100">Foucon</text>
+          </g>
+          <rect x="30" y="400" width="250" height="90" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+          <text x="48" y="430" font-size="17" font-weight="800" fill="#334155">Légende</text>
+          <line x1="50" y1="452" x2="95" y2="452" stroke="#22c55e" stroke-width="10" stroke-linecap="round"/>
+          <text x="110" y="458" font-size="15">ligne D</text>
+          <line x1="50" y1="474" x2="95" y2="474" stroke="#3b82f6" stroke-width="10" stroke-linecap="round"/>
+          <text x="110" y="480" font-size="15">ligne B</text>
+          <line x1="170" y1="452" x2="215" y2="452" stroke="#ef4444" stroke-width="10" stroke-linecap="round"/>
+          <text x="228" y="458" font-size="15">tramway 3</text>
+          <circle cx="188" cy="474" r="10" fill="#ffffff" stroke="#111827" stroke-width="4"/>
+          <text x="206" y="480" font-size="15">correspondance</text>
+          <rect x="675" y="360" width="255" height="128" rx="16" fill="#eef2ff" stroke="#c7d2fe"/>
+          <text x="692" y="389" font-size="18" font-weight="800" fill="#3730a3">Pour décrire l’itinéraire</text>
+          <text x="692" y="416" font-size="16" fill="#312e81">D’abord…</text>
+          <text x="692" y="438" font-size="16" fill="#312e81">Ensuite…</text>
+          <text x="692" y="460" font-size="16" fill="#312e81">Puis…</text>
+          <text x="692" y="482" font-size="16" fill="#312e81">Enfin…</text>
+        </svg>
+      </div>
+
+      <div style="margin-top:14px;padding:14px 16px;border-radius:14px;background:#f8fafc;border:1px solid var(--line);line-height:1.55">
+        <b>Exemple de description :</b><br>
+        D’abord, tu prends la <b>ligne D</b> à <b>Vieux-Centre</b>, direction <b>Gare de Saquin</b>.<br>
+        Ensuite, tu changes à <b>Jaurès</b> et tu prends la <b>ligne B</b>.<br>
+        Puis, tu descends à <b>République</b>.<br>
+        Enfin, tu prends le <b>tramway 3</b> jusqu’à <b>l’Aéroport</b>.
+      </div>
+    </div>
+
+    <div class="question selectq"><div class="qtitle">1.</div><select class="order" data-answer="b"><option value="">— étape —</option><option value="a">Tu descends à la station République.</option><option value="b">Tu prends la ligne D, direction gare de Saquin.</option><option value="c">Tu prends le tramway 3 jusqu’à l’aéroport.</option><option value="d">Tu prends la ligne B.</option><option value="e">Tu changes à la station Jaurès.</option></select></div>
+    <div class="question selectq"><div class="qtitle">2.</div><select class="order" data-answer="e"><option value="">— étape —</option><option value="a">Tu descends à la station République.</option><option value="b">Tu prends la ligne D, direction gare de Saquin.</option><option value="c">Tu prends le tramway 3 jusqu’à l’aéroport.</option><option value="d">Tu prends la ligne B.</option><option value="e">Tu changes à la station Jaurès.</option></select></div>
+    <div class="question selectq"><div class="qtitle">3.</div><select class="order" data-answer="d"><option value="">— étape —</option><option value="a">Tu descends à la station République.</option><option value="b">Tu prends la ligne D, direction gare de Saquin.</option><option value="c">Tu prends le tramway 3 jusqu’à l’aéroport.</option><option value="d">Tu prends la ligne B.</option><option value="e">Tu changes à la station Jaurès.</option></select></div>
+    <div class="question selectq"><div class="qtitle">4.</div><select class="order" data-answer="a"><option value="">— étape —</option><option value="a">Tu descends à la station République.</option><option value="b">Tu prends la ligne D, direction gare de Saquin.</option><option value="c">Tu prends le tramway 3 jusqu’à l’aéroport.</option><option value="d">Tu prends la ligne B.</option><option value="e">Tu changes à la station Jaurès.</option></select></div>
+    <div class="question selectq"><div class="qtitle">5.</div><select class="order" data-answer="c"><option value="">— étape —</option><option value="a">Tu descends à la station République.</option><option value="b">Tu prends la ligne D, direction gare de Saquin.</option><option value="c">Tu prends le tramway 3 jusqu’à l’aéroport.</option><option value="d">Tu prends la ligne B.</option><option value="e">Tu changes à la station Jaurès.</option></select></div>
+
+    <div class="question" style="border-top:1px dashed var(--line)">
+      <div class="qtitle">Parle : décris l’itinéraire avec tes propres mots.</div>
+      <textarea id="routeSpeak" style="width:100%;min-height:120px;padding:12px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px" placeholder="D’abord, je prends la ligne D..."></textarea>
+    </div>
+
+    <div class="btns"><button class="primary" onclick="checkOrders(this)">Vérifier l’ordre</button></div>
+  </section>
+<section class="section">
+    <h2>10. Les professions</h2>
+    <div class="note">Associez chaque situation au métier.</div>
+
+    <div class="source">
+      <div class="source-title">Illustrations simplifiées</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:#eef2ff"><div style="font-size:50px">💻</div><b>a</b></div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:#fef3c7"><div style="font-size:50px">👷</div><b>b</b></div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:#e0f2fe"><div style="font-size:50px">🎤</div><b>c</b></div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:#dcfce7"><div style="font-size:50px">🩺</div><b>d</b></div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:#fce7f3"><div style="font-size:50px">📷</div><b>e</b></div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:#ede9fe"><div style="font-size:50px">🎻</div><b>f</b></div>
+      </div>
+    </div>
+
+    <div class="question selectq"><div class="qtitle">a.</div><select class="sel" data-answer="Informaticien(ne)"><option value="">— choisir —</option><option>Ingénieur(e)</option><option>Musicien(ne)</option><option>Infirmier(ère)</option><option>Informaticien(ne)</option><option>Photographe</option><option>Journaliste</option></select></div>
+    <div class="question selectq"><div class="qtitle">b.</div><select class="sel" data-answer="Ingénieur(e)"><option value="">— choisir —</option><option>Ingénieur(e)</option><option>Musicien(ne)</option><option>Infirmier(ère)</option><option>Informaticien(ne)</option><option>Photographe</option><option>Journaliste</option></select></div>
+    <div class="question selectq"><div class="qtitle">c.</div><select class="sel" data-answer="Journaliste"><option value="">— choisir —</option><option>Ingénieur(e)</option><option>Musicien(ne)</option><option>Infirmier(ère)</option><option>Informaticien(ne)</option><option>Photographe</option><option>Journaliste</option></select></div>
+    <div class="question selectq"><div class="qtitle">d.</div><select class="sel" data-answer="Infirmier(ère)"><option value="">— choisir —</option><option>Ingénieur(e)</option><option>Musicien(ne)</option><option>Infirmier(ère)</option><option>Informaticien(ne)</option><option>Photographe</option><option>Journaliste</option></select></div>
+    <div class="question selectq"><div class="qtitle">e.</div><select class="sel" data-answer="Photographe"><option value="">— choisir —</option><option>Ingénieur(e)</option><option>Musicien(ne)</option><option>Infirmier(ère)</option><option>Informaticien(ne)</option><option>Photographe</option><option>Journaliste</option></select></div>
+    <div class="question selectq"><div class="qtitle">f.</div><select class="sel" data-answer="Musicien(ne)"><option value="">— choisir —</option><option>Ingénieur(e)</option><option>Musicien(ne)</option><option>Infirmier(ère)</option><option>Informaticien(ne)</option><option>Photographe</option><option>Journaliste</option></select></div>
+    <div class="btns"><button class="primary" onclick="checkSelects(this)">Vérifier</button></div>
+  </section>
+<section class="section">
+    <h2>11. Les transports</h2>
+    <div class="note">Complétez avec le moyen de transport correct.</div>
+
+    <div class="source">
+      <div class="source-title">Aide visuelle</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;text-align:center">
+        <div style="padding:12px;border-radius:14px;background:#eef2ff"><div style="font-size:38px">🚆</div>train</div>
+        <div style="padding:12px;border-radius:14px;background:#e0f2fe"><div style="font-size:38px">✈️</div>avion</div>
+        <div style="padding:12px;border-radius:14px;background:#dcfce7"><div style="font-size:38px">🚌</div>bus</div>
+        <div style="padding:12px;border-radius:14px;background:#fef3c7"><div style="font-size:38px">🚲</div>vélo</div>
+        <div style="padding:12px;border-radius:14px;background:#fce7f3"><div style="font-size:38px">🚶</div>à pied</div>
+        <div style="padding:12px;border-radius:14px;background:#ede9fe"><div style="font-size:38px">🚗</div>voiture</div>
+      </div>
+    </div>
+
+    <div style="line-height:2.6;font-size:18px">
+      Mes amis prennent souvent
+      <select class="sel inlineSel" data-answer="le train"><option value="">— choisir —</option><option>le train</option><option>l’avion</option><option>le bus</option><option>le vélo</option><option>à pied</option><option>en voiture</option></select>
+      pour aller à Marseille mais ils préfèrent
+      <select class="sel inlineSel" data-answer="l’avion"><option value="">— choisir —</option><option>le train</option><option>l’avion</option><option>le bus</option><option>le vélo</option><option>à pied</option><option>en voiture</option></select>
+      car c’est plus rapide. Dans la ville, ils utilisent
+      <select class="sel inlineSel" data-answer="le bus"><option value="">— choisir —</option><option>le train</option><option>l’avion</option><option>le bus</option><option>le vélo</option><option>à pied</option><option>en voiture</option></select>.
+      Ils aiment utiliser
+      <select class="sel inlineSel" data-answer="le vélo"><option value="">— choisir —</option><option>le train</option><option>l’avion</option><option>le bus</option><option>le vélo</option><option>à pied</option><option>en voiture</option></select>
+      pour se promener et vont
+      <select class="sel inlineSel" data-answer="à pied"><option value="">— choisir —</option><option>le train</option><option>l’avion</option><option>le bus</option><option>le vélo</option><option>à pied</option><option>en voiture</option></select>
+      au travail. Ils n’aiment pas voyager
+      <select class="sel inlineSel" data-answer="en voiture"><option value="">— choisir —</option><option>le train</option><option>l’avion</option><option>le bus</option><option>le vélo</option><option>à pied</option><option>en voiture</option></select>.
+    </div>
+
+    <div class="btns"><button class="primary" onclick="checkSelects(this)">Vérifier</button></div>
+  </section>
+<section class="section">
+    <h2>12. Production écrite</h2>
+    <div class="note">30 à 40 mots. Cette partie n’est pas notée automatiquement.</div>
+    <div class="question">
+      <div class="qtitle">Vous êtes étudiant(e) étranger(ère) en France et vous voulez prendre des cours de français. Écrivez un e-mail à votre université.</div>
+      <textarea id="writing" style="width:100%;min-height:160px;padding:12px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px" placeholder="Bonjour, je suis étudiant(e) étranger(ère)..."></textarea>
+      <div class="note" style="margin-top:8px">Mots : <span id="wordCount">0</span></div>
+    </div>
+  </section>
