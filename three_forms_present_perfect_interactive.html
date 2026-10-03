@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Three Forms of Verbs — Interactive Practice</title>
+<style>
+:root{
+  --bg:#f4f7fb; --card:#ffffff; --ink:#20304a; --muted:#6b7280;
+  --blue:#2563eb; --blue2:#eaf1ff; --green:#16a34a; --red:#ef4444;
+  --line:#dde5f0; --chip:#eef4ff;
+}
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f7f9fd,#edf3fb);color:var(--ink);margin:0}
+main{max-width:1100px;margin:auto;padding:26px 18px 48px}
+section{background:var(--card);margin:18px 0;padding:22px;border-radius:20px;box-shadow:0 8px 24px rgba(61,79,120,.10)}
+h1,h2{margin-top:0}
+h1{font-size:clamp(30px,5vw,48px)}
+h2{font-size:26px}
+p.hint{color:var(--muted);margin-top:-4px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px;border-bottom:1px solid #e6ebf2;text-align:left}
+th{background:var(--blue2)}
+input[type=text]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.q{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fbfdff}
+.choice{display:block;margin:7px 0;padding:7px 9px;border-radius:9px}
+.correct{background:#ecfdf3!important;border-color:#22c55e!important}
+.wrong{background:#fff1f2!important;border-color:#ef4444!important}
+button{padding:12px 16px;border:0;border-radius:10px;font-weight:bold;cursor:pointer}
+#check{background:var(--blue);color:#fff}
+#reset{background:#e5e7eb}
+#score{display:inline-block;margin-left:10px;font-weight:bold}
+.drag-area{display:grid;grid-template-columns:1fr 1.5fr;gap:16px}
+.word-bank,.sentences{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fbfdff}
+.word-bank{min-height:200px}
+.chip{display:inline-block;background:var(--chip);border:1px solid #bfd0ff;border-radius:999px;padding:9px 12px;margin:5px;cursor:grab;font-weight:700}
+.drop{display:inline-block;min-width:110px;min-height:38px;border:2px dashed #aebbd0;border-radius:10px;vertical-align:middle;padding:7px 10px;margin:3px 5px;background:white}
+.drop.filled{border-style:solid;background:#f8fbff}
+.sentence{padding:10px 0;border-bottom:1px solid #edf1f6;line-height:1.7}
+.sentence:last-child{border-bottom:0}
+.ref-note{font-size:14px;color:var(--muted);margin-top:8px}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf4ff;color:#2754a6;font-size:13px;font-weight:bold}
+@media(max-width:760px){.grid,.drag-area{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<section>
+  <span class="badge">Elementary</span>
+  <h1>Three Forms of Verbs</h1>
+  <p>First learn V1–V2–V3. Then choose the correct form and drag the correct verb into the sentence.</p>
+</section>
+
+<section>
+<h2>Reference table</h2>
+<p class="hint">Use this table when you need help.</p>
+<table>
+<tr><th>V1</th><th>V2</th><th>V3</th><th>Meaning</th></tr>
+<tr><td>go</td><td>went</td><td>gone</td><td>идти / ехать</td></tr>
+<tr><td>eat</td><td>ate</td><td>eaten</td><td>есть</td></tr>
+<tr><td>see</td><td>saw</td><td>seen</td><td>видеть</td></tr>
+<tr><td>take</td><td>took</td><td>taken</td><td>брать / фотографировать</td></tr>
+<tr><td>buy</td><td>bought</td><td>bought</td><td>покупать</td></tr>
+<tr><td>write</td><td>wrote</td><td>written</td><td>писать</td></tr>
+<tr><td>fly</td><td>flew</td><td>flown</td><td>летать</td></tr>
+<tr><td>drink</td><td>drank</td><td>drunk</td><td>пить</td></tr>
+<tr><td>speak</td><td>spoke</td><td>spoken</td><td>говорить</td></tr>
+<tr><td>be</td><td>was / were</td><td>been</td><td>быть</td></tr>
+</table>
+</section>
+
+<section>
+<h2>1. Complete the three forms</h2>
+<p class="hint">Write the missing forms without looking at the reference table if possible.</p>
+<table>
+<tr><th>V1</th><th>V2</th><th>V3</th></tr>
+<tr><td>go</td><td><input data-a="went"></td><td><input data-a="gone"></td></tr>
+<tr><td>eat</td><td><input data-a="ate"></td><td><input data-a="eaten"></td></tr>
+<tr><td>see</td><td><input data-a="saw"></td><td><input data-a="seen"></td></tr>
+<tr><td>take</td><td><input data-a="took"></td><td><input data-a="taken"></td></tr>
+<tr><td>buy</td><td><input data-a="bought"></td><td><input data-a="bought"></td></tr>
+<tr><td>write</td><td><input data-a="wrote"></td><td><input data-a="written"></td></tr>
+<tr><td>fly</td><td><input data-a="flew"></td><td><input data-a="flown"></td></tr>
+<tr><td>drink</td><td><input data-a="drank"></td><td><input data-a="drunk"></td></tr>
+<tr><td>speak</td><td><input data-a="spoke"></td><td><input data-a="spoken"></td></tr>
+<tr><td>be</td><td><input data-a="was/were"></td><td><input data-a="been"></td></tr>
+</table>
+</section>
+
+<section>
+<h2>2. Choose the correct form</h2>
+<p class="hint">Present Simple = routine / fact. Past Simple = finished time. Present Perfect = have/has + V3.</p>
+<div class="grid">
+<div class="q"><b>1. He ___ sushi every Friday.</b>
+<label class="choice"><input type="radio" name="r1" value="eats"> eats</label>
+<label class="choice"><input type="radio" name="r1" value="ate"> ate</label>
+<label class="choice"><input type="radio" name="r1" value="eaten"> eaten</label></div>
+
+<div class="q"><b>2. He ___ sushi yesterday.</b>
+<label class="choice"><input type="radio" name="r2" value="eats"> eats</label>
+<label class="choice"><input type="radio" name="r2" value="ate"> ate</label>
+<label class="choice"><input type="radio" name="r2" value="eaten"> eaten</label></div>
+
+<div class="q"><b>3. He has ___ sushi in Japan.</b>
+<label class="choice"><input type="radio" name="r3" value="eat"> eat</label>
+<label class="choice"><input type="radio" name="r3" value="ate"> ate</label>
+<label class="choice"><input type="radio" name="r3" value="eaten"> eaten</label></div>
+
+<div class="q"><b>4. She ___ a lot of photos on holiday.</b>
+<label class="choice"><input type="radio" name="r4" value="takes"> takes</label>
+<label class="choice"><input type="radio" name="r4" value="took"> took</label>
+<label class="choice"><input type="radio" name="r4" value="taken"> taken</label></div>
+
+<div class="q"><b>5. She has ___ hundreds of photos.</b>
+<label class="choice"><input type="radio" name="r5" value="take"> take</label>
+<label class="choice"><input type="radio" name="r5" value="took"> took</label>
+<label class="choice"><input type="radio" name="r5" value="taken"> taken</label></div>
+
+<div class="q"><b>6. We ___ to Rome last year.</b>
+<label class="choice"><input type="radio" name="r6" value="go"> go</label>
+<label class="choice"><input type="radio" name="r6" value="went"> went</label>
+<label class="choice"><input type="radio" name="r6" value="gone"> gone</label></div>
+
+<div class="q"><b>7. I have ___ the Eiffel Tower.</b>
+<label class="choice"><input type="radio" name="r7" value="see"> see</label>
+<label class="choice"><input type="radio" name="r7" value="saw"> saw</label>
+<label class="choice"><input type="radio" name="r7" value="seen"> seen</label></div>
+
+<div class="q"><b>8. She ___ a new backpack last week.</b>
+<label class="choice"><input type="radio" name="r8" value="buys"> buys</label>
+<label class="choice"><input type="radio" name="r8" value="bought"> bought</label>
+<label class="choice"><input type="radio" name="r8" value="buy"> buy</label></div>
+
+<div class="q"><b>9. They have ___ three emails today.</b>
+<label class="choice"><input type="radio" name="r9" value="write"> write</label>
+<label class="choice"><input type="radio" name="r9" value="wrote"> wrote</label>
+<label class="choice"><input type="radio" name="r9" value="written"> written</label></div>
+
+<div class="q"><b>10. We ___ to Paris yesterday.</b>
+<label class="choice"><input type="radio" name="r10" value="fly"> fly</label>
+<label class="choice"><input type="radio" name="r10" value="flew"> flew</label>
+<label class="choice"><input type="radio" name="r10" value="flown"> flown</label></div>
+
+<div class="q"><b>11. Have you ever ___ green tea?</b>
+<label class="choice"><input type="radio" name="r11" value="drink"> drink</label>
+<label class="choice"><input type="radio" name="r11" value="drank"> drank</label>
+<label class="choice"><input type="radio" name="r11" value="drunk"> drunk</label></div>
+
+<div class="q"><b>12. He ___ to his teacher yesterday.</b>
+<label class="choice"><input type="radio" name="r12" value="speak"> speak</label>
+<label class="choice"><input type="radio" name="r12" value="spoke"> spoke</label>
+<label class="choice"><input type="radio" name="r12" value="spoken"> spoken</label></div>
+
+<div class="q"><b>13. I have ___ to London twice.</b>
+<label class="choice"><input type="radio" name="r13" value="be"> be</label>
+<label class="choice"><input type="radio" name="r13" value="was"> was</label>
+<label class="choice"><input type="radio" name="r13" value="been"> been</label></div>
+
+<div class="q"><b>14. She ___ at home yesterday.</b>
+<label class="choice"><input type="radio" name="r14" value="is"> is</label>
+<label class="choice"><input type="radio" name="r14" value="was"> was</label>
+<label class="choice"><input type="radio" name="r14" value="been"> been</label></div>
+</div>
+</section>
+
+<section>
+<h2>3. Use the verb in context — drag & drop</h2>
+<p class="hint">Drag the verb in the correct form into the sentence. Every verb from the table is used.</p>
+<div class="drag-area">
+  <div class="word-bank" id="bank">
+    <div class="chip" draggable="true" data-word="went">went</div>
+    <div class="chip" draggable="true" data-word="eaten">eaten</div>
+    <div class="chip" draggable="true" data-word="seen">seen</div>
+    <div class="chip" draggable="true" data-word="taken">taken</div>
+    <div class="chip" draggable="true" data-word="bought">bought</div>
+    <div class="chip" draggable="true" data-word="written">written</div>
+    <div class="chip" draggable="true" data-word="flew">flew</div>
+    <div class="chip" draggable="true" data-word="drunk">drunk</div>
+    <div class="chip" draggable="true" data-word="spoke">spoke</div>
+    <div class="chip" draggable="true" data-word="been">been</div>
+  </div>
+
+  <div class="sentences">
+    <div class="sentence">1. Last summer we <span class="drop" data-answer="went"></span> to Spain.</div>
+    <div class="sentence">2. She has never <span class="drop" data-answer="eaten"></span> Korean food.</div>
+    <div class="sentence">3. I have <span class="drop" data-answer="seen"></span> that film before.</div>
+    <div class="sentence">4. He has <span class="drop" data-answer="taken"></span> a lot of photos today.</div>
+    <div class="sentence">5. They have just <span class="drop" data-answer="bought"></span> new backpacks.</div>
+    <div class="sentence">6. She has already <span class="drop" data-answer="written"></span> the email.</div>
+    <div class="sentence">7. We <span class="drop" data-answer="flew"></span> to Rome last year.</div>
+    <div class="sentence">8. I have never <span class="drop" data-answer="drunk"></span> Turkish coffee.</div>
+    <div class="sentence">9. He <span class="drop" data-answer="spoke"></span> to the receptionist yesterday.</div>
+    <div class="sentence">10. Have you ever <span class="drop" data-answer="been"></span> to Canada?</div>
+  </div>
+</div>
+<p class="ref-note">Tip: if you change your mind, drag another form onto the sentence.</p>
+</section>
+
+<section>
+<h2>4. Mixed context challenge</h2>
+<p class="hint">Choose V1, V2 or V3 according to the meaning.</p>
+<div class="grid">
+<div class="q">1. My brother usually ___ coffee in the morning. (drink)<br><input type="text" data-a="drinks"></div>
+<div class="q">2. I ___ that museum last Saturday. (see)<br><input type="text" data-a="saw"></div>
+<div class="q">3. We have already ___ our tickets. (buy)<br><input type="text" data-a="bought"></div>
+<div class="q">4. She ___ English at work every day. (speak)<br><input type="text" data-a="speaks"></div>
+<div class="q">5. They ___ an email yesterday. (write)<br><input type="text" data-a="wrote"></div>
+<div class="q">6. Have you ever ___ by helicopter? (fly)<br><input type="text" data-a="flown"></div>
+<div class="q">7. He ___ lots of pictures on every trip. (take)<br><input type="text" data-a="takes"></div>
+<div class="q">8. She has ___ to Germany three times. (be)<br><input type="text" data-a="been"></div>
+<div class="q">9. We ___ pizza for dinner yesterday. (eat)<br><input type="text" data-a="ate"></div>
+<div class="q">10. They usually ___ to work by bus. (go)<br><input type="text" data-a="go"></div>
+</div>
+</section>
+
+<section>
+<button id="check" onclick="checkAll()">Check answers</button>
+<button id="reset" onclick="resetAll()">Reset</button>
+<span id="score">Score: 0 / 0</span>
+</section>
+</main>
+
+<script>
+const radioAnswers={
+r1:'eats',r2:'ate',r3:'eaten',r4:'takes',r5:'taken',r6:'went',r7:'seen',
+r8:'bought',r9:'written',r10:'flew',r11:'drunk',r12:'spoke',r13:'been',r14:'was'
+};
+
+function norm(s){return (s||'').trim().toLowerCase().replace(/\s+/g,'').replace(' / ','/')}
+
+function setupDnD(){
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('dragstart',e=>{
+      e.dataTransfer.setData('text/plain',chip.dataset.word);
+    });
+  });
+  document.querySelectorAll('.drop').forEach(drop=>{
+    drop.addEventListener('dragover',e=>e.preventDefault());
+    drop.addEventListener('drop',e=>{
+      e.preventDefault();
+      const word=e.dataTransfer.getData('text/plain');
+      drop.textContent=word;
+      drop.dataset.value=word;
+      drop.classList.add('filled');
+      drop.classList.remove('correct','wrong');
+    });
+  });
+}
+
+function checkAll(){
+ let total=0,score=0;
+
+ document.querySelectorAll('input[data-a]').forEach(i=>{
+   total++;
+   let ok=norm(i.value)===norm(i.dataset.a);
+   i.classList.toggle('correct',ok); i.classList.toggle('wrong',!ok);
+   if(ok)score++;
+ });
+
+ Object.entries(radioAnswers).forEach(([name,ans])=>{
+   total++;
+   const r=document.querySelector(`input[name="${name}"]:checked`);
+   if(r&&r.value===ans)score++;
+   document.querySelectorAll(`input[name="${name}"]`).forEach(x=>{
+     x.parentElement.classList.remove('correct','wrong');
+     if(x.checked)x.parentElement.classList.add(x.value===ans?'correct':'wrong');
+   });
+ });
+
+ document.querySelectorAll('.drop').forEach(d=>{
+   total++;
+   const ok=(d.dataset.value||'')===d.dataset.answer;
+   d.classList.toggle('correct',ok);
+   d.classList.toggle('wrong',!ok);
+   if(ok)score++;
+ });
+
+ document.getElementById('score').textContent=`Score: ${score} / ${total}`;
+}
+
+function resetAll(){
+ document.querySelectorAll('input').forEach(i=>{
+   if(i.type==='radio')i.checked=false; else i.value='';
+   i.classList.remove('correct','wrong');
+   if(i.parentElement)i.parentElement.classList.remove('correct','wrong');
+ });
+ document.querySelectorAll('.drop').forEach(d=>{
+   d.textContent='';
+   d.dataset.value='';
+   d.classList.remove('filled','correct','wrong');
+ });
+ document.getElementById('score').textContent='Score: 0 / 0';
+}
+
+setupDnD();
+</script>
+</body>
+</html>
