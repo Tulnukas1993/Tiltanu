@@ -1,0 +1,18 @@
+nderMatching(){const h=document.getElementById('matching');h.innerHTML='';mQuestions.forEach((q,i)=>{const d=document.createElement('div');d.className='match-card';d.innerHTML=`<div class="zh">${i+1}. ${q}</div><select><option value="">— выберите ответ —</option>${mAnswers.map(([k,t])=>`<option value="${k}">${k}) ${t}</option>`).join('')}</select><div class="feedback"></div>`;h.appendChild(d)})}
+function checkMatching(){let c=0;document.querySelectorAll('#matching .match-card').forEach((d,i)=>{const ok=d.querySelector('select').value===mCorrect[i];const f=d.querySelector('.feedback');f.className='feedback '+(ok?'ok':'bad');f.textContent=ok?'✓ Верно':'✗ Неверно';if(ok)c++});const all=c===mCorrect.length;markComplete(5,all);showResult('res5',all,`Правильно: ${c} / ${mCorrect.length}`)}
+function resetMatching(){renderMatching();markComplete(5,false);showResult('res5',false,'Ответы сброшены.')}
+renderMatching();
+
+// MISSING WORDS
+const missing=[['床','起'],['晚饭','吃'],['车','开'],['学','放'],['课','上'],['校车','坐'],['路','走'],['觉','睡'],['早饭','做']];
+const bankWords=['开','做','吃','放','走','睡','坐','起','上'];let selectedBank=null;
+function renderMissing(){const h=document.getElementById('missing');h.innerHTML='';missing.forEach((x,i)=>{const d=document.createElement('div');d.className='slot';d.dataset.i=i;d.innerHTML=`<b>${i+1}.</b> <span class="blank">＿＿</span> ${x[0]}`;d.onclick=()=>fillSlot(d);d.ondragover=e=>e.preventDefault();d.ondrop=e=>{e.preventDefault();selectedBank=e.dataTransfer.getData('text/plain');fillSlot(d)};h.appendChild(d)});const b=document.getElementById('bank');b.innerHTML='';bankWords.forEach(w=>{const e=document.createElement('button');e.className='bankword';e.textContent=w;e.dataset.word=w;e.draggable=true;e.onclick=()=>selectBank(e);e.ondragstart=ev=>ev.dataTransfer.setData('text/plain',w);b.appendChild(e)});selectedBank=null}
+function selectBank(e){document.querySelectorAll('.bankword').forEach(x=>x.classList.remove('selected'));selectedBank=e.dataset.word;e.classList.add('selected')}
+function fillSlot(slot){if(!selectedBank){if(slot.dataset.word){releaseWord(slot.dataset.word);slot.dataset.word='';slot.querySelector('.blank').textContent='＿＿';slot.classList.remove('filled')}return}if(slot.dataset.word)releaseWord(slot.dataset.word);slot.dataset.word=selectedBank;slot.querySelector('.blank').textContent=selectedBank;slot.classList.add('filled');const bw=document.querySelector(`.bankword[data-word="${selectedBank}"]`);if(bw){bw.classList.add('used');bw.classList.remove('selected')}selectedBank=null}
+function releaseWord(w){const bw=document.querySelector(`.bankword[data-word="${w}"]`);if(bw)bw.classList.remove('used')}
+function checkMissing(){let c=0;document.querySelectorAll('#missing .slot').forEach((d,i)=>{const ok=d.dataset.word===missing[i][1];d.style.borderColor=ok?'#54b77c':'#df7777';if(ok)c++});const all=c===missing.length;markComplete(7,all);showResult('res7',all,`Правильно: ${c} / ${missing.length}`)}
+function resetMissing(){renderMissing();markComplete(7,false);showResult('res7',false,'Упражнение сброшено.')}
+renderMissing();
+</script>
+</body>
+</html>
