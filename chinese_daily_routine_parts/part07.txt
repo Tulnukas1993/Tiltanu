@@ -1,0 +1,6 @@
+ / ${missing.length}`)}
+function resetMissing(){renderMissing();markComplete(7,false);showResult('res7',false,'Упражнение сброшено.')}
+renderMissing();
+</script>
+</body>
+</html>
