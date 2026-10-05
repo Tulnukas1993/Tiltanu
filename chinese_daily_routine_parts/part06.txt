@@ -1,0 +1,79 @@
+uY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsTWljcm9zb2Z0IFlhSGVpLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxNzQ1OGYiPuWcsOmTgTwvdGV4dD4KPHRleHQgeD0iNDAwIiB5PSI0MjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjM0IiBmaWxsPSIjNTI3MThhIj5kw6x0acSbPC90ZXh0Pgo8L3N2Zz4=',ans:'地铁'}
+];
+const transportChars=['车','地','共','汽','校','出','电','租','铁','车','公','火','车','车','车'];
+let activeTransport=0;
+let transportBuilds=[];
+let transportBankState=[];
+function renderTransport(){
+  const h=document.getElementById('transport');
+  const bank=document.getElementById('transportBank');
+  h.innerHTML=''; bank.innerHTML='';
+  transportBuilds=trans.map(()=>[]);
+  transportBankState=transportChars.map((ch,id)=>({ch,id,used:false}));
+  trans.forEach((x,i)=>{
+    const d=document.createElement('div');
+    d.className='transport-card'+(i===0?' active':'');
+    d.dataset.i=i;
+    d.innerHTML=`<img src="${x.img}" alt="Транспорт ${i+1}"><span class="badge">${i+1}</span><div class="build-word" data-i="${i}" aria-label="Поле ответа ${i+1}"></div><div class="feedback"></div>`;
+    d.onclick=(ev)=>{if(!ev.target.classList.contains('built-char'))setActiveTransport(i)};
+    const zone=d.querySelector('.build-word');
+    zone.ondragover=e=>e.preventDefault();
+    zone.ondrop=e=>{e.preventDefault();const id=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(id))addTransportChar(i,id)};
+    h.appendChild(d);
+  });
+  transportBankState.forEach(item=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='transport-char'; b.textContent=item.ch; b.dataset.id=item.id; b.draggable=true;
+    b.onclick=()=>addTransportChar(activeTransport,item.id);
+    b.ondragstart=e=>e.dataTransfer.setData('text/plain',String(item.id));
+    bank.appendChild(b);
+  });
+  refreshTransportUI();
+}
+function setActiveTransport(i){activeTransport=i;document.querySelectorAll('.transport-card').forEach((c,j)=>c.classList.toggle('active',j===i))}
+function addTransportChar(cardIndex,charId){
+  const item=transportBankState[charId]; if(!item||item.used)return;
+  item.used=true; transportBuilds[cardIndex].push(charId); activeTransport=cardIndex; refreshTransportUI();
+}
+function removeTransportChar(cardIndex,pos){
+  const id=transportBuilds[cardIndex][pos]; if(id===undefined)return;
+  transportBuilds[cardIndex].splice(pos,1); if(transportBankState[id])transportBankState[id].used=false; activeTransport=cardIndex; refreshTransportUI();
+}
+function refreshTransportUI(){
+  document.querySelectorAll('.transport-card').forEach((card,i)=>{
+    card.classList.toggle('active',i===activeTransport);
+    const zone=card.querySelector('.build-word'); zone.innerHTML='';
+    transportBuilds[i].forEach((id,pos)=>{const b=document.createElement('button');b.type='button';b.className='built-char';b.textContent=transportBankState[id].ch;b.title='Нажмите, чтобы вернуть иероглиф';b.onclick=e=>{e.stopPropagation();removeTransportChar(i,pos)};zone.appendChild(b)});
+  });
+  document.querySelectorAll('.transport-char').forEach(b=>{const id=Number(b.dataset.id);b.classList.toggle('used',!!transportBankState[id]?.used)});
+}
+function checkTransport(){
+  let c=0;
+  document.querySelectorAll('.transport-card').forEach((d,i)=>{
+    const word=transportBuilds[i].map(id=>transportBankState[id].ch).join('');
+    const ok=word===trans[i].ans;
+    const f=d.querySelector('.feedback'); f.className='feedback '+(ok?'ok':'bad'); f.textContent=ok?'✓ Верно':'✗ Проверьте порядок иероглифов';
+    if(ok)c++;
+  });
+  const all=c===trans.length; markComplete(4,all); showResult('res4',all,`Правильно собрано: ${c} / ${trans.length}`);
+}
+function resetTransport(){renderTransport();markComplete(4,false);showResult('res4',false,'Все иероглифы возвращены в панель справа.')}
+renderTransport();
+
+// MATCH QA
+const mQuestions=['你家有几口人？','你家有谁？','你是哪国人？','你爸爸做什么工作？','他每天怎么上班？'];
+const mAnswers=[['a','爸爸、妈妈和我。'],['b','坐出租车。'],['c','中国人。'],['d','三口人。'],['e','商人。']];
+const mCorrect=['d','a','c','e','b'];
+function renderMatching(){const h=document.getElementById('matching');h.innerHTML='';mQuestions.forEach((q,i)=>{const d=document.createElement('div');d.className='match-card';d.innerHTML=`<div class="zh">${i+1}. ${q}</div><select><option value="">— выберите ответ —</option>${mAnswers.map(([k,t])=>`<option value="${k}">${k}) ${t}</option>`).join('')}</select><div class="feedback"></div>`;h.appendChild(d)})}
+function checkMatching(){let c=0;document.querySelectorAll('#matching .match-card').forEach((d,i)=>{const ok=d.querySelector('select').value===mCorrect[i];const f=d.querySelector('.feedback');f.className='feedback '+(ok?'ok':'bad');f.textContent=ok?'✓ Верно':'✗ Неверно';if(ok)c++});const all=c===mCorrect.length;markComplete(5,all);showResult('res5',all,`Правильно: ${c} / ${mCorrect.length}`)}
+function resetMatching(){renderMatching();markComplete(5,false);showResult('res5',false,'Ответы сброшены.')}
+renderMatching();
+
+// MISSING WORDS
+const missing=[['床','起'],['晚饭','吃'],['车','开'],['学','放'],['课','上'],['校车','坐'],['路','走'],['觉','睡'],['早饭','做']];
+const bankWords=['开','做','吃','放','走','睡','坐','起','上'];let selectedBank=null;
+function renderMissing(){const h=document.getElementById('missing');h.innerHTML='';missing.forEach((x,i)=>{const d=document.createElement('div');d.className='slot';d.dataset.i=i;d.innerHTML=`<b>${i+1}.</b> <span class="blank">＿＿</span> ${x[0]}`;d.onclick=()=>fillSlot(d);d.ondragover=e=>e.preventDefault();d.ondrop=e=>{e.preventDefault();selectedBank=e.dataTransfer.getData('text/plain');fillSlot(d)};h.appendChild(d)});const b=document.getElementById('bank');b.innerHTML='';bankWords.forEach(w=>{const e=document.createElement('button');e.className='bankword';e.textContent=w;e.dataset.word=w;e.draggable=true;e.onclick=()=>selectBank(e);e.ondragstart=ev=>ev.dataTransfer.setData('text/plain',w);b.appendChild(e)});selectedBank=null}
+function selectBank(e){document.querySelectorAll('.bankword').forEach(x=>x.classList.remove('selected'));selectedBank=e.dataset.word;e.classList.add('selected')}
+function fillSlot(slot){if(!selectedBank){if(slot.dataset.word){releaseWord(slot.dataset.word);slot.dataset.word='';slot.querySelector('.blank').textContent='＿＿';slot.classList.remove('filled')}return}if(slot.dataset.word)releaseWord(slot.dataset.word);slot.dataset.word=selectedBank;slot.querySelector('.blank').textContent=selectedBank;slot.classList.add('filled');const bw=document.querySelector(`.bankword[data-word="${selectedBank}"]`);if(bw){bw.classList.add('used');bw.classList.remove('selected')}selectedBank=null}
+function releaseWord(w){const bw=document.querySelector(`.bankword[data-word="${w}"]`);if(bw)bw.classList.remove('used')}
+function checkMissing(){let c=0;document.querySelectorAll('#missing .slot').forEach((d,i)=>{const ok=d.dataset.word===missing[i][1];d.style.borderColor=ok?'#54b77c':'#df7777';if(ok)c++});const all=c===missing.length;markComplete(7,all);showResult('res7',all,`Правильно: ${c} 
