@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>한국어 — 장소 · –인지 · –다가</title>
+<style>
+:root{
+  --bg:#f7fbfb; --panel:#ffffff; --ink:#26324a; --muted:#6b7280; --line:#dbe7e8;
+  --mint:#dff5ef; --mint2:#bfe8df; --lav:#eee7fb; --peach:#fde9dd; --blue:#e7f2fb; --pink:#fbe7ee;
+  --accent:#3d8f8a; --good:#dff4e6; --good-b:#65a97b; --bad:#fff0f0; --bad-b:#cb7777;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#f7fbfb 0%,#fff 100%);color:var(--ink);font-family:Inter,"Noto Sans KR","Segoe UI",Arial,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 14px 46px}
+.hero{display:grid;grid-template-columns:120px 1fr 120px;gap:14px;align-items:center;margin-bottom:18px}
+.hero-copy{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:20px 22px;text-align:center}
+h1{margin:0;font-size:clamp(28px,4vw,48px);line-height:1.05}.sub{margin-top:8px;color:var(--muted);font-size:15px}
+.seal{width:110px;height:110px;display:block;margin:auto}.seal.small{width:62px;height:62px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;margin-top:16px}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}.sec-head h2{margin:0;font-size:22px}.tag{padding:6px 11px;border-radius:999px;background:var(--mint);font-weight:700;font-size:13px}
+.instructions{color:var(--muted);font-size:14px;margin-top:3px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.task{border:1px solid var(--line);border-radius:16px;padding:13px;background:#fff}.task .q{font-weight:700;margin-bottom:9px}.mini{font-size:13px;color:var(--muted)}
+.place{display:flex;align-items:center;justify-content:center;min-height:92px;border-radius:14px;background:var(--blue);font-size:44px;margin-bottom:8px}
+input,select{width:100%;min-height:44px;border:1px solid #cddadb;border-radius:12px;padding:10px 12px;font-size:16px;color:var(--ink);background:white;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(61,143,138,.12)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.chip{border:1px solid var(--line);background:white;border-radius:999px;padding:8px 11px;font-weight:700;cursor:pointer}.chip.active{background:var(--mint);border-color:var(--accent)}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.arrow{font-weight:900;font-size:22px;color:var(--accent)}
+.route-map{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;background:#edf3f2;border-radius:16px;padding:8px;margin-bottom:12px}.cell{min-height:82px;border-radius:12px;background:white;border:1px solid #dbe7e8;display:flex;align-items:center;justify-content:center;font-size:34px;position:relative}.cell span{position:absolute;bottom:4px;left:6px;font-size:11px;color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}.btn{border:0;border-radius:12px;padding:11px 15px;min-height:44px;font-size:15px;font-weight:700;cursor:pointer}.primary{background:var(--accent);color:white}.secondary{background:white;border:1px solid var(--line);color:var(--ink)}
+.progress{margin-left:auto;font-weight:800}.feedback{margin-top:10px;font-size:14px;min-height:20px}.good{background:var(--good)!important;border-color:var(--good-b)!important}.bad{background:var(--bad)!important;border-color:var(--bad-b)!important}
+.example{background:var(--lav);border:1px solid #ddd0f5;border-radius:16px;padding:12px 14px;margin-bottom:12px}.example b{color:#6947a7}
+.note{background:var(--peach);border-radius:14px;padding:10px 12px;font-size:14px;margin-top:10px}
+.footer-seals{display:flex;justify-content:space-between;align-items:end;margin-top:16px}.bubble{background:white;border:1px solid var(--line);border-radius:18px;padding:10px 12px;font-weight:700}
+@media(max-width:760px){.hero{grid-template-columns:70px 1fr 70px}.seal{width:70px;height:70px}.grid,.grid4{grid-template-columns:1fr}.pair{grid-template-columns:1fr}.arrow{display:none}.progress{width:100%;margin-left:0}.route-map{grid-template-columns:repeat(3,1fr)}.cell{min-height:64px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <section class="hero">
+    <svg class="seal" viewBox="0 0 120 120" aria-label="милый тюлень"><ellipse cx="57" cy="62" rx="38" ry="43" fill="#fbfbfb" stroke="#31404f" stroke-width="3"/><ellipse cx="31" cy="75" rx="15" ry="9" fill="#fbfbfb" stroke="#31404f" stroke-width="3" transform="rotate(-25 31 75)"/><path d="M78 94 q18 2 25 14 q-18 5-29-4" fill="#fbfbfb" stroke="#31404f" stroke-width="3"/><circle cx="46" cy="55" r="3.3"/><circle cx="67" cy="55" r="3.3"/><path d="M55 62 q3 4 6 0" fill="none" stroke="#31404f" stroke-width="2.4" stroke-linecap="round"/><circle cx="39" cy="65" r="5" fill="#f7cbd2"/><circle cx="74" cy="65" r="5" fill="#f7cbd2"/><path d="M39 48 l-9 -4 M74 48 l9 -4" stroke="#31404f" stroke-width="2" stroke-linecap="round"/></svg>
+    <div class="hero-copy"><h1>장소 · –인지 · –다가</h1><div class="sub">Интерактивная отработка: места → косвенный вопрос → прерывание действия → маршрут</div></div>
+    <svg class="seal" viewBox="0 0 120 120" aria-label="милый тюлень"><ellipse cx="63" cy="62" rx="38" ry="43" fill="#fbfbfb" stroke="#31404f" stroke-width="3"/><ellipse cx="90" cy="74" rx="15" ry="9" fill="#fbfbfb" stroke="#31404f" stroke-width="3" transform="rotate(25 90 74)"/><path d="M43 94 q-18 2-25 14 q18 5 29-4" fill="#fbfbfb" stroke="#31404f" stroke-width="3"/><circle cx="52" cy="55" r="3.3"/><circle cx="73" cy="55" r="3.3"/><path d="M61 62 q3 4 6 0" fill="none" stroke="#31404f" stroke-width="2.4" stroke-linecap="round"/><circle cx="45" cy="65" r="5" fill="#f7cbd2"/><circle cx="80" cy="65" r="5" fill="#f7cbd2"/></svg>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><span class="tag">1</span><div><h2>장소 어휘 — назови место</h2><div class="instructions">Подписей нет: ученик сам вспоминает слово по символу.</div></div></div>
+    <div class="grid4" id="vocab"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><span class="tag">2</span><div><h2>–인지 + 알다 / 모르다 / 확인하다 / 궁금하다</h2><div class="instructions">Преобразуйте прямой вопрос в косвенный. Ответы заранее не показаны.</div></div></div>
+    <div class="example"><b>보기</b> 저 건물이 은행이에요? → 저 건물이 <b>은행인지</b> 알아요?</div>
+    <div class="grid" id="inji"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><span class="tag">3</span><div><h2>어떤 동사를 쓸까요?</h2><div class="instructions">Выберите подходящий глагол после –는지 / –인지: 알려 주다, 설명하다, 확인하다, 물어보다, 알아보다, 찾아보다.</div></div></div>
+    <div class="grid" id="verbChoice"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><span class="tag">4</span><div><h2>–다가 — действие прервалось или изменилось</h2><div class="instructions">Соедините две ситуации в одно естественное предложение.</div></div></div>
+    <div class="example"><b>보기</b> 공부하다 + 전화가 오다 → 공부하다가 전화가 왔어요.</div>
+    <div class="grid" id="daga"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><span class="tag">5</span><div><h2>길 안내 — городская лексика + –다가</h2><div class="instructions">Посмотрите на схему и закончите маршрут. Названия мест на карте скрыты: ориентируйтесь по символам.</div></div></div>
+    <div class="route-map" aria-label="схематичная карта">
+      <div class="cell">🚇<span>A</span></div><div class="cell">🌳<span>B</span></div><div class="cell">🏫<span>C</span></div>
+      <div class="cell">📚<span>D</span></div><div class="cell">🏦<span>E</span></div><div class="cell">🏥<span>F</span></div>
+      <div class="cell">☕<span>G</span></div><div class="cell">📮<span>H</span></div><div class="cell">🚏<span>I</span></div>
+    </div>
+    <div class="grid" id="routes"></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><span class="tag">6</span><div><h2>최종 미션 — смешанная практика</h2><div class="instructions">Закончите предложения без подсказки, какую именно грамматику выбрать.</div></div></div>
+    <div class="grid" id="mixed"></div>
+    <div class="actions">
+      <button class="btn primary" id="check">Проверить всё</button>
+      <button class="btn secondary" id="reset">Сбросить</button>
+      <div class="progress">Правильно: <span id="score">0</span>/<span id="total">0</span></div>
+    </div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+    <div class="footer-seals">
+      <div class="bubble">🦭 천천히 해도 괜찮아요!</div>
+      <div class="bubble">한 번 더 해 볼까요? 🦭</div>
+    </div>
+  </section>
+</div>
+
+<script>
+(()=>{
+const app=document.getElementById('app');
+const norm=s=>s.trim().replace(/\s+/g,' ').replace(/[.!?。！？]/g,'');
+const vocab=[['🚇','지하철역'],['🚏','버스 정류장'],['🚕','택시 정류장'],['🚦','신호등'],['🚸','횡단보도'],['🌉','육교'],['➕','사거리'],['🌳','공원'],['📮','우체국'],['📚','도서관'],['🏥','병원'],['🏫','학교'],['🏦','은행'],['☕','카페'],['🏪','편의점'],['💊','약국']];
+const inji=[
+['저 건물이 은행이에요?','저 건물이 은행인지 알아요?'],['여기가 환승역이에요?','여기가 환승역인지 모르겠어요.'],['저 사람이 새 선생님이에요?','저 사람이 새 선생님인지 알아요?'],['오늘이 시험 날이에요?','오늘이 시험 날인지 확인해 보세요.'],['이 카드가 교통 카드예요?','이 카드가 교통 카드인지 확인해 주세요.'],['저기가 버스 정류장이에요?','저기가 버스 정류장인지 알아요?'],['이곳이 3번 출구예요?','이곳이 3번 출구인지 모르겠어요.'],['그 사람이 한국 사람이에요?','그 사람이 한국 사람인지 궁금해요.']];
+const choices=[
+['서울역까지 어떻게 가는지 ___ 주세요.','설명해','설명해'],['몇 번 출구로 나가야 하는지 ___ 주세요.','알려','알려'],['이 버스가 공항에 가는지 ___ 주세요.','확인해','확인해'],['직원에게 어디에서 갈아타는지 ___.','물어보세요','물어보세요'],['어느 길이 더 빠른지 ___.','알아보세요','알아보세요'],['근처에 약국이 어디에 있는지 ___.','찾아보세요','찾아보세요']];
+const daga=[
+['공부하다','전화가 오다','공부하다가 전화가 왔어요.'],['일하다','친구가 오다','일하다가 친구가 왔어요.'],['버스를 기다리다','비가 오다','버스를 기다리다가 비가 왔어요.'],['걷다','친구를 만나다','걷다가 친구를 만났어요.'],['요리하다','연기가 나다','요리하다가 연기가 났어요.'],['드라마를 보다','잠이 들다','드라마를 보다가 잠이 들었어요.'],['운동하다','다치다','운동하다가 다쳤어요.'],['쇼핑하다','원하는 옷을 찾다','쇼핑하다가 원하는 옷을 찾았어요.']];
+const routes=[
+['A에서 출발해요. 쭉 가요. B에서 오른쪽으로 가요.','A에서 출발해서 쭉 가다가 B에서 오른쪽으로 가세요.'],['G에서 출발해요. H를 지나가요. I 앞에서 멈춰요.','G에서 출발해서 H를 지나가다가 I 앞에서 멈추세요.'],['D에서 출발해요. E까지 가요. F에서 왼쪽으로 돌아요.','D에서 출발해서 E까지 가다가 F에서 왼쪽으로 도세요.'],['C에서 출발해요. B를 지나가요. A 쪽으로 가요.','C에서 출발해서 B를 지나가다가 A 쪽으로 가세요.']];
+const mixed=[
+['저 건물이 도서관이에요? → 간접 질문','저 건물이 도서관인지 알아요?'],['학교까지 어떻게 가요? → 설명 요청','학교까지 어떻게 가는지 설명해 주세요.'],['걷다 + 비가 오다','걷다가 비가 왔어요.'],['이 버스가 서울역에 가요? → 확인 요청','이 버스가 서울역에 가는지 확인해 주세요.'],['공원을 지나가다 + 오른쪽으로 돌다','공원을 지나가다가 오른쪽으로 도세요.'],['여기가 3번 출구예요? → 모르다','여기가 3번 출구인지 모르겠어요.']];
+function addTextGrid(id,data,mode){const host=document.getElementById(id);data.forEach((it,i)=>{const d=document.createElement('div');d.className='task';let q='';let ans='';if(mode==='inji'){q=it[0];ans=it[1]}else if(mode==='daga'){q=`${it[0]} + ${it[1]}`;ans=it[2]}else{q=it[0];ans=it[1]}d.innerHTML=`<div class="q">${i+1}. ${q}</div><input data-answer="${ans}" autocomplete="off" placeholder="직접 써 보세요">`;host.appendChild(d)})}
+const vh=document.getElementById('vocab');vocab.forEach((it,i)=>{const d=document.createElement('div');d.className='task';d.innerHTML=`<div class="place">${it[0]}</div><input data-answer="${it[1]}" autocomplete="off" aria-label="название места ${i+1}" placeholder="한국어">`;vh.appendChild(d)});
+addTextGrid('inji',inji,'inji');
+const vc=document.getElementById('verbChoice');const options=['','알려','설명해','확인해','물어보세요','알아보세요','찾아보세요'];choices.forEach((it,i)=>{const d=document.createElement('div');d.className='task';d.innerHTML=`<div class="q">${i+1}. ${it[0]}</div><select data-answer="${it[2]}">${options.map(o=>`<option value="${o}">${o||'선택하세요'}</option>`).join('')}</select>`;vc.appendChild(d)});
+addTextGrid('daga',daga,'daga');
+addTextGrid('routes',routes,'route');
+addTextGrid('mixed',mixed,'mixed');
+const inputs=[...app.querySelectorAll('input[data-answer],select[data-answer]')];document.getElementById('total').textContent=inputs.length;
+function mark(el){const ok=norm(el.value)===norm(el.dataset.answer);el.classList.remove('good','bad');if(el.value.trim())el.classList.add(ok?'good':'bad');return ok}
+function score(){let s=0;inputs.forEach(el=>{if(norm(el.value)===norm(el.dataset.answer))s++});document.getElementById('score').textContent=s;return s}
+inputs.forEach(el=>el.addEventListener('change',()=>{mark(el);score()}));
+document.getElementById('check').addEventListener('click',()=>{inputs.forEach(mark);const s=score();document.getElementById('feedback').textContent=s===inputs.length?'🦭 완벽해요! Всё правильно.':`Сейчас правильно ${s} из ${inputs.length}. Исправьте отмеченные поля.`});
+document.getElementById('reset').addEventListener('click',()=>{inputs.forEach(el=>{el.value='';el.classList.remove('good','bad')});document.getElementById('score').textContent='0';document.getElementById('feedback').textContent=''});
+})();
+</script>
+</body>
+</html>
