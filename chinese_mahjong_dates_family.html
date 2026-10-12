@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文麻将练习 4 — 日期 · 家庭 · 住在</title>
+<style>
+:root{
+  --g:#1d6954;--g2:#103e33;--w:#74482b;--w2:#402718;
+  --t:#fbf7e9;--t2:#d9ceb4;--i:#202722;--gold:#d8b96b;
+  --ok:#5fd19a;--bad:#ef766f;--red:#9b3029;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;
+  background:
+    radial-gradient(circle at 18% 10%,#ffffff10,transparent 26%),
+    linear-gradient(135deg,var(--g),var(--g2));
+  color:#fff;
+  font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif
+}
+.app{max-width:1180px;margin:auto;padding:14px}
+.frame{
+  border:13px solid var(--w);border-right-color:var(--w2);border-bottom-color:var(--w2);
+  border-radius:26px;overflow:hidden;background:#0b4237aa;box-shadow:0 18px 40px #0006
+}
+header{padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(27px,4vw,42px)}
+header p{margin:5px 0 0;color:#d5ebe3}
+.badge{background:var(--t);color:var(--i);padding:9px 12px;border-radius:11px;font-weight:900}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-block:1px solid #ffffff1d}
+.tab{border:0;border-radius:10px;padding:10px 12px;background:#ffffff18;color:#fff;font-weight:800;cursor:pointer}
+.tab.active{background:var(--t);color:var(--i);box-shadow:0 4px 0 var(--t2)}
+.progress-wrap{padding:13px 16px 0}
+.progress{height:9px;border-radius:99px;background:#ffffff20;overflow:hidden}
+.progress div{height:100%;background:var(--gold);width:0;transition:.2s}
+.score{color:#f1dda5;font-weight:800;margin-top:7px}
+main{padding:17px}
+.panel{display:none}.panel.active{display:block}
+h2{margin:0 0 6px;font-size:27px}
+.instruction{margin:0 0 16px;color:#d5ebe3}
+.card{background:#ffffff0d;border:1px solid #ffffff20;border-radius:16px;padding:14px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:10px}
+.tile{
+  min-height:68px;border:0;border-radius:12px;
+  background:linear-gradient(155deg,#fffdf7,var(--t) 58%,var(--t2));
+  color:var(--i);font-size:29px;font-weight:900;
+  box-shadow:0 6px 0 #c5b89d,0 10px 16px #0004;cursor:pointer;
+}
+.tile:hover{transform:translateY(-2px)}
+.tile.selected{outline:4px solid var(--gold)}
+.tile.correct{outline:4px solid var(--ok)}
+.tile.wrong{outline:4px solid var(--bad)}
+.tile.used{opacity:.22;pointer-events:none;box-shadow:none}
+.feedback{margin-top:12px;background:#ffffff12;padding:10px;border-radius:10px;min-height:42px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--gold);font-weight:900;color:#332815;cursor:pointer}
+.btn.secondary{background:#ffffff1d;color:#fff}
+.result-rack{min-height:78px;border:2px dashed #ffffff42;border-radius:13px;padding:9px;display:flex;gap:8px;flex-wrap:wrap}
+.result{min-width:55px;height:64px;padding:0 8px;border-radius:9px;background:var(--t);color:var(--red);font-size:32px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 0 var(--t2)}
+.label{color:#ecd79b;font-weight:900;margin:12px 0 7px}
+.big{font-size:40px;font-weight:900;text-align:center;color:#f4e0a7}
+.round{text-align:center;color:#d4e9e2;margin-bottom:7px}
+.answerline{min-height:68px;border:2px solid #ffffff30;border-radius:13px;padding:10px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;background:#ffffff0b}
+.chip{min-width:50px;min-height:52px;border-radius:8px;background:var(--t);color:var(--i);font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.column{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:8px;background:#ffffff0a;border-radius:13px;padding:10px}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(50px,1fr));gap:8px;margin-top:12px}
+.key{min-height:54px;border:0;border-radius:9px;background:var(--t);color:var(--i);font-size:26px;font-weight:900;box-shadow:0 5px 0 var(--t2);cursor:pointer}
+.key.used{opacity:.23;pointer-events:none}
+.sentence-hint{font-size:19px;color:#d7ece4;text-align:center;margin-bottom:10px}
+@media(max-width:680px){
+  .app{padding:6px}.frame{border-width:8px}.twocol{grid-template-columns:1fr}
+  .tile{font-size:25px}.big{font-size:34px}
+}
+</style>
+</head>
+<body>
+<div class="app"><div class="frame">
+<header>
+  <div>
+    <h1>中文麻将练习 4</h1>
+    <p>日期 · 家庭 · 住在 · 国家</p>
+  </div>
+  <div class="badge">🀄 Mahjong Board</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="t1">1. Собери иероглиф</button>
+  <button class="tab" data-tab="t2">2. Собери слово</button>
+  <button class="tab" data-tab="t3">3. Собери предложение</button>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress"><div id="bar"></div></div>
+  <div class="score" id="score">Выполнено: 0 / 3</div>
+</div>
+
+<main>
+<section class="panel active" id="t1">
+  <h2>1. Собери иероглиф из двух частей</h2>
+  <p class="instruction">Иероглиф заранее не показывается. Выбери две части; после правильной пары готовый иероглиф появится внизу.</p>
+
+  <div class="card">
+    <div class="feedback" id="buildFb">Выбери две плитки.</div>
+    <div class="label">Полученные иероглифы</div>
+    <div class="result-rack" id="rack"></div>
+  </div>
+
+  <div class="grid" id="parts"></div>
+
+  <div class="actions">
+    <button class="btn secondary" onclick="resetPair()">Сбросить выбор</button>
+    <button class="btn secondary" onclick="restartBuild()">Начать заново</button>
+  </div>
+</section>
+
+<section class="panel" id="t2">
+  <h2>2. Собери слово по pinyin</h2>
+  <p class="instruction">Сверху дан pinyin. Нужные иероглифы находятся в двух перемешанных колонках. Нажимай на них по порядку.</p>
+
+  <div class="card">
+    <div class="round" id="wordRound"></div>
+    <div class="big" id="wordPinyin"></div>
+    <div class="answerline" id="wordAnswer"></div>
+
+    <div class="twocol">
+      <div class="column" id="colA"></div>
+      <div class="column" id="colB"></div>
+    </div>
+
+    <div class="feedback" id="wordFb">Собери слово.</div>
+
+    <div class="actions">
+      <button class="btn secondary" onclick="undoWord()">↶ Удалить</button>
+      <button class="btn secondary" onclick="renderWord()">Сбросить</button>
+      <button class="btn" onclick="checkWord()">Проверить</button>
+      <button class="btn" onclick="nextWord()">Следующее</button>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="t3">
+  <h2>3. Собери предложение из иероглифов</h2>
+  <p class="instruction">Нажимай на плитки по порядку. Иероглифы каждого предложения перемешиваются.</p>
+
+  <div class="card">
+    <div class="round" id="sentRound"></div>
+    <div class="sentence-hint" id="sentHint"></div>
+    <div class="answerline" id="sentAnswer"></div>
+    <div class="keys" id="sentKeys"></div>
+    <div class="feedback" id="sentFb">Собери предложение.</div>
+
+    <div class="actions">
+      <button class="btn secondary" onclick="undoSent()">↶ Удалить</button>
+      <button class="btn secondary" onclick="renderSent()">Сбросить</button>
+      <button class="btn" onclick="checkSent()">Проверить</button>
+      <button class="btn" onclick="nextSent()">Следующее</button>
+    </div>
+  </div>
+</section>
+</main>
+</div></div>
+
+<script>
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const norm=s=>(s||'').replace(/[\\s。！？!?]/g,'');
+const done=new Set();
+
+function mark(n){
+  done.add(n);
+  score.textContent=`Выполнено: ${done.size} / 3`;
+  bar.style.width=(done.size/3*100)+'%';
+}
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.tab).classList.add('active');
+});
+
+/* 1. Build characters */
+const builds=[
+  ['昨',['日','乍']],
+  ['明',['日','月']],
+  ['今',['人','丶㇇']],
+  ['期',['其','月']],
+  ['星',['日','生']],
+  ['住',['亻','主']],
+  ['在',['才','土']],
+  ['法',['氵','去']],
+  ['国',['囗','玉']]
+];
+
+let selected=[],collected=new Set();
+
+function renderParts(){
+  parts.innerHTML='';
+  let pool=[];
+  builds.forEach((x,i)=>x[1].forEach((p,j)=>pool.push({p,id:i+'-'+j+'-'+Math.random()})));
+  shuffle(pool).forEach(o=>{
+    let b=document.createElement('button');
+    b.className='tile';
+    b.textContent=o.p;
+    b.onclick=()=>pickPart(b,o);
+    parts.appendChild(b);
+  });
+}
+
+function pickPart(b,o){
+  if(b.classList.contains('used'))return;
+
+  if(b.classList.contains('selected')){
+    b.classList.remove('selected');
+    selected=selected.filter(x=>x.o.id!==o.id);
+    return;
+  }
+
+  if(selected.length===2)resetPair();
+
+  b.classList.add('selected');
+  selected.push({b,o});
+
+  if(selected.length===2)checkPair();
+}
+
+function checkPair(){
+  let ps=selected.map(x=>x.o.p);
+  let c=builds.find(x=>
+    !collected.has(x[0]) &&
+    [...x[1]].sort().join('|')===[...ps].sort().join('|')
+  );
+
+  if(c){
+    selected.forEach(x=>{
+      x.b.classList.remove('selected');
+      x.b.classList.add('correct','used');
+    });
+    collected.add(c[0]);
+
+    let r=document.createElement('div');
+    r.className='result';
+    r.textContent=c[0];
+    rack.appendChild(r);
+
+    buildFb.textContent='✓ Получился '+c[0];
+    selected=[];
+
+    if(collected.size===builds.length){
+      buildFb.textContent='✓ Все иероглифы собраны!';
+      mark(1);
+    }
+  }else{
+    selected.forEach(x=>x.b.classList.add('wrong'));
+    buildFb.textContent='Эти части не подходят.';
+    setTimeout(resetPair,500);
+  }
+}
+
+function resetPair(){
+  selected.forEach(x=>x.b.classList.remove('selected','wrong'));
+  selected=[];
+}
+
+function restartBuild(){
+  collected.clear();
+  selected=[];
+  rack.innerHTML='';
+  buildFb.textContent='Выбери две плитки.';
+  renderParts();
+}
+
+/* 2. Build words */
+const words=[
+  ['住在','zhùzài'],
+  ['星期','xīngqī'],
+  ['明天','míngtiān'],
+  ['昨天','zuótiān'],
+  ['法国','Fǎguó'],
+  ['中国','Zhōngguó'],
+  ['老师','lǎoshī'],
+  ['学生','xuésheng'],
+  ['兄弟姐妹','xiōngdì jiěmèi'],
+  ['出生','chūshēng'],
+  ['生日','shēngrì'],
+  ['你好','nǐhǎo']
+];
+
+const allChars=[...new Set(words.flatMap(x=>[...x[0]]))];
+let wOrder=shuffle(words.map((_,i)=>i)),wi=0,wsel=[],whits=new Set();
+
+function renderWord(){
+  wsel=[];
+  wordAnswer.innerHTML='';
+
+  let idx=wOrder[wi],t=words[idx];
+  wordRound.textContent=`${wi+1} / ${words.length}`;
+  wordPinyin.textContent=t[1];
+  wordFb.textContent='Собери слово.';
+
+  let need=[...t[0]];
+  let distractors=shuffle(allChars.filter(c=>!need.includes(c))).slice(0,Math.max(10,16-need.length));
+  let pool=shuffle([...need,...distractors]).map((ch,i)=>({ch,id:i+'-'+Math.random()}));
+
+  colA.innerHTML='';
+  colB.innerHTML='';
+
+  pool.forEach((o,i)=>{
+    let b=document.createElement('button');
+    b.className='tile';
+    b.textContent=o.ch;
+    b.dataset.id=o.id;
+
+    b.onclick=()=>{
+      if(b.classList.contains('used'))return;
+      wsel.push(o);
+      b.classList.add('used');
+      drawWord();
+    };
+
+    (i%2?colB:colA).appendChild(b);
+  });
+}
+
+function drawWord(){
+  wordAnswer.innerHTML='';
+  wsel.forEach(o=>{
+    let c=document.createElement('div');
+    c.className='chip';
+    c.textContent=o.ch;
+    wordAnswer.appendChild(c);
+  });
+}
+
+function undoWord(){
+  let x=wsel.pop();
+  if(!x)return;
+
+  let b=document.querySelector(`[data-id="${x.id}"]`);
+  if(b)b.classList.remove('used');
+
+  drawWord();
+}
+
+function checkWord(){
+  let idx=wOrder[wi];
+  let built=wsel.map(x=>x.ch).join('');
+  let target=words[idx][0];
+
+  if(built===target){
+    wordFb.textContent=`✓ ${words[idx][1]} = ${target}`;
+    whits.add(idx);
+    if(whits.size===words.length)mark(2);
+  }else{
+    wordFb.textContent='Пока неверно. Проверь порядок иероглифов.';
+  }
+}
+
+function nextWord(){
+  wi=(wi+1)%wOrder.length;
+  renderWord();
+}
+
+/* 3. Build sentences */
+const sentTasks=[
+  {ru:'В моей семье пять человек.',answers:['我家有五口人']},
+  {ru:'Мой учитель живёт в Китае.',answers:['我的老师住在中国']},
+  {ru:'У тебя есть братья и сёстры?',answers:['你有兄弟姐妹吗']},
+  {ru:'У меня нет старшего брата.',answers:['我没有哥哥']},
+  {ru:'Ты учитель?',answers:['你是老师吗']},
+  {ru:'Ты живёшь в Китае?',answers:['你住在中国吗']},
+  {ru:'Она не учитель?',answers:['她不是老师吗','她不是老师']}
+];
+
+let sOrder=shuffle(sentTasks.map((_,i)=>i)),si=0,current=[],shits=new Set();
+
+function renderSent(){
+  current=[];
+
+  let task=sentTasks[sOrder[si]];
+  let base=task.answers[0];
+
+  sentRound.textContent=`${si+1} / ${sentTasks.length}`;
+  sentHint.textContent=task.ru;
+  sentFb.textContent=task.answers.length>1
+    ? 'Собери предложение. Здесь принимаются два варианта.'
+    : 'Собери предложение.';
+
+  sentAnswer.innerHTML='';
+  sentKeys.innerHTML='';
+
+  let pool=shuffle([...base].map((ch,i)=>({ch,id:i+'-'+Math.random()})));
+
+  pool.forEach(o=>{
+    let b=document.createElement('button');
+    b.className='key';
+    b.textContent=o.ch;
+    b.dataset.id=o.id;
+
+    b.onclick=()=>{
+      if(b.classList.contains('used'))return;
+      current.push(o);
+      b.classList.add('used');
+      drawSent();
+    };
+
+    sentKeys.appendChild(b);
+  });
+}
+
+function drawSent(){
+  sentAnswer.innerHTML='';
+  current.forEach(o=>{
+    let c=document.createElement('div');
+    c.className='chip';
+    c.textContent=o.ch;
+    sentAnswer.appendChild(c);
+  });
+}
+
+function undoSent(){
+  let x=current.pop();
+  if(!x)return;
+
+  let b=document.querySelector(`[data-id="${x.id}"]`);
+  if(b)b.classList.remove('used');
+
+  drawSent();
+}
+
+function checkSent(){
+  let task=sentTasks[sOrder[si]];
+  let built=current.map(x=>x.ch).join('');
+
+  let ok=task.answers.some(a=>norm(a)===norm(built));
+
+  if(ok){
+    sentFb.textContent='✓ Верно!';
+    shits.add(sOrder[si]);
+
+    if(shits.size===sentTasks.length)mark(3);
+  }else{
+    sentFb.textContent='Порядок пока неверный.';
+  }
+}
+
+function nextSent(){
+  si=(si+1)%sOrder.length;
+  renderSent();
+}
+
+renderParts();
+renderWord();
+renderSent();
+</script>
+</body>
+</html>
