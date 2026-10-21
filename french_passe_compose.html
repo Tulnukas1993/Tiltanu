@@ -1,94 +1,93 @@
-<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passe compose � Atelier</title>
+<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passé composé · Atelier</title>
 <style>
 :root{color-scheme:light;--bg:#f3f5fa;--panel:#fff;--text:#182338;--muted:#4e5d73;--border:#8492a8;--accent:#334bb2;--on:#fff;--soft:#e8edff;--good:#14552e;--goodbg:#dcf4e4;--bad:#922329;--badbg:#ffe6e6}html[data-theme=dark]{color-scheme:dark;--bg:#101827;--panel:#1c293c;--text:#f2f5ff;--muted:#c1cddd;--border:#8091aa;--accent:#b8c7ff;--on:#142044;--soft:#2b3d64;--good:#b7f4cc;--goodbg:#193e2d;--bad:#ffd0d0;--badbg:#50262e}html[data-theme=cream]{--bg:#f6efdf;--panel:#fffaf0;--text:#322b24;--muted:#655447;--border:#9e8970;--accent:#684221;--on:#fff;--soft:#efe0c8}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:18px/1.6 system-ui,sans-serif}header,main,footer{max-width:1100px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;gap:16px}h1{font-size:36px;line-height:1.2;margin:8px 0}h2{line-height:1.3}small,.muted{color:var(--muted)}button,select,input{font:inherit;color:var(--text);background:var(--panel);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px}button{cursor:pointer}button:hover{background:var(--soft)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.primary,button.active{background:var(--accent);color:var(--on);border-color:var(--accent)}nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.card{background:var(--panel);border:1px solid var(--border);padding:24px;border-radius:18px;margin:18px 0}.row{padding:18px 0;border-bottom:1px solid var(--border)}input{max-width:100%;width:240px;margin:5px}input.wide{display:block;width:100%;margin:10px 0}.feedback{font-size:16px;display:block;min-height:24px}.correct{background:var(--goodbg)!important;color:var(--good)!important;border-color:var(--good)!important}.wrong{background:var(--badbg)!important;color:var(--bad)!important;border-color:var(--bad)!important}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}table{width:100%;border-collapse:collapse}td,th{padding:12px;text-align:left;border-bottom:1px solid var(--border)}th{background:var(--soft)}.tablewrap{overflow:auto}.match{display:grid;grid-template-columns:1fr 1fr;gap:14px 55px;position:relative}.match button{min-height:95px;text-align:left;position:relative;z-index:1}.match svg{position:absolute;width:100%;height:100%;pointer-events:none;overflow:visible}.selected{outline:3px solid var(--accent)}.badge{font-weight:700;color:var(--accent)}.hint{background:var(--soft);padding:14px;border-radius:10px}.tools{display:flex;gap:8px;flex-wrap:wrap}.score{font-weight:700}footer{display:flex;justify-content:space-between}@media(max-width:650px){header{align-items:flex-start;flex-direction:column}main{padding:12px}.card{padding:16px}.match{gap:12px 22px}.match button{font-size:15px;padding:9px}h1{font-size:30px}td,th{padding:8px;font-size:16px}}
 </style>
-<header><div><small>ATELIER DE FRANCAIS</small><h1>Le passe compose</h1><div class="muted">�������, �।������� � �裡</div></div><label>���� <select id="theme"><option value="light">���⫠�</option><option value="dark">�񬭠�</option><option value="cream">�६����</option></select></label></header><main><nav id="nav" aria-label="�������"></nav><div id="app"></div></main><footer><button id="prev"> �����</button><span id="page"></span><button id="next">����� </button></footer>
+<header><div><small>ATELIER DE FRANÇAIS</small><h1>Le passé composé</h1><div class="muted">Глаголы, предложения и связи</div></div><label>Тема <select id="theme"><option value="light">Светлая</option><option value="dark">Тёмная</option><option value="cream">Кремовая</option></select></label></header><main><nav id="nav" aria-label="Разделы"></nav><div id="app"></div></main><footer><button id="prev">← Назад</button><span id="page"></span><button id="next">Далее →</button></footer>
 <script>
-const verbs=`avoir|�����|eu|avoir
-etre|����|ete|avoir
-faire|������|fait|avoir
-dire|�������, ᪠����|dit|avoir
-interdire|�������|interdit|avoir
-conduire|���� ��設�|conduit|avoir
-construire|��ந��|construit|avoir
-detruire|ࠧ�����|detruit|avoir
-traduire|��ॢ�����|traduit|avoir
-ecrire|�����|ecrit|avoir
-inscrire|�����뢠��, ॣ����஢���|inscrit|avoir
-lire|����|lu|avoir
-relire|�����뢠��|relu|avoir
-elire|�������|elu|avoir
-vivre|����|vecu|avoir
-croire|�����, ��������|cru|avoir
-voir|������|vu|avoir
-revoir|᭮�� ������, ���ᬠ�ਢ���|revu|avoir
-prevoir|�।�ᬠ�ਢ���, �����஢���|prevu|avoir
-recevoir|�������; �ਭ����� ���⥩|recu|avoir
-pleuvoir|��� (� �����)|plu|avoir
-plaire|�ࠢ�����|plu|avoir
-savoir|�����, 㬥��|su|avoir
-devoir|���� ������|du|avoir
-payer|������|paye|avoir
-repondre|�⢥���|repondu|avoir
-poser|��������; ������|pose|avoir
-parler|�������|parle|avoir
-aimer|���, �ࠢ�����|aime|avoir
-aider|��������|aide|avoir
-arreter|�४����|arrete|avoir
-rencontrer|�������|rencontre|avoir
-vendre|�த�����|vendu|avoir
-bronzer|�������|bronze|avoir
-aller|���, ����|alle|etre
-arriver|�ਡ뢠��|arrive|etre
-tomber|������|tombe|etre
-rester|��⠢�����|reste|etre
-deceder|᪮������|decede|etre
-passer|��室���; �஢����� �६�|passe|etre / avoir
-retourner|����������; ��ॢ��稢���|retourne|etre / avoir
-monter|�����������; ���������; ᮧ������|monte|etre / avoir
-descendre|��᪠����; ��᪠��|descendu|etre / avoir
-entrer|�室���|entre|etre
-partir|㥧����, �室���|parti|etre
-repartir|᭮�� 㥧����|reparti|etre
-sortir|��室���; �뭮���|sorti|etre / avoir
-ressortir|᭮�� ��室���; ᭮�� �뭨����|ressorti|etre / avoir
-venir|��室���|venu|etre
-devenir|�⠭�������|devenu|etre
-naitre|஦������|ne|etre
-mourir|㬨���|mort|etre
-se depecher|�ய�����|depeche|etre
-se rappeler|�ᯮ������|rappele|etre
-se lever|��⠢���|leve|etre
-se promener|�����|promene|etre
-se rencontrer|���������|rencontre|etre
-se regarder|ᬮ���� �� ᥡ� / ��� �� ��㣠|regarde|etre
-s'approcher|�ਡ��������|approche|etre
-se laver|������|lave|etre
-se coucher|�������� ᯠ��|couche|etre
-se baigner|�㯠����|baigne|etre
-s'amuser|��ᥫ�����|amuse|etre
-s'installer|���ࠨ������, ��ᥫ�����|installe|etre
-se faire|������ ᥡ�; � ��⠭�� se faire bronzer - �������|fait|etre
-s'acheter|���㯠�� ᥡ�|achete|etre
-se reposer|������|repose|etre`.split('\n').map(v=>v.split('|'));
-const sections=[{title:'1 � �� �������',type:'vocab'},{title:'2 � Completez',intro:'��⠢�� ������� � passe compose. ����砭�� ������� �ࠧ �� �祡���� ��������� ��� ��⮬���᪮� �஢�ન.',bank:'lire � dire � detruire � traduire � ecrire � interdire � construire � vivre',items:[['Dans le journal, nous ___ un article interessant.','avons lu'],['Quand on leur a pose la question, ils ___ la verite.','ont dit'],['Comme la maison etait inhabitable, les ouvriers ___ le batiment.','ont detruit'],['Comme elle parlait tres bien cette langue, elle ___ le texte.','a traduit'],['Inspire par cette histoire vraie, cet auteur ___ un roman.','a ecrit'],['Comme il y avait des travaux dans cette rue, la mairie ___ la circulation.','a interdit'],['En memoire des heros de la guerre, les habitants ___ un monument.','ont construit'],['Il est mort jeune : il ___ seulement vingt ans.','a vecu']]},{title:'3 � Reliez',type:'match'},{title:'4 � Transformez',intro:'��९��� �।������� 楫���� � passe compose.',wide:true,items:[['On recoit un message et on y repond immediatement.','On a recu un message et on y a repondu immediatement.'],['Ils recoivent beaucoup chez eux, ils font des fetes magnifiques.','Ils ont beaucoup recu chez eux, ils ont fait des fetes magnifiques.|Ils ont recu beaucoup chez eux, ils ont fait des fetes magnifiques.'],['Je revois des vieux films italiens et ca me plait.','J'ai revu des vieux films italiens et ca m'a plu.'],['Il pleut si fort qu'on croit a la fin du monde !','Il a plu si fort qu'on a cru a la fin du monde !']]},{title:'5 � Etre ou avoir ?',intro:'����� �ᯮ����⥫�� ������ � participe passe. � �।�������� � je �����⨬� ��᪮� � ���᪨� த.',items:[['A l'automne, les feuilles ___ . (tomber)','sont tombees'],['A l'automne, les enfants ___ a l'ecole. (retourner)','sont retournes'],['Louise ___ a Paris. (arriver)','est arrivee'],['Elle ___ trois jours a Paris. (rester)','est restee'],['Elle ___ au Louvre. (aller)','est allee'],['Elle ___ a la tour Eiffel. (monter)','est montee'],['On ___ deux heures a l'aider. (passer)','a passe'],['Il ___ chez lui sans un mot. (retourner)','est retourne'],['Elle ___ dans un tres bel hotel. (descendre)','est descendue'],['Elle y ___ deux nuits. (rester)','est restee'],['Ils ___ tres vite. (arriver)','sont arrives'],['Ils ___ dans l'appartement. (monter)','sont montes'],['J'___ ma valise au 5? etage. (monter)','ai monte'],['Je ___ dans l'escalier. (tomber)','suis tombe|suis tombee'],['Il ___ dans son village. (rester)','est reste'],['Il ___ une association. (monter)','a monte']]},{title:'6 � Une vie',intro:'����⠭���� �������: ����� ������� � passe compose.',items:[['Il ___ a l'ecole primaire. (aller)','est alle'],['Il ___ au college. (entrer)','est entre'],['Il ___ un accident de velo. (avoir)','a eu'],['Il ___ ses etudes. (arreter)','a arrete'],['Il ___ apprenti chez un boulanger. (devenir)','est devenu'],['Il ___ pour le sud de la France. (partir)','est parti'],['Il ___ sa boulangerie. (monter)','a monte'],['Il ___ sa femme. (rencontrer)','a rencontre'],['Son premier enfant ___ . (naitre)','est ne'],['Il ___ sa boulangerie. (vendre)','a vendu'],['Il ___ a 92 ans. (mourir)','est mort']]},{title:'7 � Au singulier',intro:'��९��� 楫����: ils  il, nous  je, vous  tu, elles  elle. ��� je � tu �����⨬� ��� த�.',wide:true,items:[['Ils se sont regardes dans le miroir.','Il s'est regarde dans le miroir.'],['Nous nous sommes approches.','Je me suis approche.|Je me suis approchee.'],['Vous vous etes laves ?','Tu t'es lave ?|Tu t'es lavee ?'],['Nous ne nous sommes pas couches tot.','Je ne me suis pas couche tot.|Je ne me suis pas couchee tot.'],['Elles se sont baignees dans la mer.','Elle s'est baignee dans la mer.']]},{title:'8 � Les vacances',intro:'�������� ⥪��. On = nous : �ਭ������� ��� ᮣ��ᮢ���� �� ���� (������⢥���� �᫮), ⠪ � �ࠬ����᪮� �����⢥���� �᫮.',bank:'s'amuser � s'installer � se lever � se coucher � se promener � se baigner � se faire � s'acheter � se reposer',items:[['L'annee derniere, on ___ . (s'amuser ; ajoutez bien)','s'est bien amuse|s'est bien amuses|s'est bien amusees'],['On ___ dans une petite maison de location au bord de la mer.','s'est installe|s'est installes|s'est installees'],['On ___ tard le matin.','s'est leve|s'est leves|s'est levees'],['On ___ tard aussi, le soir.','s'est couche|s'est couches|s'est couchees'],['On ___ sur les plages immenses.','s'est promene|s'est promenes|s'est promenees'],['On ___ dans la mer.','s'est baigne|s'est baignes|s'est baignees'],['On ___ bronzer.','s'est fait'],['On ___ des glaces.','s'est achete'],['On ___ . (se reposer ; ajoutez vraiment bien)','s'est vraiment bien repose|s'est vraiment bien reposes|s'est vraiment bien reposees']]}];
-const pairs=[['C'est incroyable !','Je n'ai jamais vu ca !'],['Quand on a pose la question,','personne n'a su repondre.'],['Cet etudiant brillant','a recu les felicitations du jury.'],['Pour la semaine prochaine,','on a prevu une sortie au theatre.'],['Il a fait tres beau,','il n'a pas plu.'],['Quand ils ont recu les factures,','ils ont du payer.']];
+const verbs=`avoir|иметь|eu|avoir
+être|быть|été|avoir
+faire|делать|fait|avoir
+dire|говорить, сказать|dit|avoir
+interdire|запрещать|interdit|avoir
+conduire|вести машину|conduit|avoir
+construire|строить|construit|avoir
+détruire|разрушать|détruit|avoir
+traduire|переводить|traduit|avoir
+écrire|писать|écrit|avoir
+inscrire|записывать, регистрировать|inscrit|avoir
+lire|читать|lu|avoir
+relire|перечитывать|relu|avoir
+élire|избирать|élu|avoir
+vivre|жить|vécu|avoir
+croire|верить, полагать|cru|avoir
+voir|видеть|vu|avoir
+revoir|снова видеть, пересматривать|revu|avoir
+prévoir|предусматривать, планировать|prévu|avoir
+recevoir|получать; принимать гостей|reçu|avoir
+pleuvoir|идти (о дожде)|plu|avoir
+plaire|нравиться|plu|avoir
+savoir|знать, уметь|su|avoir
+devoir|быть должным|dû|avoir
+payer|платить|payé|avoir
+répondre|отвечать|répondu|avoir
+poser|задавать; класть|posé|avoir
+parler|говорить|parlé|avoir
+aimer|любить, нравиться|aimé|avoir
+aider|помогать|aidé|avoir
+arrêter|прекращать|arrêté|avoir
+rencontrer|встречать|rencontré|avoir
+vendre|продавать|vendu|avoir
+bronzer|загорать|bronzé|avoir
+aller|идти, ехать|allé|être
+arriver|прибывать|arrivé|être
+tomber|падать|tombé|être
+rester|оставаться|resté|être
+décéder|скончаться|décédé|être
+passer|проходить; проводить время|passé|être / avoir
+retourner|возвращаться; переворачивать|retourné|être / avoir
+monter|подниматься; поднимать; создавать|monté|être / avoir
+descendre|спускаться; спускать|descendu|être / avoir
+entrer|входить|entré|être
+partir|уезжать, уходить|parti|être
+repartir|снова уезжать|reparti|être
+sortir|выходить; выносить|sorti|être / avoir
+ressortir|снова выходить; снова вынимать|ressorti|être / avoir
+venir|приходить|venu|être
+devenir|становиться|devenu|être
+naître|рождаться|né|être
+mourir|умирать|mort|être
+se dépêcher|торопиться|dépêché|être
+se rappeler|вспоминать|rappelé|être
+se lever|вставать|levé|être
+se promener|гулять|promené|être
+se rencontrer|встречаться|rencontré|être
+se regarder|смотреть на себя / друг на друга|regardé|être
+s’approcher|приближаться|approché|être
+se laver|мыться|lavé|être
+se coucher|ложиться спать|couché|être
+se baigner|купаться|baigné|être
+s’amuser|веселиться|amusé|être
+s’installer|устраиваться, поселяться|installé|être
+se faire|делать себе; в сочетании se faire bronzer — загорать|fait|être
+s’acheter|покупать себе|acheté|être
+se reposer|отдыхать|reposé|être`.split('\n').map(v=>v.split('|'));
+const sections=[{title:'1 · Все глаголы',type:'vocab'},{title:'2 · Complétez',intro:'Вставьте глаголы в passé composé. Окончания открытых фраз из учебника дополнены для автоматической проверки.',bank:'lire · dire · détruire · traduire · écrire · interdire · construire · vivre',items:[['Dans le journal, nous ___ un article intéressant.','avons lu'],['Quand on leur a posé la question, ils ___ la vérité.','ont dit'],['Comme la maison était inhabitable, les ouvriers ___ le bâtiment.','ont détruit'],['Comme elle parlait très bien cette langue, elle ___ le texte.','a traduit'],['Inspiré par cette histoire vraie, cet auteur ___ un roman.','a écrit'],['Comme il y avait des travaux dans cette rue, la mairie ___ la circulation.','a interdit'],['En mémoire des héros de la guerre, les habitants ___ un monument.','ont construit'],['Il est mort jeune : il ___ seulement vingt ans.','a vécu']]},{title:'3 · Reliez',type:'match'},{title:'4 · Transformez',intro:'Перепишите предложения целиком в passé composé.',wide:true,items:[['On reçoit un message et on y répond immédiatement.','On a reçu un message et on y a répondu immédiatement.'],['Ils reçoivent beaucoup chez eux, ils font des fêtes magnifiques.','Ils ont beaucoup reçu chez eux, ils ont fait des fêtes magnifiques.|Ils ont reçu beaucoup chez eux, ils ont fait des fêtes magnifiques.'],['Je revois des vieux films italiens et ça me plaît.','J’ai revu des vieux films italiens et ça m’a plu.'],['Il pleut si fort qu’on croit à la fin du monde !','Il a plu si fort qu’on a cru à la fin du monde !']]},{title:'5 · Être ou avoir ?',intro:'Впишите вспомогательный глагол и participe passé. В предложениях с je допустимы мужской и женский род.',items:[['À l’automne, les feuilles ___ . (tomber)','sont tombées'],['À l’automne, les enfants ___ à l’école. (retourner)','sont retournés'],['Louise ___ à Paris. (arriver)','est arrivée'],['Elle ___ trois jours à Paris. (rester)','est restée'],['Elle ___ au Louvre. (aller)','est allée'],['Elle ___ à la tour Eiffel. (monter)','est montée'],['On ___ deux heures à l’aider. (passer)','a passé'],['Il ___ chez lui sans un mot. (retourner)','est retourné'],['Elle ___ dans un très bel hôtel. (descendre)','est descendue'],['Elle y ___ deux nuits. (rester)','est restée'],['Ils ___ très vite. (arriver)','sont arrivés'],['Ils ___ dans l’appartement. (monter)','sont montés'],['J’___ ma valise au 5ᵉ étage. (monter)','ai monté'],['Je ___ dans l’escalier. (tomber)','suis tombé|suis tombée'],['Il ___ dans son village. (rester)','est resté'],['Il ___ une association. (monter)','a monté']]},{title:'6 · Une vie',intro:'Восстановите биографию: впишите глаголы в passé composé.',items:[['Il ___ à l’école primaire. (aller)','est allé'],['Il ___ au collège. (entrer)','est entré'],['Il ___ un accident de vélo. (avoir)','a eu'],['Il ___ ses études. (arrêter)','a arrêté'],['Il ___ apprenti chez un boulanger. (devenir)','est devenu'],['Il ___ pour le sud de la France. (partir)','est parti'],['Il ___ sa boulangerie. (monter)','a monté'],['Il ___ sa femme. (rencontrer)','a rencontré'],['Son premier enfant ___ . (naître)','est né'],['Il ___ sa boulangerie. (vendre)','a vendu'],['Il ___ à 92 ans. (mourir)','est mort']]},{title:'7 · Au singulier',intro:'Перепишите целиком: ils → il, nous → je, vous → tu, elles → elle. Для je и tu допустимы оба рода.',wide:true,items:[['Ils se sont regardés dans le miroir.','Il s’est regardé dans le miroir.'],['Nous nous sommes approchés.','Je me suis approché.|Je me suis approchée.'],['Vous vous êtes lavés ?','Tu t’es lavé ?|Tu t’es lavée ?'],['Nous ne nous sommes pas couchés tôt.','Je ne me suis pas couché tôt.|Je ne me suis pas couchée tôt.'],['Elles se sont baignées dans la mer.','Elle s’est baignée dans la mer.']]},{title:'8 · Les vacances',intro:'Заполните текст. On = nous : принимаются как согласование по смыслу (множественное число), так и грамматическое единственное число.',bank:'s’amuser · s’installer · se lever · se coucher · se promener · se baigner · se faire · s’acheter · se reposer',items:[['L’année dernière, on ___ . (s’amuser ; ajoutez bien)','s’est bien amusé|s’est bien amusés|s’est bien amusées'],['On ___ dans une petite maison de location au bord de la mer.','s’est installé|s’est installés|s’est installées'],['On ___ tard le matin.','s’est levé|s’est levés|s’est levées'],['On ___ tard aussi, le soir.','s’est couché|s’est couchés|s’est couchées'],['On ___ sur les plages immenses.','s’est promené|s’est promenés|s’est promenées'],['On ___ dans la mer.','s’est baigné|s’est baignés|s’est baignées'],['On ___ bronzer.','s’est fait'],['On ___ des glaces.','s’est acheté'],['On ___ . (se reposer ; ajoutez vraiment bien)','s’est vraiment bien reposé|s’est vraiment bien reposés|s’est vraiment bien reposées']]}];
+const pairs=[['C’est incroyable !','Je n’ai jamais vu ça !'],['Quand on a posé la question,','personne n’a su répondre.'],['Cet étudiant brillant','a reçu les félicitations du jury.'],['Pour la semaine prochaine,','on a prévu une sortie au théâtre.'],['Il a fait très beau,','il n’a pas plu.'],['Quand ils ont reçu les factures,','ils ont dû payer.']];
 const $=s=>document.querySelector(s),esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');let current=0,states={},links={},selected=null,checked=false;const order=[4,2,5,0,3,1];
-function norm(s){return s.normalize('NFC').toLowerCase().replace(/[''`]/g,"'").replace(/[.!?,;:]/g,'').replace(/\s*'\s*/g,"'").replace(/\s+/g,' ').trim()}
+function norm(s){return s.normalize('NFC').toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?,;:]/g,'').replace(/\s*'\s*/g,"'").replace(/\s+/g,' ').trim()}
 function valid(value,answer){return answer.split('|').some(a=>norm(a)===norm(value))}
 function save(){try{localStorage.setItem('pc-atelier-v1',JSON.stringify({states,links,theme:$('#theme').value}))}catch(e){}}
 try{const old=JSON.parse(localStorage.getItem('pc-atelier-v1')||'{}');states=old.states||{};links=old.links||{};$('#theme').value=old.theme||'light'}catch(e){}document.documentElement.dataset.theme=$('#theme').value;$('#theme').onchange=()=>{document.documentElement.dataset.theme=$('#theme').value;save()};
 function render(){selected=null;checked=false;$('#nav').innerHTML=sections.map((s,i)=>`<button class="${i===current?'active':''}" onclick="go(${i})" ${i===current?'aria-current="page"':''}>${s.title}</button>`).join('');let s=sections[current];$('#page').textContent=`${current+1} / ${sections.length}`;$('#prev').disabled=current===0;$('#next').disabled=current===sections.length-1;
-if(s.type==='vocab'){$('#app').innerHTML=`<section class="card"><h2>Tous les verbes � �� �������</h2><p>������� � ��� 11 �ਭ�⮢, ������ ������� � �������⥫�� �ਬ���.</p><div class="hint"><b>Passe compose = avoir / etre au present + participe passe.</b><br>Avoir : ai, as, a, avons, avez, ont. Etre : suis, es, est, sommes, etes, sont.<br>� etre ���筮 ������塞 -e / -s / -es �� த� � ���: elle est arrivee, ils sont partis.<br>Monter, descendre, sortir � ��㣨� ����� ������ �ᯮ����⥫�� ������: elle est montee ; elle a monte sa valise.<br>� �������� �������� ᮣ��ᮢ���� ������ �� ����������: elles se sont lavees, �� elles se sont achete des glaces. Se faire + infinitif: fait �� �������.</div><p><label>���� ������ <input id="search" placeholder="francais / ���᪨�"></label> <span id="count"></span></p><div class="tablewrap"><table><thead><tr><th>Infinitif</th><th>��ॢ��</th><th>Participe passe</th><th>Auxiliaire</th></tr></thead><tbody id="verbs"></tbody></table></div></section>`;$('#search').oninput=showVerbs;showVerbs();return}
-if(s.type==='match'){$('#app').innerHTML=`<section class="card"><h2>Reliez les elements</h2><p>������ ��砫� ᫥��, ��⥬ ����砭�� �ࠢ�. ����� � ��������� ����� �������� ����. ������ �롮� ������� ���.</p><p class="muted">�������� �ࠧ� �� �������� ����⢥����� ����.</p><div class="match" id="matches"><svg aria-hidden="true"></svg>${pairs.map((p,i)=>`<button id="l${i}" onclick="pick(${i})">${i+1}. ${p[0]}</button><button id="r${order[i]}" onclick="join(${order[i]})">${pairs[order[i]][1]}</button>`).join('')}</div><div class="actions"><button class="primary" onclick="checkMatch()">�஢����</button><button onclick="links={};checked=false;save();paint()">������</button><button onclick="links=Object.fromEntries(pairs.map((_,i)=>[i,i]));checked=true;save();paint();$('#result').textContent='�������� �⢥��.'">�������� �⢥��</button></div><p id="result" class="score" aria-live="polite"></p></section>`;requestAnimationFrame(paint);return}
-$('#app').innerHTML=`<section class="card"><h2>${s.title.slice(4)}</h2><p>${s.intro}</p>${s.bank?`<p class="hint">${s.bank}</p>`:''}<p class="muted">������ ��� ��������� ��� ����� � �ᯮ����⥫�� ��������${s.wide?' � ��⠫�� �।��������':''}. �������, ⨯ ������� � ������ ����� �� ������ �� �஢���. ��業�� ���뢠����.</p><div class="tools">${['e','e','e','a','a','i','o','u','u','c','e','i'].map(x=>`<button onclick="insertAccent('${x}')" aria-label="��⠢��� ${x}">${x}</button>`).join('')}</div>${s.items.map((q,i)=>`<div class="row"><label>${i+1}. ${s.wide?esc(q[0])+`<input class="wide" id="a${i}" aria-label="�⢥� ${i+1}">`:q[0].split('___').map(esc).join(`<input id="a${i}" aria-label="�⢥� ${i+1}" autocomplete="off" spellcheck="false">`)}</label><span class="feedback" id="f${i}" aria-live="polite"></span></div>`).join('')}<div class="actions"><button class="primary" onclick="check()">�஢����</button><button onclick="reset()">������</button><button onclick="reveal()">�������� �⢥��</button></div><p id="result" class="score" aria-live="polite"></p></section>`;s.items.forEach((q,i)=>{const e=$('#a'+i);e.value=states[current]?.[i]||'';e.onfocus=()=>lastInput=e;e.oninput=()=>{(states[current]??=[])[i]=e.value;e.className=s.wide?'wide':'';$('#f'+i).textContent='';$('#result').textContent='';save()};e.onkeydown=ev=>{if(ev.key==='Enter')check()}})}
+if(s.type==='vocab'){$('#app').innerHTML=`<section class="card"><h2>Tous les verbes · Все глаголы</h2><p>Глаголы со всех 11 скриншотов, включая задания и дополнительные примеры.</p><div class="hint"><b>Passé composé = avoir / être au présent + participe passé.</b><br>Avoir : ai, as, a, avons, avez, ont. Être : suis, es, est, sommes, êtes, sont.<br>С être обычно добавляем -e / -s / -es по роду и числу: elle est arrivée, ils sont partis.<br>Monter, descendre, sortir и другие могут менять вспомогательный глагол: elle est montée ; elle a monté sa valise.<br>У возвратных глаголов согласование зависит от дополнения: elles se sont lavées, но elles se sont acheté des glaces. Se faire + infinitif: fait не меняется.</div><p><label>Найти глагол <input id="search" placeholder="français / русский"></label> <span id="count"></span></p><div class="tablewrap"><table><thead><tr><th>Infinitif</th><th>Перевод</th><th>Participe passé</th><th>Auxiliaire</th></tr></thead><tbody id="verbs"></tbody></table></div></section>`;$('#search').oninput=showVerbs;showVerbs();return}
+if(s.type==='match'){$('#app').innerHTML=`<section class="card"><h2>Reliez les éléments</h2><p>Нажмите начало слева, затем окончание справа. Линия и одинаковые номера обозначат пару. Повторный выбор заменяет связь.</p><p class="muted">Соедините фразы по наиболее естественному смыслу.</p><div class="match" id="matches"><svg aria-hidden="true"></svg>${pairs.map((p,i)=>`<button id="l${i}" onclick="pick(${i})">${i+1}. ${p[0]}</button><button id="r${order[i]}" onclick="join(${order[i]})">${pairs[order[i]][1]}</button>`).join('')}</div><div class="actions"><button class="primary" onclick="checkMatch()">Проверить</button><button onclick="links={};checked=false;save();paint()">Сбросить</button><button onclick="links=Object.fromEntries(pairs.map((_,i)=>[i,i]));checked=true;save();paint();$('#result').textContent='Показаны ответы.'">Показать ответы</button></div><p id="result" class="score" aria-live="polite"></p></section>`;requestAnimationFrame(paint);return}
+$('#app').innerHTML=`<section class="card"><h2>${s.title.slice(4)}</h2><p>${s.intro}</p>${s.bank?`<p class="hint">${s.bank}</p>`:''}<p class="muted">Введите всю глагольную форму вместе со вспомогательным глаголом${s.wide?' и остальным предложением':''}. Регистр, тип апострофа и конечные знаки не влияют на проверку. Акценты учитываются.</p><div class="tools">${['é','è','ê','à','â','î','ô','ù','û','ç','ë','ï'].map(x=>`<button onclick="insertAccent('${x}')" aria-label="Вставить ${x}">${x}</button>`).join('')}</div>${s.items.map((q,i)=>`<div class="row"><label>${i+1}. ${s.wide?esc(q[0])+`<input class="wide" id="a${i}" aria-label="Ответ ${i+1}">`:q[0].split('___').map(esc).join(`<input id="a${i}" aria-label="Ответ ${i+1}" autocomplete="off" spellcheck="false">`)}</label><span class="feedback" id="f${i}" aria-live="polite"></span></div>`).join('')}<div class="actions"><button class="primary" onclick="check()">Проверить</button><button onclick="reset()">Сбросить</button><button onclick="reveal()">Показать ответы</button></div><p id="result" class="score" aria-live="polite"></p></section>`;s.items.forEach((q,i)=>{const e=$('#a'+i);e.value=states[current]?.[i]||'';e.onfocus=()=>lastInput=e;e.oninput=()=>{(states[current]??=[])[i]=e.value;e.className=s.wide?'wide':'';$('#f'+i).textContent='';$('#result').textContent='';save()};e.onkeydown=ev=>{if(ev.key==='Enter')check()}})}
 let lastInput=null;function insertAccent(c){if(lastInput&&document.contains(lastInput)){lastInput.setRangeText(c,lastInput.selectionStart,lastInput.selectionEnd,'end');lastInput.dispatchEvent(new Event('input'));lastInput.focus()}}
 function showVerbs(){let q=norm($('#search').value);let rows=verbs.filter(v=>norm(v.join(' ')).includes(q));$('#verbs').innerHTML=rows.map(v=>'<tr>'+v.map(x=>`<td>${esc(x)}</td>`).join('')+'</tr>').join('');$('#count').textContent=`${rows.length} / ${verbs.length}`}
-function check(){let s=sections[current],n=0;s.items.forEach((q,i)=>{let e=$('#a'+i),ok=valid(e.value,q[1]);n+=ok;e.className=(s.wide?'wide ':'')+(ok?'correct':'wrong');$('#f'+i).textContent=ok?'? ��୮':e.value.trim()?'? �஢���� ���, �ᯮ����⥫�� ������ � ᮣ��ᮢ����.':'- ������ �⢥�.'});$('#result').textContent=`��୮: ${n} �� ${s.items.length}`}
-function reset(){states[current]=[];save();render()}function reveal(){sections[current].items.forEach((q,i)=>{$('#f'+i).textContent='�⢥�: '+q[1].split('|').join(' / ')});$('#result').textContent='�������� �����⨬� �⢥��.'}
-function pick(i){selected=i;paint()}function join(j){if(selected===null){$('#result').textContent='���砫� �롥�� ��砫� �ࠧ� ᫥��.';return}for(const k in links)if(links[k]===j)delete links[k];links[selected]=j;selected=null;checked=false;save();paint();$('#result').textContent='��� ᮥ������. ����� �஢���� ��� �த������.'}
-function paint(){if(!$('#matches'))return;let box=$('#matches'),rect=box.getBoundingClientRect(),svg=box.querySelector('svg');svg.innerHTML='';pairs.forEach((p,i)=>{$('#l'+i).className=selected===i?'selected':'';$('#l'+i).textContent=`${i+1}. ${p[0]}`;$('#r'+i).className='';$('#r'+i).textContent=p[1]});for(let [k,j]of Object.entries(links)){let l=$('#l'+k),r=$('#r'+j);r.textContent=`[${+k+1}] ${pairs[j][1]}`;let ok=+k===j;if(checked){l.classList.add(ok?'correct':'wrong');r.classList.add(ok?'correct':'wrong');l.textContent=(ok?'? ':'? ')+l.textContent}let a=l.getBoundingClientRect(),b=r.getBoundingClientRect();let line=document.createElementNS('http://www.w3.org/2000/svg','line');Object.entries({x1:a.right-rect.left,y1:a.top+a.height/2-rect.top,x2:b.left-rect.left,y2:b.top+b.height/2-rect.top,stroke:checked?(ok?'var(--good)':'var(--bad)'):'var(--accent)','stroke-width':3}).forEach(([k,v])=>line.setAttribute(k,v));svg.append(line)}}
-function checkMatch(){checked=true;paint();let n=Object.entries(links).filter(([k,j])=>+k===j).length;$('#result').textContent=`��୮: ${n} �� 6. ���������: ${Object.keys(links).length} �� 6.`}function go(i){current=i;lastInput=null;render();window.scrollTo(0,0)}$('#prev').onclick=()=>go(current-1);$('#next').onclick=()=>go(current+1);window.addEventListener('resize',paint);render();
+function check(){let s=sections[current],n=0;s.items.forEach((q,i)=>{let e=$('#a'+i),ok=valid(e.value,q[1]);n+=ok;e.className=(s.wide?'wide ':'')+(ok?'correct':'wrong');$('#f'+i).textContent=ok?'✓ Верно':e.value.trim()?'✕ Проверьте форму, вспомогательный глагол и согласование.':'— Введите ответ.'});$('#result').textContent=`Верно: ${n} из ${s.items.length}`}
+function reset(){states[current]=[];save();render()}function reveal(){sections[current].items.forEach((q,i)=>{$('#f'+i).textContent='Ответ: '+q[1].split('|').join(' / ')});$('#result').textContent='Показаны допустимые ответы.'}
+function pick(i){selected=i;paint()}function join(j){if(selected===null){$('#result').textContent='Сначала выберите начало фразы слева.';return}for(const k in links)if(links[k]===j)delete links[k];links[selected]=j;selected=null;checked=false;save();paint();$('#result').textContent='Пара соединена. Можно проверить или продолжить.'}
+function paint(){if(!$('#matches'))return;let box=$('#matches'),rect=box.getBoundingClientRect(),svg=box.querySelector('svg');svg.innerHTML='';pairs.forEach((p,i)=>{$('#l'+i).className=selected===i?'selected':'';$('#l'+i).textContent=`${i+1}. ${p[0]}`;$('#r'+i).className='';$('#r'+i).textContent=p[1]});for(let [k,j]of Object.entries(links)){let l=$('#l'+k),r=$('#r'+j);r.textContent=`[${+k+1}] ${pairs[j][1]}`;let ok=+k===j;if(checked){l.classList.add(ok?'correct':'wrong');r.classList.add(ok?'correct':'wrong');l.textContent=(ok?'✓ ':'✕ ')+l.textContent}let a=l.getBoundingClientRect(),b=r.getBoundingClientRect();let line=document.createElementNS('http://www.w3.org/2000/svg','line');Object.entries({x1:a.right-rect.left,y1:a.top+a.height/2-rect.top,x2:b.left-rect.left,y2:b.top+b.height/2-rect.top,stroke:checked?(ok?'var(--good)':'var(--bad)'):'var(--accent)','stroke-width':3}).forEach(([k,v])=>line.setAttribute(k,v));svg.append(line)}}
+function checkMatch(){checked=true;paint();let n=Object.entries(links).filter(([k,j])=>+k===j).length;$('#result').textContent=`Верно: ${n} из 6. Соединено: ${Object.keys(links).length} из 6.`}function go(i){current=i;lastInput=null;render();window.scrollTo(0,0)}$('#prev').onclick=()=>go(current-1);$('#next').onclick=()=>go(current+1);window.addEventListener('resize',paint);render();
 </script></html>
-
