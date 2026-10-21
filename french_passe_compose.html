@@ -1,0 +1,94 @@
+<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passe compose � Atelier</title>
+<style>
+:root{color-scheme:light;--bg:#f3f5fa;--panel:#fff;--text:#182338;--muted:#4e5d73;--border:#8492a8;--accent:#334bb2;--on:#fff;--soft:#e8edff;--good:#14552e;--goodbg:#dcf4e4;--bad:#922329;--badbg:#ffe6e6}html[data-theme=dark]{color-scheme:dark;--bg:#101827;--panel:#1c293c;--text:#f2f5ff;--muted:#c1cddd;--border:#8091aa;--accent:#b8c7ff;--on:#142044;--soft:#2b3d64;--good:#b7f4cc;--goodbg:#193e2d;--bad:#ffd0d0;--badbg:#50262e}html[data-theme=cream]{--bg:#f6efdf;--panel:#fffaf0;--text:#322b24;--muted:#655447;--border:#9e8970;--accent:#684221;--on:#fff;--soft:#efe0c8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:18px/1.6 system-ui,sans-serif}header,main,footer{max-width:1100px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;gap:16px}h1{font-size:36px;line-height:1.2;margin:8px 0}h2{line-height:1.3}small,.muted{color:var(--muted)}button,select,input{font:inherit;color:var(--text);background:var(--panel);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px}button{cursor:pointer}button:hover{background:var(--soft)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.primary,button.active{background:var(--accent);color:var(--on);border-color:var(--accent)}nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.card{background:var(--panel);border:1px solid var(--border);padding:24px;border-radius:18px;margin:18px 0}.row{padding:18px 0;border-bottom:1px solid var(--border)}input{max-width:100%;width:240px;margin:5px}input.wide{display:block;width:100%;margin:10px 0}.feedback{font-size:16px;display:block;min-height:24px}.correct{background:var(--goodbg)!important;color:var(--good)!important;border-color:var(--good)!important}.wrong{background:var(--badbg)!important;color:var(--bad)!important;border-color:var(--bad)!important}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}table{width:100%;border-collapse:collapse}td,th{padding:12px;text-align:left;border-bottom:1px solid var(--border)}th{background:var(--soft)}.tablewrap{overflow:auto}.match{display:grid;grid-template-columns:1fr 1fr;gap:14px 55px;position:relative}.match button{min-height:95px;text-align:left;position:relative;z-index:1}.match svg{position:absolute;width:100%;height:100%;pointer-events:none;overflow:visible}.selected{outline:3px solid var(--accent)}.badge{font-weight:700;color:var(--accent)}.hint{background:var(--soft);padding:14px;border-radius:10px}.tools{display:flex;gap:8px;flex-wrap:wrap}.score{font-weight:700}footer{display:flex;justify-content:space-between}@media(max-width:650px){header{align-items:flex-start;flex-direction:column}main{padding:12px}.card{padding:16px}.match{gap:12px 22px}.match button{font-size:15px;padding:9px}h1{font-size:30px}td,th{padding:8px;font-size:16px}}
+</style>
+<header><div><small>ATELIER DE FRANCAIS</small><h1>Le passe compose</h1><div class="muted">�������, �।������� � �裡</div></div><label>���� <select id="theme"><option value="light">���⫠�</option><option value="dark">�񬭠�</option><option value="cream">�६����</option></select></label></header><main><nav id="nav" aria-label="�������"></nav><div id="app"></div></main><footer><button id="prev"> �����</button><span id="page"></span><button id="next">����� </button></footer>
+<script>
+const verbs=`avoir|�����|eu|avoir
+etre|����|ete|avoir
+faire|������|fait|avoir
+dire|�������, ᪠����|dit|avoir
+interdire|�������|interdit|avoir
+conduire|���� ��設�|conduit|avoir
+construire|��ந��|construit|avoir
+detruire|ࠧ�����|detruit|avoir
+traduire|��ॢ�����|traduit|avoir
+ecrire|�����|ecrit|avoir
+inscrire|�����뢠��, ॣ����஢���|inscrit|avoir
+lire|����|lu|avoir
+relire|�����뢠��|relu|avoir
+elire|�������|elu|avoir
+vivre|����|vecu|avoir
+croire|�����, ��������|cru|avoir
+voir|������|vu|avoir
+revoir|᭮�� ������, ���ᬠ�ਢ���|revu|avoir
+prevoir|�।�ᬠ�ਢ���, �����஢���|prevu|avoir
+recevoir|�������; �ਭ����� ���⥩|recu|avoir
+pleuvoir|��� (� �����)|plu|avoir
+plaire|�ࠢ�����|plu|avoir
+savoir|�����, 㬥��|su|avoir
+devoir|���� ������|du|avoir
+payer|������|paye|avoir
+repondre|�⢥���|repondu|avoir
+poser|��������; ������|pose|avoir
+parler|�������|parle|avoir
+aimer|���, �ࠢ�����|aime|avoir
+aider|��������|aide|avoir
+arreter|�४����|arrete|avoir
+rencontrer|�������|rencontre|avoir
+vendre|�த�����|vendu|avoir
+bronzer|�������|bronze|avoir
+aller|���, ����|alle|etre
+arriver|�ਡ뢠��|arrive|etre
+tomber|������|tombe|etre
+rester|��⠢�����|reste|etre
+deceder|᪮������|decede|etre
+passer|��室���; �஢����� �६�|passe|etre / avoir
+retourner|����������; ��ॢ��稢���|retourne|etre / avoir
+monter|�����������; ���������; ᮧ������|monte|etre / avoir
+descendre|��᪠����; ��᪠��|descendu|etre / avoir
+entrer|�室���|entre|etre
+partir|㥧����, �室���|parti|etre
+repartir|᭮�� 㥧����|reparti|etre
+sortir|��室���; �뭮���|sorti|etre / avoir
+ressortir|᭮�� ��室���; ᭮�� �뭨����|ressorti|etre / avoir
+venir|��室���|venu|etre
+devenir|�⠭�������|devenu|etre
+naitre|஦������|ne|etre
+mourir|㬨���|mort|etre
+se depecher|�ய�����|depeche|etre
+se rappeler|�ᯮ������|rappele|etre
+se lever|��⠢���|leve|etre
+se promener|�����|promene|etre
+se rencontrer|���������|rencontre|etre
+se regarder|ᬮ���� �� ᥡ� / ��� �� ��㣠|regarde|etre
+s'approcher|�ਡ��������|approche|etre
+se laver|������|lave|etre
+se coucher|�������� ᯠ��|couche|etre
+se baigner|�㯠����|baigne|etre
+s'amuser|��ᥫ�����|amuse|etre
+s'installer|���ࠨ������, ��ᥫ�����|installe|etre
+se faire|������ ᥡ�; � ��⠭�� se faire bronzer - �������|fait|etre
+s'acheter|���㯠�� ᥡ�|achete|etre
+se reposer|������|repose|etre`.split('\n').map(v=>v.split('|'));
+const sections=[{title:'1 � �� �������',type:'vocab'},{title:'2 � Completez',intro:'��⠢�� ������� � passe compose. ����砭�� ������� �ࠧ �� �祡���� ��������� ��� ��⮬���᪮� �஢�ન.',bank:'lire � dire � detruire � traduire � ecrire � interdire � construire � vivre',items:[['Dans le journal, nous ___ un article interessant.','avons lu'],['Quand on leur a pose la question, ils ___ la verite.','ont dit'],['Comme la maison etait inhabitable, les ouvriers ___ le batiment.','ont detruit'],['Comme elle parlait tres bien cette langue, elle ___ le texte.','a traduit'],['Inspire par cette histoire vraie, cet auteur ___ un roman.','a ecrit'],['Comme il y avait des travaux dans cette rue, la mairie ___ la circulation.','a interdit'],['En memoire des heros de la guerre, les habitants ___ un monument.','ont construit'],['Il est mort jeune : il ___ seulement vingt ans.','a vecu']]},{title:'3 � Reliez',type:'match'},{title:'4 � Transformez',intro:'��९��� �।������� 楫���� � passe compose.',wide:true,items:[['On recoit un message et on y repond immediatement.','On a recu un message et on y a repondu immediatement.'],['Ils recoivent beaucoup chez eux, ils font des fetes magnifiques.','Ils ont beaucoup recu chez eux, ils ont fait des fetes magnifiques.|Ils ont recu beaucoup chez eux, ils ont fait des fetes magnifiques.'],['Je revois des vieux films italiens et ca me plait.','J'ai revu des vieux films italiens et ca m'a plu.'],['Il pleut si fort qu'on croit a la fin du monde !','Il a plu si fort qu'on a cru a la fin du monde !']]},{title:'5 � Etre ou avoir ?',intro:'����� �ᯮ����⥫�� ������ � participe passe. � �।�������� � je �����⨬� ��᪮� � ���᪨� த.',items:[['A l'automne, les feuilles ___ . (tomber)','sont tombees'],['A l'automne, les enfants ___ a l'ecole. (retourner)','sont retournes'],['Louise ___ a Paris. (arriver)','est arrivee'],['Elle ___ trois jours a Paris. (rester)','est restee'],['Elle ___ au Louvre. (aller)','est allee'],['Elle ___ a la tour Eiffel. (monter)','est montee'],['On ___ deux heures a l'aider. (passer)','a passe'],['Il ___ chez lui sans un mot. (retourner)','est retourne'],['Elle ___ dans un tres bel hotel. (descendre)','est descendue'],['Elle y ___ deux nuits. (rester)','est restee'],['Ils ___ tres vite. (arriver)','sont arrives'],['Ils ___ dans l'appartement. (monter)','sont montes'],['J'___ ma valise au 5? etage. (monter)','ai monte'],['Je ___ dans l'escalier. (tomber)','suis tombe|suis tombee'],['Il ___ dans son village. (rester)','est reste'],['Il ___ une association. (monter)','a monte']]},{title:'6 � Une vie',intro:'����⠭���� �������: ����� ������� � passe compose.',items:[['Il ___ a l'ecole primaire. (aller)','est alle'],['Il ___ au college. (entrer)','est entre'],['Il ___ un accident de velo. (avoir)','a eu'],['Il ___ ses etudes. (arreter)','a arrete'],['Il ___ apprenti chez un boulanger. (devenir)','est devenu'],['Il ___ pour le sud de la France. (partir)','est parti'],['Il ___ sa boulangerie. (monter)','a monte'],['Il ___ sa femme. (rencontrer)','a rencontre'],['Son premier enfant ___ . (naitre)','est ne'],['Il ___ sa boulangerie. (vendre)','a vendu'],['Il ___ a 92 ans. (mourir)','est mort']]},{title:'7 � Au singulier',intro:'��९��� 楫����: ils  il, nous  je, vous  tu, elles  elle. ��� je � tu �����⨬� ��� த�.',wide:true,items:[['Ils se sont regardes dans le miroir.','Il s'est regarde dans le miroir.'],['Nous nous sommes approches.','Je me suis approche.|Je me suis approchee.'],['Vous vous etes laves ?','Tu t'es lave ?|Tu t'es lavee ?'],['Nous ne nous sommes pas couches tot.','Je ne me suis pas couche tot.|Je ne me suis pas couchee tot.'],['Elles se sont baignees dans la mer.','Elle s'est baignee dans la mer.']]},{title:'8 � Les vacances',intro:'�������� ⥪��. On = nous : �ਭ������� ��� ᮣ��ᮢ���� �� ���� (������⢥���� �᫮), ⠪ � �ࠬ����᪮� �����⢥���� �᫮.',bank:'s'amuser � s'installer � se lever � se coucher � se promener � se baigner � se faire � s'acheter � se reposer',items:[['L'annee derniere, on ___ . (s'amuser ; ajoutez bien)','s'est bien amuse|s'est bien amuses|s'est bien amusees'],['On ___ dans une petite maison de location au bord de la mer.','s'est installe|s'est installes|s'est installees'],['On ___ tard le matin.','s'est leve|s'est leves|s'est levees'],['On ___ tard aussi, le soir.','s'est couche|s'est couches|s'est couchees'],['On ___ sur les plages immenses.','s'est promene|s'est promenes|s'est promenees'],['On ___ dans la mer.','s'est baigne|s'est baignes|s'est baignees'],['On ___ bronzer.','s'est fait'],['On ___ des glaces.','s'est achete'],['On ___ . (se reposer ; ajoutez vraiment bien)','s'est vraiment bien repose|s'est vraiment bien reposes|s'est vraiment bien reposees']]}];
+const pairs=[['C'est incroyable !','Je n'ai jamais vu ca !'],['Quand on a pose la question,','personne n'a su repondre.'],['Cet etudiant brillant','a recu les felicitations du jury.'],['Pour la semaine prochaine,','on a prevu une sortie au theatre.'],['Il a fait tres beau,','il n'a pas plu.'],['Quand ils ont recu les factures,','ils ont du payer.']];
+const $=s=>document.querySelector(s),esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');let current=0,states={},links={},selected=null,checked=false;const order=[4,2,5,0,3,1];
+function norm(s){return s.normalize('NFC').toLowerCase().replace(/[''`]/g,"'").replace(/[.!?,;:]/g,'').replace(/\s*'\s*/g,"'").replace(/\s+/g,' ').trim()}
+function valid(value,answer){return answer.split('|').some(a=>norm(a)===norm(value))}
+function save(){try{localStorage.setItem('pc-atelier-v1',JSON.stringify({states,links,theme:$('#theme').value}))}catch(e){}}
+try{const old=JSON.parse(localStorage.getItem('pc-atelier-v1')||'{}');states=old.states||{};links=old.links||{};$('#theme').value=old.theme||'light'}catch(e){}document.documentElement.dataset.theme=$('#theme').value;$('#theme').onchange=()=>{document.documentElement.dataset.theme=$('#theme').value;save()};
+function render(){selected=null;checked=false;$('#nav').innerHTML=sections.map((s,i)=>`<button class="${i===current?'active':''}" onclick="go(${i})" ${i===current?'aria-current="page"':''}>${s.title}</button>`).join('');let s=sections[current];$('#page').textContent=`${current+1} / ${sections.length}`;$('#prev').disabled=current===0;$('#next').disabled=current===sections.length-1;
+if(s.type==='vocab'){$('#app').innerHTML=`<section class="card"><h2>Tous les verbes � �� �������</h2><p>������� � ��� 11 �ਭ�⮢, ������ ������� � �������⥫�� �ਬ���.</p><div class="hint"><b>Passe compose = avoir / etre au present + participe passe.</b><br>Avoir : ai, as, a, avons, avez, ont. Etre : suis, es, est, sommes, etes, sont.<br>� etre ���筮 ������塞 -e / -s / -es �� த� � ���: elle est arrivee, ils sont partis.<br>Monter, descendre, sortir � ��㣨� ����� ������ �ᯮ����⥫�� ������: elle est montee ; elle a monte sa valise.<br>� �������� �������� ᮣ��ᮢ���� ������ �� ����������: elles se sont lavees, �� elles se sont achete des glaces. Se faire + infinitif: fait �� �������.</div><p><label>���� ������ <input id="search" placeholder="francais / ���᪨�"></label> <span id="count"></span></p><div class="tablewrap"><table><thead><tr><th>Infinitif</th><th>��ॢ��</th><th>Participe passe</th><th>Auxiliaire</th></tr></thead><tbody id="verbs"></tbody></table></div></section>`;$('#search').oninput=showVerbs;showVerbs();return}
+if(s.type==='match'){$('#app').innerHTML=`<section class="card"><h2>Reliez les elements</h2><p>������ ��砫� ᫥��, ��⥬ ����砭�� �ࠢ�. ����� � ��������� ����� �������� ����. ������ �롮� ������� ���.</p><p class="muted">�������� �ࠧ� �� �������� ����⢥����� ����.</p><div class="match" id="matches"><svg aria-hidden="true"></svg>${pairs.map((p,i)=>`<button id="l${i}" onclick="pick(${i})">${i+1}. ${p[0]}</button><button id="r${order[i]}" onclick="join(${order[i]})">${pairs[order[i]][1]}</button>`).join('')}</div><div class="actions"><button class="primary" onclick="checkMatch()">�஢����</button><button onclick="links={};checked=false;save();paint()">������</button><button onclick="links=Object.fromEntries(pairs.map((_,i)=>[i,i]));checked=true;save();paint();$('#result').textContent='�������� �⢥��.'">�������� �⢥��</button></div><p id="result" class="score" aria-live="polite"></p></section>`;requestAnimationFrame(paint);return}
+$('#app').innerHTML=`<section class="card"><h2>${s.title.slice(4)}</h2><p>${s.intro}</p>${s.bank?`<p class="hint">${s.bank}</p>`:''}<p class="muted">������ ��� ��������� ��� ����� � �ᯮ����⥫�� ��������${s.wide?' � ��⠫�� �।��������':''}. �������, ⨯ ������� � ������ ����� �� ������ �� �஢���. ��業�� ���뢠����.</p><div class="tools">${['e','e','e','a','a','i','o','u','u','c','e','i'].map(x=>`<button onclick="insertAccent('${x}')" aria-label="��⠢��� ${x}">${x}</button>`).join('')}</div>${s.items.map((q,i)=>`<div class="row"><label>${i+1}. ${s.wide?esc(q[0])+`<input class="wide" id="a${i}" aria-label="�⢥� ${i+1}">`:q[0].split('___').map(esc).join(`<input id="a${i}" aria-label="�⢥� ${i+1}" autocomplete="off" spellcheck="false">`)}</label><span class="feedback" id="f${i}" aria-live="polite"></span></div>`).join('')}<div class="actions"><button class="primary" onclick="check()">�஢����</button><button onclick="reset()">������</button><button onclick="reveal()">�������� �⢥��</button></div><p id="result" class="score" aria-live="polite"></p></section>`;s.items.forEach((q,i)=>{const e=$('#a'+i);e.value=states[current]?.[i]||'';e.onfocus=()=>lastInput=e;e.oninput=()=>{(states[current]??=[])[i]=e.value;e.className=s.wide?'wide':'';$('#f'+i).textContent='';$('#result').textContent='';save()};e.onkeydown=ev=>{if(ev.key==='Enter')check()}})}
+let lastInput=null;function insertAccent(c){if(lastInput&&document.contains(lastInput)){lastInput.setRangeText(c,lastInput.selectionStart,lastInput.selectionEnd,'end');lastInput.dispatchEvent(new Event('input'));lastInput.focus()}}
+function showVerbs(){let q=norm($('#search').value);let rows=verbs.filter(v=>norm(v.join(' ')).includes(q));$('#verbs').innerHTML=rows.map(v=>'<tr>'+v.map(x=>`<td>${esc(x)}</td>`).join('')+'</tr>').join('');$('#count').textContent=`${rows.length} / ${verbs.length}`}
+function check(){let s=sections[current],n=0;s.items.forEach((q,i)=>{let e=$('#a'+i),ok=valid(e.value,q[1]);n+=ok;e.className=(s.wide?'wide ':'')+(ok?'correct':'wrong');$('#f'+i).textContent=ok?'? ��୮':e.value.trim()?'? �஢���� ���, �ᯮ����⥫�� ������ � ᮣ��ᮢ����.':'- ������ �⢥�.'});$('#result').textContent=`��୮: ${n} �� ${s.items.length}`}
+function reset(){states[current]=[];save();render()}function reveal(){sections[current].items.forEach((q,i)=>{$('#f'+i).textContent='�⢥�: '+q[1].split('|').join(' / ')});$('#result').textContent='�������� �����⨬� �⢥��.'}
+function pick(i){selected=i;paint()}function join(j){if(selected===null){$('#result').textContent='���砫� �롥�� ��砫� �ࠧ� ᫥��.';return}for(const k in links)if(links[k]===j)delete links[k];links[selected]=j;selected=null;checked=false;save();paint();$('#result').textContent='��� ᮥ������. ����� �஢���� ��� �த������.'}
+function paint(){if(!$('#matches'))return;let box=$('#matches'),rect=box.getBoundingClientRect(),svg=box.querySelector('svg');svg.innerHTML='';pairs.forEach((p,i)=>{$('#l'+i).className=selected===i?'selected':'';$('#l'+i).textContent=`${i+1}. ${p[0]}`;$('#r'+i).className='';$('#r'+i).textContent=p[1]});for(let [k,j]of Object.entries(links)){let l=$('#l'+k),r=$('#r'+j);r.textContent=`[${+k+1}] ${pairs[j][1]}`;let ok=+k===j;if(checked){l.classList.add(ok?'correct':'wrong');r.classList.add(ok?'correct':'wrong');l.textContent=(ok?'? ':'? ')+l.textContent}let a=l.getBoundingClientRect(),b=r.getBoundingClientRect();let line=document.createElementNS('http://www.w3.org/2000/svg','line');Object.entries({x1:a.right-rect.left,y1:a.top+a.height/2-rect.top,x2:b.left-rect.left,y2:b.top+b.height/2-rect.top,stroke:checked?(ok?'var(--good)':'var(--bad)'):'var(--accent)','stroke-width':3}).forEach(([k,v])=>line.setAttribute(k,v));svg.append(line)}}
+function checkMatch(){checked=true;paint();let n=Object.entries(links).filter(([k,j])=>+k===j).length;$('#result').textContent=`��୮: ${n} �� 6. ���������: ${Object.keys(links).length} �� 6.`}function go(i){current=i;lastInput=null;render();window.scrollTo(0,0)}$('#prev').onclick=()=>go(current-1);$('#next').onclick=()=>go(current+1);window.addEventListener('resize',paint);render();
+</script></html>
+
