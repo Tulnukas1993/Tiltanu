@@ -25,6 +25,7 @@
 <div class="wrap">
   <h1>Tiltanu — каталог упражнений</h1>
   <p class="lead">Новые HTML‑упражнения, добавленные в репозиторий, появляются здесь автоматически.</p>
+  <a class="card" href="./french-passe-compose-pratique.html" style="display:block;margin:18px 0;border:2px solid #3157d5" id="featured-french-lesson"><span class="tag">Français · Открыть урок</span><h2>Passé composé — À vous de jouer</h2><p>Интерактивная практика с проверкой ответов</p><div class="file">french-passe-compose-pratique.html</div></a>
   <div id="status" class="status">Загружаю упражнения…</div>
   <div id="grid" class="grid"></div>
 </div>
@@ -59,7 +60,7 @@ async function loadExercises(){
     if(!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const items = await res.json();
     const files = items
-      .filter(x => x.type === 'file' && /\.html?$/i.test(x.name) && x.name.toLowerCase() !== 'index.html')
+      .filter(x => x.type === 'file' && /\.html?$/i.test(x.name) && !['index.html','french-passe-compose-pratique.html'].includes(x.name.toLowerCase()))
       .sort((a,b)=>a.name.localeCompare(b.name));
 
     if(!files.length){
