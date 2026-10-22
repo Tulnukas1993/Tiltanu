@@ -3,90 +3,127 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tiltanu — каталог упражнений</title>
+<title>Tiltanu — библиотека упражнений</title>
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;background:#f5f7fb;color:#1f2937;font-family:Arial,"Microsoft YaHei",sans-serif}
-  .wrap{max-width:1050px;margin:0 auto;padding:32px 20px 60px}
-  h1{font-size:36px;margin:0 0 8px}
-  .lead{color:#6b7280;font-size:18px;margin:0 0 26px}
-  .status{padding:16px;border-radius:14px;background:#fff;border:1px solid #e5e7eb;color:#6b7280}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px}
-  .card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:20px;box-shadow:0 5px 18px rgba(0,0,0,.06);transition:.15s}
-  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
-  .tag{display:inline-block;background:#eef3ff;color:#3157d5;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:700;margin-bottom:12px}
-  .card h2{font-size:20px;margin:0 0 8px;word-break:break-word}
-  .card p{color:#6b7280;margin:0;line-height:1.45}
-  .file{font-size:13px;color:#9ca3af;margin-top:12px;word-break:break-all}
-  .error{background:#fff3f3;color:#b42318}
+:root{--bg:#f5f5f1;--paper:#fffefa;--ink:#25363b;--sub:#627477;--border:#dce5e1;--accent:#356a76;--soft:#e7eff0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.wrap{max-width:1150px;margin:auto;padding:34px 20px 80px}
+h1{font-size:clamp(28px,4vw,42px);margin:0 0 5px}
+.lead{margin:0 0 24px;color:var(--sub)}
+.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+input{font:inherit;padding:12px 16px;border:1px solid var(--border);border-radius:12px;background:var(--paper);color:var(--ink);min-width:220px;flex:1}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #95c5ca;outline-offset:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}
+.tab{background:var(--paper);border:1px solid var(--border);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer;font:inherit}
+.tab[aria-pressed=true]{background:var(--accent);color:white;border-color:var(--accent)}
+.count{opacity:.72;font-size:13px;margin-left:5px}
+.group{margin:30px 0 36px}
+.grouphead{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--border);padding-bottom:11px;margin-bottom:14px}
+.group h2{font-size:25px;margin:0}
+.group .total{color:var(--sub);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:15px}
+.card{display:block;text-decoration:none;color:inherit;background:var(--paper);border:1px solid var(--border);border-radius:17px;padding:20px;box-shadow:0 4px 14px #18333409;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px #18333418}
+.tag{display:inline-block;background:var(--soft);color:var(--accent);padding:4px 10px;border-radius:30px;font-size:13px;font-weight:700;margin-bottom:10px}
+.card h3{font-size:19px;line-height:1.32;margin:0 0 10px;overflow-wrap:anywhere}
+.card p{color:var(--sub);margin:0}
+.file{font-size:12px;color:#839195;margin-top:12px;overflow-wrap:anywhere}
+.status{background:var(--paper);border:1px solid var(--border);padding:16px;border-radius:14px;color:var(--sub)}
+.error{background:#fff4f3;color:#9a3636}
+small.note{display:block;color:var(--sub);margin-top:15px}
 </style>
 </head>
-<body>
-<div class="wrap">
-  <h1>Tiltanu — каталог упражнений</h1>
-  <p class="lead">Новые HTML‑упражнения, добавленные в репозиторий, появляются здесь автоматически.</p>
-  <a class="card" href="./french-passe-compose-pratique.html" style="display:block;margin:18px 0;border:2px solid #3157d5" id="featured-french-lesson"><span class="tag">Français · Открыть урок</span><h2>Passé composé — À vous de jouer</h2><p>Интерактивная практика с проверкой ответов</p><div class="file">french-passe-compose-pratique.html</div></a>
-  <div id="status" class="status">Загружаю упражнения…</div>
-  <div id="grid" class="grid"></div>
-</div>
+<body><main class="wrap">
+<h1>Tiltanu · Библиотека уроков</h1>
+<p class="lead">Материалы сгруппированы по языкам. Новые HTML-уроки появляются автоматически.</p>
+<div class="controls"><input id="search" type="search" placeholder="Найти урок или тему…" aria-label="Поиск урока"></div>
+<nav class="tabs" id="tabs" aria-label="Фильтр по языкам"></nav>
+<div id="status" class="status">Загружаю упражнения…</div>
+<div id="groups"></div>
+<small class="note">Если название файла не позволяет определить язык, урок находится в разделе «Без категории». Позже его можно будет отнести к нужному ученику.</small>
+</main>
 <script>
-const OWNER = 'Tulnukas1993';
-const REPO = 'Tiltanu';
-const BRANCH = 'main';
-
-function prettyName(filename){
-  return filename
-    .replace(/\.html?$/i,'')
-    .replace(/[_-]+/g,' ')
-    .replace(/\b\w/g, c => c.toUpperCase());
+"use strict";
+const OWNER="Tulnukas1993", REPO="Tiltanu", BRANCH="main";
+const KNOWN=[{name:"french-passe-compose-pratique.html",type:"file"}];
+const LANGS=[
+  {key:"french",title:"Français · Французский",tag:"Français"},
+  {key:"korean",title:"한국어 · Корейский",tag:"한국어"},
+  {key:"chinese",title:"中文 · Китайский",tag:"中文"},
+  {key:"english",title:"English · Английский",tag:"English"},
+  {key:"german",title:"Deutsch · Немецкий",tag:"Deutsch"},
+  {key:"italian",title:"Italiano · Итальянский",tag:"Italiano"},
+  {key:"spanish",title:"Español · Испанский",tag:"Español"},
+  {key:"portuguese",title:"Português · Португальский",tag:"Português"},
+  {key:"japanese",title:"日本語 · Японский",tag:"日本語"},
+  {key:"russian",title:"Русский язык",tag:"Русский"},
+  {key:"other",title:"Без категории · Разобрать позже",tag:"Interactive"}
+];
+function language(name){
+ const s=name.toLowerCase();
+ if(/french|francais|français|passe.compose|passé.composé/.test(s))return "french";
+ if(/korean|topik|hangul|hangeul/.test(s))return "korean";
+ if(/chinese|hsk|pinyin|hanzi|mandarin/.test(s))return "chinese";
+ if(/english|ielts|toefl/.test(s))return "english";
+ if(/german|deutsch/.test(s))return "german";
+ if(/italian|italiano/.test(s))return "italian";
+ if(/spanish|espanol|español/.test(s))return "spanish";
+ if(/portuguese|portugues|português/.test(s))return "portuguese";
+ if(/japanese|jlpt/.test(s))return "japanese";
+ if(/russian|rki/.test(s))return "russian";
+ return "other";
 }
-
-function detectTag(name){
-  const s = name.toLowerCase();
-  if(s.includes('korean') || s.includes('topik')) return '한국어 · Korean';
-  if(s.includes('chinese') || s.includes('hsk')) return '中文 · Chinese';
-  if(s.includes('german')) return 'Deutsch';
-  if(s.includes('french')) return 'Français';
-  if(s.includes('english')) return 'English';
-  return 'Interactive';
+function prettyName(name){return name.replace(/\.html?$/i,"").replace(/[_-]+/g," ").replace(/\b[a-z]/g,c=>c.toUpperCase())}
+const tabs=document.getElementById("tabs"), groups=document.getElementById("groups"),status=document.getElementById("status"),search=document.getElementById("search");
+let files=[],active="all";
+function make(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function render(){
+ const q=search.value.trim().toLocaleLowerCase();
+ const filtered=files.filter(f=>(active==="all"||f.lang===active)&&(f.name.toLocaleLowerCase().includes(q)||prettyName(f.name).toLocaleLowerCase().includes(q)));
+ tabs.replaceChildren();
+ const options=[{key:"all",title:"Все языки"},...LANGS.filter(l=>files.some(f=>f.lang===l.key))];
+ options.forEach(l=>{
+  const count=files.filter(f=>l.key==="all"||f.lang===l.key).length;
+  const b=make("button","tab",l.title+" ");
+  b.type="button";b.setAttribute("aria-pressed",String(active===l.key));
+  b.append(make("span","count",String(count)));
+  b.addEventListener("click",()=>{active=l.key;render()});tabs.append(b);
+ });
+ groups.replaceChildren();
+ LANGS.forEach(l=>{
+  const list=filtered.filter(f=>f.lang===l.key);
+  if(!list.length)return;
+  const section=make("section","group");
+  const head=make("div","grouphead");
+  head.append(make("h2","",l.title),make("span","total",list.length+" уроков"));
+  const grid=make("div","grid");
+  list.forEach(f=>{
+   const a=make("a","card");a.href="./"+encodeURIComponent(f.name);
+   a.append(make("span","tag",l.tag),make("h3","",prettyName(f.name)),make("p","","Открыть интерактивный урок"),make("div","file",f.name));
+   grid.append(a);
+  });
+  section.append(head,grid);groups.append(section);
+ });
+ if(!filtered.length){groups.append(make("div","status","По этому запросу уроков нет."))}
 }
-
-async function loadExercises(){
-  const status = document.getElementById('status');
-  const grid = document.getElementById('grid');
-  try{
-    const api = `https://api.github.com/repos/${OWNER}/${REPO}/contents/?ref=${BRANCH}`;
-    const res = await fetch(api, {headers:{'Accept':'application/vnd.github+json'}});
-    if(!res.ok) throw new Error(`GitHub API: ${res.status}`);
-    const items = await res.json();
-    const files = items
-      .filter(x => x.type === 'file' && /\.html?$/i.test(x.name) && !['index.html','french-passe-compose-pratique.html'].includes(x.name.toLowerCase()))
-      .sort((a,b)=>a.name.localeCompare(b.name));
-
-    if(!files.length){
-      status.textContent = 'HTML‑упражнения пока не найдены.';
-      return;
-    }
-
-    status.style.display = 'none';
-    files.forEach(file => {
-      const card = document.createElement('a');
-      card.className = 'card';
-      card.href = encodeURI(file.name);
-      card.innerHTML = `
-        <div class="tag">${detectTag(file.name)}</div>
-        <h2>${prettyName(file.name)}</h2>
-        <p>Открыть интерактивное упражнение</p>
-        <div class="file">${file.name}</div>`;
-      grid.appendChild(card);
-    });
-  }catch(err){
-    status.classList.add('error');
-    status.innerHTML = 'Не удалось загрузить список автоматически. Проверь, что репозиторий открыт и GitHub Pages включён.<br><small>' + err.message + '</small>';
-  }
+async function load(){
+ try{
+  const res=await fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/?ref="+BRANCH,{headers:{Accept:"application/vnd.github+json"}});
+  if(!res.ok)throw Error("GitHub API: "+res.status);
+  const items=await res.json();
+  if(!Array.isArray(items))throw Error("Список файлов недоступен");
+  const unique=new Map();
+  [...items,...KNOWN].forEach(f=>{if(f.type==="file"&&/\.html?$/i.test(f.name)&&f.name.toLowerCase()!=="index.html")unique.set(f.name.toLowerCase(),{name:f.name,lang:language(f.name)})});
+  files=[...unique.values()].sort((a,b)=>a.name.localeCompare(b.name,"ru"));
+  status.hidden=true;render();
+ }catch(err){
+  files=KNOWN.map(f=>({name:f.name,lang:language(f.name)}));
+  status.textContent="Не удалось загрузить полный список из GitHub ("+err.message+"). Ниже показаны доступные известные уроки.";
+  status.classList.add("error");render();
+ }
 }
-
-loadExercises();
+search.addEventListener("input",render);
+load();
 </script>
-</body>
-</html>
+</body></html>
