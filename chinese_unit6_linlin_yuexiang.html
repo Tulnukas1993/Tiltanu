@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
-<title>我会说汉语 · 林林 / 月香</title>
+<title>我会说汉语 · Интерактивный урок</title>
 <style>
 :root{--ink:#20334a;--muted:#66768a;--line:#dce6ec;--cream:#fbfaf7;--paper:#fff;--blue:#e9f2f7;--mint:#e4f2ea;--lilac:#eee9f7;--rose:#fbe9e8;--peach:#f8efe2;--teal:#26746f;--deep:#24475a;--success:#23765d;--bad:#b34945;--warn:#8d611f;--shadow:0 14px 34px rgba(41,70,87,.07)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(125deg,#f6f7f3 0%,#eef5f6 50%,#f8f5f3 100%);color:var(--ink);font:16px/1.65 "Segoe UI","Arial",sans-serif}
@@ -125,74 +125,101 @@ $('check-reading').onclick=()=>{let good=0;readingQuestions.forEach((q,i)=>{cons
 $('clear-reading').onclick=()=>{[...$('reading-host').querySelectorAll('input')].forEach(x=>{x.value='';x.classList.remove('ok','bad')});selectedGender='';[...$('reading-host').querySelectorAll('.choice')].forEach(x=>{x.classList.remove('active');x.style.borderColor='';});markProgress('reading',false);feedback('feedback-reading','');};
 $('restart-all').onclick=()=>{if(!window.confirm('Стереть все ответы и начать урок заново?'))return;$('clear-blanks').click();negHandlers.forEach(e=>e.reset());$('reset-matches').click();combineHandlers.forEach(e=>e.reset());$('reset-audio').click();[...$('speaking-host').querySelectorAll('textarea')].forEach(x=>x.value='');feedback('feedback-speaking','');$('clear-reading').click();window.scrollTo({top:0,behavior:'smooth'});};
 </script>
-
-<style>
-.student-switch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:2}.student-switch strong{font-size:14px;color:#46737b}.student-switch button{font-size:18px;border:1px solid #b7d7d1;background:white;color:#275a61;border-radius:24px;padding:6px 15px;font-weight:700}.student-switch button.on{background:#d7f0e9;border:2px solid #3a9185}
-.drag-guide{background:#eef8f4;border-radius:12px;padding:11px 15px;border:1px solid #d2e5df;color:#4b6e70;margin:9px 0 12px;font-size:14px}
-.drag-bank{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}.drag-piece{touch-action:none;user-select:none;cursor:grab;background:white;border:1.5px solid #abcac8;border-radius:10px;padding:7px 12px;font:600 18px/1.65 "Microsoft YaHei","Noto Sans CJK SC",sans-serif;color:#345c63;box-shadow:0 3px 0 #e3eeeb}.drag-piece.on{background:#dbf1e6;border-color:#408f86}.drag-piece.used{opacity:.52}.drag-piece.pinyin-piece{background:#f3effb;border-color:#cabfe4;font:600 16px/1.65 Arial,sans-serif}
-.drag-target{width:100%;display:block;text-align:left;min-height:54px;border:2px dashed #adcbd1;border-radius:11px;background:#fff;padding:9px 14px;margin-top:8px;color:#60808b;font:500 17px/1.6 "Microsoft YaHei",sans-serif}.drag-target.filled{background:#e5f4eb;border:2px solid #81b9ab;color:#255a50}.drag-target.good{border-color:#3d9e74;background:#e6f7eb}.drag-target.bad{border-color:#bd7774;background:#fdf0ec}.blank[readonly]{cursor:pointer}.blank.drag-over,.drag-target.drag-over,.answer-strip.drag-over,.audio-blank.drag-over{outline:3px solid #6eada1;background:#e1f6ed!important}.drag-hide{display:none!important}.drag-ghost{position:fixed;z-index:9999;pointer-events:none;background:#e2f5e9;border:2px solid #5ba69a;border-radius:11px;padding:8px 12px;box-shadow:0 9px 14px #2223;font:700 20px "Microsoft YaHei",sans-serif;max-width:230px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.tile,.audio-word{touch-action:none}
-</style>
 <script>
+/* Drag-and-drop extension for 林林 / 月香 — desktop and touch. */
 (function(){
 'use strict';
-var el=id=>document.getElementById(id);
-var switcher=document.createElement('div');switcher.className='student-switch';switcher.setAttribute('aria-label','Ученики 林林 и 月香');switcher.innerHTML='<strong>Ученики:</strong><button type="button" class="on" data-name="林林">林林</button><button type="button" data-name="月香">月香</button><span id="who">Сегодня отвечает: 林林</span>';document.querySelector('.hero').append(switcher);
-switcher.querySelectorAll('button').forEach(b=>b.onclick=()=>{switcher.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));el('who').textContent='Сегодня отвечает: '+b.dataset.name;});
-var handlers=[],dragging=null,pointer=null;
-function attach(source,accept,put){if(source.dataset.dragSet)return;source.dataset.dragSet='1';source.draggable=true;handlers.push({source,accept,put});}
-function place(src,target){var h=handlers.find(x=>x.source===src);if(h&&target&&h.accept(target)){h.put(target);return true;}return false;}
-document.addEventListener('dragstart',e=>{var h=handlers.find(x=>x.source===e.target);if(h){dragging=h.source;e.dataTransfer.setData('text/plain','lesson');e.dataTransfer.effectAllowed='move';}},true);
-document.addEventListener('dragover',e=>{var t=e.target.closest('.blank,.answer-strip,.audio-blank,.drag-target');if(dragging&&t&&handlers.some(h=>h.source===dragging&&h.accept(t))){e.preventDefault();t.classList.add('drag-over');}},true);
-document.addEventListener('dragleave',e=>{var t=e.target.closest('.blank,.answer-strip,.audio-blank,.drag-target');if(t)t.classList.remove('drag-over');},true);
-document.addEventListener('drop',e=>{var t=e.target.closest('.blank,.answer-strip,.audio-blank,.drag-target');if(dragging&&t){e.preventDefault();place(dragging,t);}dragging=null;document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));},true);
-document.addEventListener('dragend',()=>dragging=null,true);
-document.addEventListener('pointerdown',e=>{if(e.button>0||!handlers.some(h=>h.source===e.target))return;pointer={src:e.target,id:e.pointerId,x:e.clientX,y:e.clientY,moved:false,ghost:null};},true);
-document.addEventListener('pointermove',e=>{if(!pointer||pointer.id!==e.pointerId)return;if(!pointer.moved&&Math.hypot(pointer.x-e.clientX,pointer.y-e.clientY)<9)return;if(!pointer.moved){pointer.moved=true;pointer.ghost=document.createElement('div');pointer.ghost.className='drag-ghost';pointer.ghost.textContent=pointer.src.textContent;document.body.append(pointer.ghost);}e.preventDefault();pointer.ghost.style.left=(e.clientX+12)+'px';pointer.ghost.style.top=(e.clientY+12)+'px';},{capture:true,passive:false});
-document.addEventListener('pointerup',e=>{if(!pointer||pointer.id!==e.pointerId)return;var p=pointer;pointer=null;if(p.ghost)p.ghost.remove();if(!p.moved)return;var t=document.elementFromPoint(e.clientX,e.clientY)?.closest('.blank,.answer-strip,.audio-blank,.drag-target');place(p.src,t);window._lastDrag=Date.now()+250;},true);
-document.addEventListener('click',e=>{if(e.isTrusted&&Date.now()<(window._lastDrag||0)&&handlers.some(h=>h.source===e.target)){e.stopImmediatePropagation();e.preventDefault();}},true);
-var originalClear=el('clear-blanks').onclick;
-var inputs=[...document.querySelectorAll('#blanks-host .blank')],tokens=inputs.map((v,i)=>({id:'b'+i,word:v.dataset.answer,kind:v.dataset.kind}));
-var bank=document.createElement('div');bank.innerHTML='<div class="drag-guide">Готовые карточки: перетащи нужные иероглифы и пиньинь в пропуски. На телефоне можно нажимать на карточки. Печатать не нужно.</div><div class="row-label">汉字 · Иероглифы</div><div class="drag-bank" id="bank-cn"></div><div class="row-label">拼音 · Пиньинь</div><div class="drag-bank" id="bank-py"></div>';el('blanks-host').before(bank);
-var selectedInput=null;
-function fillBlank(item,target){if(!item||!target||item.kind!==target.dataset.kind)return;inputs.forEach(x=>{if(x.dataset.token===item.id){x.value='';x.dataset.token='';}});target.value=item.word;target.dataset.token=item.id;target.classList.remove('ok','bad','almost');selectedInput=target;updateBank();}
-function updateBank(){document.querySelectorAll('#bank-cn .drag-piece,#bank-py .drag-piece').forEach(b=>b.classList.toggle('used',inputs.some(i=>i.dataset.token===b.dataset.id)));}
-inputs.forEach(input=>{input.readOnly=true;input.placeholder='﹏';input.onclick=()=>{selectedInput=input;};input.ondblclick=()=>{input.value='';input.dataset.token='';updateBank();};});
-tokens.sort(()=>Math.random()-.5).forEach(t=>{var b=document.createElement('button');b.type='button';b.className='drag-piece'+(t.kind==='py'?' pinyin-piece':'');b.dataset.id=t.id;b.textContent=t.word;el('bank-'+t.kind).append(b);b.onclick=()=>{var target=(selectedInput&&selectedInput.dataset.kind===t.kind)?selectedInput:inputs.find(i=>i.dataset.kind===t.kind&&!i.value);if(target)fillBlank(t,target);};attach(b,target=>target.matches('.blank')&&target.dataset.kind===t.kind,target=>fillBlank(t,target));});
-el('clear-blanks').onclick=()=>{originalClear();inputs.forEach(i=>i.dataset.token='');selectedInput=null;updateBank();};
-document.querySelector('#ex1 .desc').textContent='Перетащи готовые иероглифы и слоги пиньиня в пропуски.';
-function bindKeyboards(){document.querySelectorAll('#negation-host .tile,#combine-host .tile').forEach(b=>{var card=b.closest('.exercise-card');attach(b,t=>t.matches('.answer-strip')&&card===t.closest('.exercise-card'),()=>{if(!b.disabled)b.click();});});}
-document.querySelectorAll('#negation-host .keyboard,#combine-host .keyboard').forEach(bank=>new MutationObserver(bindKeyboards).observe(bank,{childList:true}));bindKeyboards();
-document.querySelector('#ex2 .desc').textContent='Перетащи иероглифы из готового набора в строку ответа. Можно также нажимать.';
-document.querySelector('#ex4 .desc').textContent='Собери предложение перетаскиванием. Принимаются разные варианты с 和, 都, 也.';
-function bindAudio(){document.querySelectorAll('#audio-bank .audio-word').forEach(b=>attach(b,t=>t.matches('.audio-blank'),t=>{t.click();b.click();}));}
-new MutationObserver(bindAudio).observe(el('audio-bank'),{childList:true});bindAudio();
-document.querySelector('#ex5 .desc').textContent='Послушай аудио и перетащи готовые ответы 日语、法语、汉语、德语 в четыре пропуска. Можно также нажать на слово.';
-var utterance=[...document.querySelectorAll('.line-speaker')][3].querySelector('.speaker-text');
-utterance.innerHTML='法语和 <button class="audio-blank" data-slot="2">③ ____</button>，我都会说。';
-utterance.querySelector('button').onclick=()=>{activeSlot=2;renderAudio();};renderAudio();
-function readyCards(which,list){
-var h=el(which+'-host'),panel=document.createElement('div');panel.className='exercise-card';panel.innerHTML='<div class="row-label">答案卡 · Готовые ответы</div><div class="drag-guide">Перетащи готовое предложение к вопросу, или нажми на карточку и затем на поле ответа. Нажатие на заполненное поле его очищает.</div><div class="drag-bank"></div>';h.before(panel);
-var choices=panel.querySelector('.drag-bank'),slots=[],value=Array(h.children.length).fill(null),selected=null;
-function original(index,entry){var q=h.children[index];if(which==='speaking'){q.querySelector('textarea').value=entry?entry.word:'';return;}var field=q.querySelector('input');if(field){field.value=entry?entry.word:'';return;}if(entry){var v=entry.word.includes('女')?'女老师':'男老师';var button=[...q.querySelectorAll('.choice')].find(b=>b.textContent===v);if(button)button.click();}else{var reset=[...q.querySelectorAll('.choice')].find(b=>b.textContent==='男老师');if(reset)reset.click();}}
-function draw(){slots.forEach((s,i)=>{var x=list.find(x=>x.id===value[i]);s.textContent=x?x.word:'Перетащи сюда ответ…';s.classList.toggle('filled',!!x);s.classList.remove('good','bad');});choices.querySelectorAll('.drag-piece').forEach(b=>{b.classList.toggle('used',value.includes(b.dataset.id));b.classList.toggle('on',b.dataset.id===selected);});}
-function assign(item,target){var i=Number(target.dataset.q);var prior=value.indexOf(item.id);if(prior>=0){value[prior]=null;original(prior,null);}value[i]=item.id;original(i,item);selected=null;draw();}
-[...h.children].forEach((q,i)=>{q.querySelectorAll('input,textarea,.choice-row').forEach(x=>x.classList.add('drag-hide'));var s=document.createElement('button');s.type='button';s.className='drag-target';s.dataset.q=i;s.dataset.area=which;s.onclick=()=>{if(selected){assign(list.find(x=>x.id===selected),s);}else if(value[i]){value[i]=null;original(i,null);draw();}};q.append(s);slots.push(s);});
-list.forEach((a,i)=>{a.id=which+i;var b=document.createElement('button');b.type='button';b.className='drag-piece';b.dataset.id=a.id;b.textContent=a.word;choices.append(b);b.onclick=()=>{selected=a.id;draw();};attach(b,t=>t.matches('.drag-target')&&t.dataset.area===which,t=>assign(a,t));});draw();
-return{slots,value,list,draw,reset:()=>{value.fill(null);slots.forEach((_,i)=>original(i,null));selected=null;draw();}};
+const extraCSS=`
+.student-line{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:17px;position:relative;z-index:2}.student-line strong{font-size:14px;color:#477482}.student-pill{background:#fff;border:1px solid #bad5d4;padding:7px 16px;border-radius:24px;color:#315f69;font-size:18px;font-weight:750}.student-pill.active{background:#dcf1e9;border:2px solid #4e958d;color:#24635d}.student-now{font-size:13px;color:#527b80}
+.dnd-intro{background:#f1f8f7;border:1px solid #cee2df;border-radius:12px;padding:11px 15px;margin-bottom:12px;font-size:14px;color:#476a70}
+.dnd-palette{display:flex;flex-wrap:wrap;gap:9px;margin:10px 0 17px}.dnd-palette .piece{font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;background:#fff;border:1.5px solid #afd1ce;border-radius:11px;padding:7px 13px;color:#315a64;font-size:19px;cursor:grab;touch-action:none;user-select:none;box-shadow:0 3px 0 #e2efec}.dnd-palette .piece:active{cursor:grabbing}.dnd-palette .piece.chosen{background:#daefe8;border-color:#4b9893;outline:2px solid #86b8ae}.dnd-palette .piece.used{opacity:.5}.dnd-palette .piece.pinyin-piece{font:600 17px/1.5 'Segoe UI',Arial,sans-serif;background:#f2effb;border-color:#c6bce3}.blank[readonly]{cursor:pointer;background:#fff;user-select:none}.blank.target-active{border:2px dashed #398f88;background:#eff9f4}.drop-target{font:500 17px/1.6 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;display:flex;align-items:center;min-height:57px;background:#fff;border:2px dashed #abc4cb;border-radius:12px;padding:9px 12px;color:#6a8590;margin-top:10px;cursor:pointer;text-align:left;width:100%}.drop-target.filled{background:#eaf5f1;border:2px solid #83baa9;color:#254c4b}.drop-target.active-drop,.drop-target.drag-over,.blank.drag-over,.answer-strip.drag-over,.audio-blank.drag-over{outline:3px solid #79b5a5;background:#def4e9!important;outline-offset:2px}.drop-target.good{border-color:#48a37c;background:#e5f7eb}.drop-target.bad{border-color:#d6887e;background:#fdece8}.dnd-card-hidden{display:none!important}.dnd-palette button:focus-visible,.drop-target:focus-visible{outline:3px solid #3caaa5;outline-offset:2px}.dnd-guide{font-size:12px;color:#768c96;margin:4px 0 13px}.drag-ghost{position:fixed;z-index:99999;pointer-events:none;padding:7px 13px;border-radius:12px;border:2px solid #4eaaa0;background:#e5f6ee;color:#214c46;font:700 21px/1.4 'Microsoft YaHei',sans-serif;box-shadow:0 10px 18px #2244;white-space:nowrap;max-width:270px;overflow:hidden;text-overflow:ellipsis;opacity:.93}.keyboard .tile,.audio-bank .audio-word{touch-action:none;cursor:grab}
+@media (max-width:620px){.dnd-palette .piece{font-size:17px;padding:8px 10px}.student-line{gap:6px}.drop-target{font-size:17px;min-height:61px}.drag-ghost{max-width:190px}.blank{min-width:55px;width:62px}.pinyin .blank{width:70px}}
+`;
+const style=document.createElement('style');style.textContent=extraCSS;document.head.append(style);
+const $=id=>document.getElementById(id);
+const cnNormalize=s=>String(s||'').normalize('NFKC').replace(/[\s\p{P}\p{S}]/gu,'');
+// Student selector: names intentionally appear on every student lesson.
+const student=document.createElement('div');student.className='student-line';student.innerHTML='<strong>Ученик / 学生</strong><button type="button" class="student-pill active" data-student="林林">林林</button><button type="button" class="student-pill" data-student="月香">月香</button><span class="student-now" id="student-now">Сегодня отвечает: 林林</span>';
+document.querySelector('.hero').append(student);
+student.querySelectorAll('[data-student]').forEach(b=>b.addEventListener('click',()=>{student.querySelectorAll('[data-student]').forEach(x=>x.classList.toggle('active',x===b));$('student-now').textContent='Сегодня отвечает: '+b.dataset.student;}));
+// Central drag registry. Native DnD for computers, pointer-based drag for touchscreens.
+const dragHandlers=[];
+function registerDrag(source,accept,commit){source.draggable=true;source.dataset.dragReady='yes';dragHandlers.push({source,accept,commit});}
+function receive(source,target){const d=dragHandlers.find(x=>x.source===source);if(!d||!d.accept(target))return false;d.commit(target);return true;}
+document.addEventListener('dragstart',e=>{const d=dragHandlers.find(x=>x.source===e.target);if(d){e.dataTransfer.setData('text/plain','lesson-piece');e.dataTransfer.effectAllowed='move';window.__lessonDragSource=d.source;}},true);
+document.addEventListener('dragover',e=>{if(!window.__lessonDragSource)return;const target=e.target.closest('.blank,.answer-strip,.audio-blank,.drop-target');const d=dragHandlers.find(x=>x.source===window.__lessonDragSource);if(d&&target&&d.accept(target)){e.preventDefault();e.dataTransfer.dropEffect='move';target.classList.add('drag-over');}},true);
+document.addEventListener('dragleave',e=>{const t=e.target.closest('.blank,.answer-strip,.audio-blank,.drop-target');if(t)t.classList.remove('drag-over');},true);
+document.addEventListener('drop',e=>{const t=e.target.closest('.blank,.answer-strip,.audio-blank,.drop-target');if(t&&window.__lessonDragSource){e.preventDefault();receive(window.__lessonDragSource,t);}window.__lessonDragSource=null;document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));},true);
+document.addEventListener('dragend',()=>{window.__lessonDragSource=null;document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));},true);
+let pointer=null;
+document.addEventListener('pointerdown',e=>{const item=dragHandlers.find(x=>x.source===e.target);if(!item||e.button>0)return;pointer={source:item.source,sx:e.clientX,sy:e.clientY,active:false,ghost:null,pointerId:e.pointerId};},true);
+document.addEventListener('pointermove',e=>{if(!pointer||pointer.pointerId!==e.pointerId)return;const dist=Math.hypot(e.clientX-pointer.sx,e.clientY-pointer.sy);if(dist<8&&!pointer.active)return;if(!pointer.active){pointer.active=true;pointer.ghost=document.createElement('div');pointer.ghost.className='drag-ghost';pointer.ghost.textContent=pointer.source.textContent;document.body.append(pointer.ghost);}e.preventDefault();pointer.ghost.style.left=Math.max(2,e.clientX+11)+'px';pointer.ghost.style.top=Math.max(2,e.clientY+12)+'px';}, {capture:true,passive:false});
+document.addEventListener('pointerup',e=>{if(!pointer||e.pointerId!==pointer.pointerId)return;const p=pointer;pointer=null;if(p.ghost)p.ghost.remove();if(!p.active)return;const under=document.elementFromPoint(e.clientX,e.clientY),t=under?.closest('.blank,.answer-strip,.audio-blank,.drop-target');if(t)receive(p.source,t);window.__ignoreNativeClickUntil=Date.now()+220;},true);
+document.addEventListener('click',e=>{if(e.isTrusted&&Date.now()<(window.__ignoreNativeClickUntil||0)&&dragHandlers.some(x=>x.source===e.target)){e.preventDefault();e.stopImmediatePropagation();}},true);
+// 01 — no manual character/pinyin typing, each gap accepts a dragged piece.
+const blanks=[...document.querySelectorAll('#blanks-host .blank')];
+const palettes=document.createElement('div');palettes.innerHTML='<div class="dnd-intro">Перетащи готовый иероглиф или пиньинь прямо в пропуск. На телефоне: выбери карточку и нажми на пропуск. Ничего печатать не нужно.</div><div class="row-label">汉字 · Иероглифы</div><div class="dnd-palette" id="cn-palette"></div><div class="row-label">拼音 · Пиньинь</div><div class="dnd-palette" id="py-palette"></div>';
+$('blanks-host').before(palettes);
+let pendingBlank=null,selectedBlank=null;
+const tokens=blanks.map((input,i)=>({id:'tok'+i,word:input.dataset.answer,kind:input.dataset.kind}));
+function refreshBlanks(){blanks.forEach(input=>{input.classList.toggle('target-active',input===selectedBlank);input.title=input.value?input.value+' · нажми для замены':'Перетащи ответ сюда';});document.querySelectorAll('#cn-palette .piece,#py-palette .piece').forEach(b=>{b.classList.toggle('chosen',pendingBlank===b.dataset.token);b.classList.toggle('used',blanks.some(i=>i.dataset.token===b.dataset.token));});}
+function putBlank(token,target){if(!target||target.dataset.kind!==token.kind)return;const previous=blanks.find(b=>b.dataset.token===token.id);if(previous){previous.value='';previous.dataset.token='';}target.value=token.word;target.dataset.token=token.id;target.classList.remove('ok','bad','almost');selectedBlank=target;pendingBlank=null;refreshBlanks();$('feedback-blanks').textContent='';}
+blanks.forEach(input=>{input.readOnly=true;input.placeholder='﹏';input.addEventListener('click',()=>{selectedBlank=input;if(pendingBlank){putBlank(tokens.find(t=>t.id===pendingBlank),input);}else{refreshBlanks();}});input.addEventListener('dblclick',()=>{input.value='';input.dataset.token='';refreshBlanks();});});
+for(const token of [...tokens].sort(()=>Math.random()-.5)){const piece=document.createElement('button');piece.type='button';piece.className='piece '+(token.kind==='py'?'pinyin-piece':'');piece.textContent=token.word;piece.dataset.token=token.id;piece.title='Перетащи в пропуск';$(''+(token.kind==='cn'?'cn-palette':'py-palette')).append(piece);piece.addEventListener('click',()=>{pendingBlank=token.id;const destination=(selectedBlank&&selectedBlank.dataset.kind===token.kind)?selectedBlank:blanks.find(x=>x.dataset.kind===token.kind&&!x.value);if(destination)putBlank(token,destination);else refreshBlanks();});registerDrag(piece,t=>t.matches('.blank')&&t.dataset.kind===token.kind,t=>putBlank(token,t));}
+const oldClearBlanks=$('clear-blanks').onclick;$('clear-blanks').onclick=()=>{oldClearBlanks();blanks.forEach(b=>b.dataset.token='');selectedBlank=null;pendingBlank=null;refreshBlanks();};refreshBlanks();
+// 02 and 04 — keyboard tiles can be physically dragged into sentence lines.
+const enhanceTile=button=>{if(button.dataset.dragReady)return;const card=button.closest('.exercise-card');registerDrag(button,target=>target.classList.contains('answer-strip')&&target.closest('.exercise-card')===card,()=>{if(!button.disabled)button.click();});};
+function enhanceKeyboards(){document.querySelectorAll('#negation-host .tile,#combine-host .tile').forEach(enhanceTile);}
+const keyboardObserver=new MutationObserver(()=>enhanceKeyboards());document.querySelectorAll('#negation-host .keyboard,#combine-host .keyboard').forEach(x=>keyboardObserver.observe(x,{childList:true}));enhanceKeyboards();
+document.querySelector('#ex2 .desc').textContent='Перетащи готовые иероглифы из набора в строку ответа. На телефоне можно просто нажимать на них.';
+document.querySelector('#ex4 .desc').textContent='Перетащи иероглифы, чтобы построить предложение. Принимаются разные верные варианты с 和, 都 и 也.';
+// 05 — audio cards can be dragged into gaps; tap remains available.
+function enhanceAudio(){document.querySelectorAll('.audio-word').forEach(button=>{if(button.dataset.dragReady)return;registerDrag(button,t=>t.classList.contains('audio-blank'),target=>{target.click();button.click();});});}
+const audioObserver=new MutationObserver(()=>enhanceAudio());audioObserver.observe($('audio-bank'),{childList:true});enhanceAudio();
+document.querySelector('#ex5 .desc').textContent='Послушай запись и перетащи готовые слова 日语 / 法语 / 汉语 / 德语 в пропуски.';
+// 06 and 07 — all long-form answers supplied as complete, movable phrase cards.
+function buildReadyAnswers(section,entries,mode){
+ const host=$(mode==='reading'?'reading-host':'speaking-host');
+ const sectionElement=$(section);const panel=document.createElement('div');panel.className='exercise-card';panel.innerHTML='<div class="row-label">答案卡 · Готовые ответы</div><p class="dnd-guide">Перетащи целый ответ к нужному вопросу. Или нажми на ответ, потом на нужное поле. Нажми на заполненное поле повторно, чтобы очистить.</p><div class="dnd-palette" id="'+mode+'-bank"></div>';
+ host.before(panel);const bank=panel.querySelector('.dnd-palette');
+ const positions=Array(host.children.length).fill(null),slots=[];let chosen=null,selectedSlot=-1;
+ function render(){bank.querySelectorAll('.piece').forEach(b=>{b.classList.toggle('chosen',chosen===b.dataset.answerid);b.classList.toggle('used',positions.includes(b.dataset.answerid));});slots.forEach((slot,i)=>{const entry=entries.find(e=>e.id===positions[i]);slot.textContent=entry?entry.word:'Перетащи сюда ответ…';slot.classList.toggle('filled',!!entry);slot.classList.toggle('active-drop',selectedSlot===i);slot.classList.remove('good','bad');});}
+ function put(id,slot){const item=entries.find(e=>e.id===id);if(!item||!slot)return;const q=Number(slot.dataset.question);const oldIndex=positions.indexOf(id);if(oldIndex>=0){positions[oldIndex]=null;clearOriginal(oldIndex);}positions[q]=id;setOriginal(q,item);chosen=null;selectedSlot=q;render();const fb=mode==='reading'?'feedback-reading':'feedback-speaking';$(fb).textContent='';if(mode==='reading')markProgress('reading',false);}
+ function clearOriginal(q){if(mode==='reading'){const box=host.children[q];const input=box.querySelector('input');if(input)input.value='';else box.querySelectorAll('.choice').forEach(b=>{b.classList.remove('active');b.style.borderColor='';});}else host.children[q].querySelector('textarea').value='';}
+ function setOriginal(q,item){const box=host.children[q];if(mode==='reading'){const input=box.querySelector('input');if(input)input.value=item.word;else {const name=item.word.includes('男')&&!item.word.includes('女')?'男老师':'女老师';const choice=[...box.querySelectorAll('.choice')].find(b=>b.textContent===name);if(choice)choice.click();}}else box.querySelector('textarea').value=item.word;}
+ [...host.children].forEach((box,i)=>{const slot=document.createElement('button');slot.type='button';slot.className='drop-target';slot.dataset.question=i;slot.dataset.area=mode;slot.textContent='Перетащи сюда ответ…';slots.push(slot);box.append(slot);box.querySelectorAll('input,textarea,.choice-row').forEach(x=>x.classList.add('dnd-card-hidden'));
+  slot.addEventListener('click',()=>{if(chosen){put(chosen,slot);}else if(positions[i]){positions[i]=null;clearOriginal(i);render();}else{selectedSlot=i;render();}});
+ });
+ entries.forEach((e,i)=>{e.id=mode+i;const b=document.createElement('button');b.type='button';b.className='piece';b.textContent=e.word;b.dataset.answerid=e.id;bank.append(b);b.addEventListener('click',()=>{chosen=e.id;if(selectedSlot>=0){put(chosen,slots[selectedSlot]);}else render();});registerDrag(b,t=>t.matches('.drop-target')&&t.dataset.area===mode,t=>put(e.id,t));});
+ const reset=()=>{positions.fill(null);slots.forEach((_,i)=>clearOriginal(i));chosen=null;selectedSlot=-1;render();};render();
+ return{positions,slots,entries,render,reset};
 }
-var speaking=readyCards('speaking',[
-{word:'李亚老师会说英语。',q:0},{word:'材料里没有说 John 会不会说汉语。',q:1},{word:'材料里没有说谁住在东京。',q:2},{word:'听力里没有说 Emi 的爸爸教什么语言。',q:3},{word:'John 住在东京。',q:-1},{word:'Emi 的爸爸会说德语。',q:-1}]);
-document.querySelector('#ex6 .desc').textContent='Перетащи готовые предложения к соответствующим вопросам.';
-document.querySelector('#ex6 .note').textContent='В доступных материалах нет подтверждённых сведений о John, Tokyo и профессии отца Emi; карточки отражают только известные факты.';
-el('save-speaking').textContent='Проверить карточки';el('save-speaking').onclick=()=>{var n=0;speaking.slots.forEach((slot,i)=>{var a=speaking.list.find(x=>x.id===speaking.value[i]),ok=a&&a.q===i;slot.classList.toggle('good',!!ok);slot.classList.toggle('bad',!ok);if(ok)n++;});feedback('feedback-speaking',n+' из 4 верно.',n===4?'good':'bad');};
-var reading=readyCards('reading',[
-{word:'她叫李亚。',q:0},{word:'李亚老师',q:0},{word:'她教英语。',q:1},{word:'她是英文老师。',q:1},{word:'她是新加坡人。',q:2},{word:'她在中国出生。',q:3},{word:'她在新加坡长大。',q:4},{word:'她会说汉语、英语和日语。',q:5},{word:'她是女老师。',q:6},{word:'她是女人。',q:6},{word:'她在日本长大。',q:-1},{word:'她会说德语和法语。',q:-1},{word:'她是中国人。',q:-1}]);
-document.querySelector('#ex7 .desc').textContent='Перетащи готовые полные ответы к вопросам по тексту. Есть разные правильные формулировки и отвлекающие варианты.';
-var check=el('check-reading').onclick;el('check-reading').onclick=()=>{check();reading.slots.forEach((slot,i)=>{var a=reading.list.find(x=>x.id===reading.value[i]);slot.classList.toggle('good',!!a&&a.q===i);slot.classList.toggle('bad',!a||a.q!==i);});};
-var clear=el('clear-reading').onclick;el('clear-reading').onclick=()=>{clear();reading.reset();};
-el('restart-all').onclick=()=>{if(!confirm('Очистить все ответы?'))return;el('clear-blanks').click();negHandlers.forEach(x=>x.reset());el('reset-matches').click();combineHandlers.forEach(x=>x.reset());el('reset-audio').click();speaking.reset();el('clear-reading').click();feedback('feedback-speaking','');window.scrollTo({top:0,behavior:'smooth'});};
+const conversationPhrases=[
+ {word:'李亚老师会说英语。',q:0},{word:'材料里没有说 John 会不会说汉语。',q:1},{word:'材料里没有说谁住在东京。',q:2},{word:'听力里没有说 Emi 的爸爸教什么语言。',q:3},
+ {word:'John 住在东京。',q:-1},{word:'Emi 的爸爸会说德语。',q:-1}
+];
+const speakingDnD=buildReadyAnswers('ex6',conversationPhrases,'speaking');
+document.querySelector('#ex6 .desc').textContent='Разложи готовые ответы по вопросам. Учитель обсудит их с вами.';
+document.querySelector('#ex6 .note').innerHTML='Для вопросов о John, Tokyo и профессии отца Emi в приложенных материалах нет подтверждённых ответов. Поэтому правильные карточки честно указывают, что факт не указан, вместо выдуманного ответа.';
+$('save-speaking').textContent='Проверить расположение';
+$('save-speaking').onclick=()=>{let correct=0;speakingDnD.positions.forEach((id,i)=>{const a=speakingDnD.entries.find(x=>x.id===id);const ok=!!a&&a.q===i;const s=speakingDnD.slots[i];s.classList.toggle('good',ok);s.classList.toggle('bad',!ok);if(ok)correct++;});feedback('feedback-speaking',correct+' из 4 карточек расположены верно.',correct===4?'good':'bad');};
+const readingPhrases=[
+ {word:'她叫李亚。',q:0},{word:'李亚老师',q:0},
+ {word:'她教英语。',q:1},{word:'她是英文老师。',q:1},
+ {word:'她是新加坡人。',q:2},
+ {word:'她在中国出生。',q:3},{word:'她在新加坡长大。',q:4},
+ {word:'她会说汉语、英语和日语。',q:5},{word:'她是女老师。',q:6},{word:'她是女人。',q:6},
+ {word:'她在日本长大。',q:-1},{word:'她会说德语和法语。',q:-1},{word:'她是中国人。',q:-1}
+];
+const readingDnD=buildReadyAnswers('ex7',readingPhrases,'reading');
+document.querySelector('#ex7 .desc').textContent='Прочитай текст и перетащи подходящие готовые ответы к вопросам. Есть отвлекающие и альтернативные правильные карточки.';
+const origCheckReading=$('check-reading').onclick;$('check-reading').onclick=()=>{origCheckReading();readingDnD.slots.forEach((slot,i)=>{const answer=readingDnD.entries.find(x=>x.id===readingDnD.positions[i]);const ok=!!answer&&answer.q===i;slot.classList.toggle('good',ok);slot.classList.toggle('bad',!ok);});};
+const origResetReading=$('clear-reading').onclick;$('clear-reading').onclick=()=>{origResetReading();readingDnD.reset();};
+const origRestartAll=$('restart-all').onclick;$('restart-all').onclick=()=>{if(!window.confirm('Удалить ответы и начать урок сначала?'))return;$('clear-blanks').click();negHandlers.forEach(e=>e.reset());$('reset-matches').click();combineHandlers.forEach(e=>e.reset());$('reset-audio').click();speakingDnD.reset();$('clear-reading').click();feedback('feedback-speaking','');window.scrollTo({top:0,behavior:'smooth'});};
+// Transcript correction: in the recording Emi says 法语和汉语，我都会说。
+const listeningLine=document.querySelector('.line-speaker:nth-child(4) .speaker-text');if(listeningLine){listeningLine.innerHTML='法语和 <button class="audio-blank" data-slot="2" aria-label="Пропуск 3">③ ____</button>，我都会说。'; const newBlank=listeningLine.querySelector('.audio-blank');newBlank.addEventListener('click',()=>{activeSlot=2;renderAudio();});renderAudio();}
 })();
-</script>
 
+</script>
 </body>
 </html>
