@@ -136,7 +136,7 @@ $('restart-all').onclick=()=>{if(!window.confirm('Стереть все отве
 (function(){
 'use strict';
 var el=id=>document.getElementById(id);
-var switcher=document.createElement('div');switcher.className='student-switch';switcher.innerHTML='<strong>Ученики:</strong><button type="button" class="on" data-name="林林">林林</button><button type="button" data-name="月香">月香</button><span id="who">Сегодня отвечает: 林林</span>';document.querySelector('.hero').append(switcher);
+var switcher=document.createElement('div');switcher.className='student-switch';switcher.setAttribute('aria-label','Ученики 林林 и 月香');switcher.innerHTML='<strong>Ученики:</strong><button type="button" class="on" data-name="林林">林林</button><button type="button" data-name="月香">月香</button><span id="who">Сегодня отвечает: 林林</span>';document.querySelector('.hero').append(switcher);
 switcher.querySelectorAll('button').forEach(b=>b.onclick=()=>{switcher.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));el('who').textContent='Сегодня отвечает: '+b.dataset.name;});
 var handlers=[],dragging=null,pointer=null;
 function attach(source,accept,put){if(source.dataset.dragSet)return;source.dataset.dragSet='1';source.draggable=true;handlers.push({source,accept,put});}
@@ -166,14 +166,14 @@ document.querySelector('#ex2 .desc').textContent='Перетащи иерогл�
 document.querySelector('#ex4 .desc').textContent='Собери предложение перетаскиванием. Принимаются разные варианты с 和, 都, 也.';
 function bindAudio(){document.querySelectorAll('#audio-bank .audio-word').forEach(b=>attach(b,t=>t.matches('.audio-blank'),t=>{t.click();b.click();}));}
 new MutationObserver(bindAudio).observe(el('audio-bank'),{childList:true});bindAudio();
-document.querySelector('#ex5 .desc').textContent='Послушай аудио и перетащи 日语、法语、汉语、德语 в четыре пропуска.';
+document.querySelector('#ex5 .desc').textContent='Послушай аудио и перетащи готовые ответы 日语、法语、汉语、德语 в четыре пропуска. Можно также нажать на слово.';
 var utterance=[...document.querySelectorAll('.line-speaker')][3].querySelector('.speaker-text');
 utterance.innerHTML='法语和 <button class="audio-blank" data-slot="2">③ ____</button>，我都会说。';
 utterance.querySelector('button').onclick=()=>{activeSlot=2;renderAudio();};renderAudio();
 function readyCards(which,list){
 var h=el(which+'-host'),panel=document.createElement('div');panel.className='exercise-card';panel.innerHTML='<div class="row-label">答案卡 · Готовые ответы</div><div class="drag-guide">Перетащи готовое предложение к вопросу, или нажми на карточку и затем на поле ответа. Нажатие на заполненное поле его очищает.</div><div class="drag-bank"></div>';h.before(panel);
 var choices=panel.querySelector('.drag-bank'),slots=[],value=Array(h.children.length).fill(null),selected=null;
-function original(index,entry){var q=h.children[index];if(which==='speaking'){q.querySelector('textarea').value=entry?entry.word:'';return;}var field=q.querySelector('input');if(field){field.value=entry?entry.word:'';return;}if(entry){var v=entry.word.includes('女')?'女老师':'男老师';var button=[...q.querySelectorAll('.choice')].find(b=>b.textContent===v);if(button)button.click();}}
+function original(index,entry){var q=h.children[index];if(which==='speaking'){q.querySelector('textarea').value=entry?entry.word:'';return;}var field=q.querySelector('input');if(field){field.value=entry?entry.word:'';return;}if(entry){var v=entry.word.includes('女')?'女老师':'男老师';var button=[...q.querySelectorAll('.choice')].find(b=>b.textContent===v);if(button)button.click();}else{var reset=[...q.querySelectorAll('.choice')].find(b=>b.textContent==='男老师');if(reset)reset.click();}}
 function draw(){slots.forEach((s,i)=>{var x=list.find(x=>x.id===value[i]);s.textContent=x?x.word:'Перетащи сюда ответ…';s.classList.toggle('filled',!!x);s.classList.remove('good','bad');});choices.querySelectorAll('.drag-piece').forEach(b=>{b.classList.toggle('used',value.includes(b.dataset.id));b.classList.toggle('on',b.dataset.id===selected);});}
 function assign(item,target){var i=Number(target.dataset.q);var prior=value.indexOf(item.id);if(prior>=0){value[prior]=null;original(prior,null);}value[i]=item.id;original(i,item);selected=null;draw();}
 [...h.children].forEach((q,i)=>{q.querySelectorAll('input,textarea,.choice-row').forEach(x=>x.classList.add('drag-hide'));var s=document.createElement('button');s.type='button';s.className='drag-target';s.dataset.q=i;s.dataset.area=which;s.onclick=()=>{if(selected){assign(list.find(x=>x.id===selected),s);}else if(value[i]){value[i]=null;original(i,null);draw();}};q.append(s);slots.push(s);});
@@ -186,7 +186,7 @@ document.querySelector('#ex6 .desc').textContent='Перетащи готовы�
 document.querySelector('#ex6 .note').textContent='В доступных материалах нет подтверждённых сведений о John, Tokyo и профессии отца Emi; карточки отражают только известные факты.';
 el('save-speaking').textContent='Проверить карточки';el('save-speaking').onclick=()=>{var n=0;speaking.slots.forEach((slot,i)=>{var a=speaking.list.find(x=>x.id===speaking.value[i]),ok=a&&a.q===i;slot.classList.toggle('good',!!ok);slot.classList.toggle('bad',!ok);if(ok)n++;});feedback('feedback-speaking',n+' из 4 верно.',n===4?'good':'bad');};
 var reading=readyCards('reading',[
-{word:'Она叫李亚。'.replace('Она','她'),q:0},{word:'李亚老师',q:0},{word:'她教英语。',q:1},{word:'她是英文老师。',q:1},{word:'她是新加坡人。',q:2},{word:'她在中国出生。',q:3},{word:'她在新加坡长大。',q:4},{word:'她会说汉语、英语和日语。',q:5},{word:'她是女老师。',q:6},{word:'她是女人。',q:6},{word:'她在日本长大。',q:-1},{word:'她会说德语和法语。',q:-1},{word:'她是中国人。',q:-1}]);
+{word:'她叫李亚。',q:0},{word:'李亚老师',q:0},{word:'她教英语。',q:1},{word:'她是英文老师。',q:1},{word:'她是新加坡人。',q:2},{word:'她在中国出生。',q:3},{word:'她在新加坡长大。',q:4},{word:'她会说汉语、英语和日语。',q:5},{word:'她是女老师。',q:6},{word:'她是女人。',q:6},{word:'她在日本长大。',q:-1},{word:'她会说德语和法语。',q:-1},{word:'她是中国人。',q:-1}]);
 document.querySelector('#ex7 .desc').textContent='Перетащи готовые полные ответы к вопросам по тексту. Есть разные правильные формулировки и отвлекающие варианты.';
 var check=el('check-reading').onclick;el('check-reading').onclick=()=>{check();reading.slots.forEach((slot,i)=>{var a=reading.list.find(x=>x.id===reading.value[i]);slot.classList.toggle('good',!!a&&a.q===i);slot.classList.toggle('bad',!a||a.q!==i);});};
 var clear=el('clear-reading').onclick;el('clear-reading').onclick=()=>{clear();reading.reset();};
