@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文互动练习 · 人物与介绍</title>
+<style>
+:root{--bg:#f7efe8;--paper:#fffdf9;--ink:#202020;--muted:#6d625c;--red:#d85f5f;--rose:#f9dddd;--blue:#557fc0;--blue2:#e9f1ff;--green:#4e9a72;--green2:#e8f5ee;--gold:#d9a43a;--line:#dfd2c7;--ok:#2e9a64;--bad:#d24d4d}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#fbf5ef,#f1f6f3)}
+.app{max-width:1220px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#fffaf5,#f8fbff);border:2px solid #eadfd3;border-radius:24px;padding:20px 22px;box-shadow:0 12px 28px rgba(0,0,0,.08)}
+h1{margin:0;font-size:clamp(30px,4vw,46px)} .hero p{margin:7px 0 0;color:var(--muted)}
+.progress{height:10px;background:#e9dfd7;border-radius:999px;overflow:hidden;margin-top:15px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold),var(--green));transition:.25s}
+.score{margin-top:7px;font-weight:800;color:#745b34}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;position:sticky;top:0;z-index:20;padding:10px;background:rgba(247,239,232,.94);backdrop-filter:blur(8px);border-radius:16px}
+.tab{border:0;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer;background:#eee1d8;color:#4d433f}.tab.active{background:var(--red);color:white}
+.panel{display:none;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 12px 26px rgba(0,0,0,.07);margin-bottom:18px}.panel.active{display:block}
+.title-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}.num{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:white;font-size:24px;font-weight:900;background:var(--red);box-shadow:0 5px 0 rgba(0,0,0,.12)}
+#t2 .num{background:var(--blue)} #t3 .num{background:var(--green)}
+h2{margin:0;font-size:28px}.instruction{margin:5px 0 18px;color:var(--muted)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:11px;padding:10px 15px;background:#394b45;color:white;font-weight:900;cursor:pointer}.btn.secondary{background:#e9e0d8;color:#514944}
+.feedback{margin-top:12px;padding:10px 12px;border-radius:12px;background:#f3eee9;min-height:42px;font-weight:800}.feedback.ok{background:#e5f6ec;color:#1f6844}.feedback.bad{background:#fdeaea;color:#9d3232}
+.order-card{background:#fff7f7;border:1px solid #efd5d5;border-radius:17px;padding:14px;margin:13px 0}.order-card h3{margin:0 0 10px;font-size:18px;color:#754449}
+.bank,.answer{display:flex;gap:8px;flex-wrap:wrap;min-height:58px;padding:10px;border-radius:12px}.bank{background:#fff}.answer{background:#fffaf2;border:2px dashed #d9c0a9;margin-top:10px}
+.token{min-width:48px;min-height:46px;border:0;border-radius:9px;padding:7px 10px;background:#ffdede;color:#222;font-size:24px;font-weight:900;cursor:grab;box-shadow:0 3px 0 #e2c0c0}.token.in-answer{background:#e8f1ff;box-shadow:0 3px 0 #cbd8ea}
+.answer.correct{border-color:var(--ok);background:#eefaf3}.answer.wrong{border-color:var(--bad);background:#fff1f1}
+.newword{background:linear-gradient(135deg,#fff7d7,#fffdf2);border:2px solid #ead17d;border-radius:18px;padding:16px;margin-bottom:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.star{font-size:54px}.newword-main{font-size:32px;font-weight:900}.newword-main small{display:block;font-size:18px;color:#7d6743;font-weight:700;margin-top:3px}
+.wordbank{display:flex;gap:9px;flex-wrap:wrap;padding:13px;background:var(--blue2);border:1px solid #cedcf3;border-radius:14px;margin-bottom:16px}
+.word-chip{border:0;border-radius:10px;padding:10px 13px;background:white;color:#233;font-size:22px;font-weight:900;cursor:grab;box-shadow:0 3px 0 #cfd9e8}.word-chip.selected{outline:4px solid #7ea6df}.word-chip.used{opacity:.32}
+.dialogue{display:grid;gap:12px}.line{background:#fcfdff;border:1px solid #dce6f3;border-radius:14px;padding:12px 14px;font-size:22px;line-height:1.8}
+.blank{display:inline-flex;vertical-align:middle;min-width:120px;min-height:42px;align-items:center;justify-content:center;border-bottom:3px solid #7d9ccb;margin:0 5px;padding:0 9px;font-weight:900;color:#2a4f80;cursor:pointer}.blank.filled{background:#eef4ff;border-radius:8px}.blank.correct{outline:3px solid var(--ok)}.blank.wrong{outline:3px solid var(--bad)}
+.name{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05}.name small{font-size:.55em;color:#8b625a;font-weight:700;margin-bottom:2px}
+.match-board{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.col{background:#fbfdfb;border:1px solid #d8e7dd;border-radius:16px;padding:12px}.col h3{margin:0 0 10px;text-align:center;color:#3e7657}
+.match-item{width:100%;border:2px solid #dfe5e1;border-radius:12px;padding:12px 13px;margin:8px 0;background:white;color:#222;font-size:19px;font-weight:800;text-align:left;cursor:pointer;min-height:72px}.match-item.active{border-color:#5c9d79;background:var(--green2)}.match-item.done{border-color:var(--ok);background:#e8f7ee}
+.match-log{margin-top:14px;display:grid;gap:7px}.match-row{background:#eff7f2;border-radius:10px;padding:9px 11px;font-weight:800}
+
+.generic-bank{display:flex;gap:9px;flex-wrap:wrap;padding:13px;background:#f3f7fb;border:1px solid #d8e3ef;border-radius:14px;margin-bottom:16px}
+.generic-chip{border:0;border-radius:10px;padding:10px 14px;background:#fff;color:#223;font-size:22px;font-weight:900;cursor:grab;box-shadow:0 3px 0 #d2dce7;touch-action:none}
+.generic-chip.selected{outline:4px solid #8fb0db}.generic-chip.used{opacity:.32}
+.generic-text{background:#fff;border:1px solid #e4ddd5;border-radius:16px;padding:16px;font-size:22px;line-height:2}
+.gblank{display:inline-flex;vertical-align:middle;min-width:112px;min-height:40px;align-items:center;justify-content:center;border-bottom:3px solid #91a9c4;margin:0 5px;padding:0 8px;font-weight:900;color:#294d75;cursor:pointer}
+.gblank.filled{background:#eef4fb;border-radius:8px}.gblank.correct{outline:3px solid var(--ok)}.gblank.wrong{outline:3px solid var(--bad)}
+.place{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05}.place small{font-size:.55em;color:#6e7890;margin-bottom:2px}
+
+@media(max-width:720px){.app{padding:8px}.panel{padding:14px}.match-board{grid-template-columns:1fr}.token{font-size:22px}.line{font-size:19px}.match-item{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+<h1>中文互动练习</h1>
+<p>人物 · 介绍 · 句子 · 问答</p>
+<div class="progress"><div id="bar"></div></div>
+<div class="score" id="score">Выполнено: 0 / 7</div>
+</header>
+
+<nav class="tabs">
+<button class="tab active" data-tab="t1">1. 排序</button>
+<button class="tab" data-tab="t2">2. 填空</button>
+<button class="tab" data-tab="t3">3. 问答配对</button>
+<button class="tab" data-tab="t4">4. 选词填空</button>
+<button class="tab" data-tab="t5">5. 短文填空 I</button>
+<button class="tab" data-tab="t6">6. 短文填空 II</button>
+<button class="tab" data-tab="t7">7. 对话填空</button>
+</nav>
+
+<section class="panel active" id="t1">
+<div class="title-row"><div class="num">1</div><h2>Поставь слова в правильный порядок</h2></div>
+<p class="instruction">Перетаскивай плитки мышкой или пальцем. Можно и просто нажимать.</p>
+<div id="orderWrap"></div>
+<div class="actions"><button class="btn" onclick="checkOrder()">Проверить</button><button class="btn secondary" onclick="renderOrder()">Перемешать заново</button></div>
+<div class="feedback" id="orderFb">Собери 4 предложения.</div>
+</section>
+
+<section class="panel" id="t2">
+<div class="title-row"><div class="num">2</div><h2>Вставь подходящее слово</h2></div>
+<p class="instruction">Перетаскивай слова в пропуски или нажми сначала на слово, затем на пропуск.</p>
+
+<div class="newword">
+<div class="star">⭐</div>
+<div class="newword-main">明星<small>míngxīng — звезда (экрана, сцены), знаменитость; светило (науки)</small></div>
+</div>
+
+<div class="wordbank" id="wordBank"></div>
+
+<div class="dialogue">
+<div class="line">1. A：他是哪个 <span class="blank" data-answer="人">________</span>？<br>B：他是美国人。</div>
+<div class="line">2. A：<span class="blank" data-answer="你好">________</span>！<br>B：请问，你 <span class="blank" data-answer="叫">________</span> 什么名字？<br>A：我叫 <span class="name"><small>Wáng Yù</small>王玉</span>。</div>
+<div class="line">3. A：她是你 <span class="blank" data-answer="姐姐">________</span> 吗？<br>B：她真 <span class="blank" data-answer="漂亮">________</span>。<br>A：不，她是我妈妈。</div>
+<div class="line">4. A：你认识 <span class="name"><small>Lǐ Xiǎolóng</small>李小龙</span> 吗？<br>B：他是 <span class="blank" data-answer="明星">________</span>。<br>A：我认识他，他很 <span class="blank" data-answer="帅">________</span>。</div>
+<div class="line">5. A：你是学生吗？你 <span class="blank" data-answer="多大">________</span>？<br>B：我是学生，我十五岁。</div>
+</div>
+
+<div class="actions"><button class="btn" onclick="checkFill()">Проверить</button><button class="btn secondary" onclick="resetFill()">Сбросить</button></div>
+<div class="feedback" id="fillFb">Используй слова из банка.</div>
+</section>
+
+<section class="panel" id="t3">
+<div class="title-row"><div class="num">3</div><h2>Соедини вопросы и ответы</h2></div>
+<p class="instruction">Колонки расположены горизонтально: вопрос слева, ответ справа.</p>
+<div class="match-board">
+<div class="col"><h3>问题 · Вопросы</h3><div id="questions"></div></div>
+<div class="col"><h3>回答 · Ответы</h3><div id="answers"></div></div>
+</div>
+<div class="match-log" id="matchLog"></div>
+<div class="actions"><button class="btn secondary" onclick="resetMatch()">Сбросить</button></div>
+<div class="feedback" id="matchFb">Выбери вопрос.</div>
+</section>
+
+<section class="panel" id="t4">
+<div class="title-row"><div class="num" style="background:#c98a3e">4</div><h2>Вставь подходящее слово</h2></div>
+<p class="instruction">Перетащи слово в пропуск или нажми на слово, а затем на пропуск. Pinyin оставлен только у имён и названий мест.</p>
+<div class="generic-bank" id="bank4"></div>
+<div class="generic-text">
+<div>1. <span class="name"><small>Mǎkè</small>马克</span>是 <span class="gblank" data-task="4" data-answer="哪里">________</span> 人？</div>
+<div>2. <span class="name"><small>Ānnà</small>安娜</span> <span class="gblank" data-task="4" data-answer="真">________</span> 漂亮。</div>
+<div>3. 他的妹妹 <span class="gblank" data-task="4" data-answer="很">________</span> 年轻。</div>
+<div>4. 他是医生，他爸爸 <span class="gblank" data-task="4" data-answer="也">________</span> 是医生。</div>
+<div>5. 我们 <span class="gblank" data-task="4" data-answer="都">________</span> 是学生。</div>
+<div>6. 他是 <span class="gblank" data-task="4" data-answer="哪">________</span> 国人？</div>
+</div>
+<div class="actions"><button class="btn" onclick="checkGeneric(4)">Проверить</button><button class="btn secondary" onclick="resetGeneric(4)">Сбросить</button></div>
+<div class="feedback" id="fb4">Используй все 6 слов.</div>
+</section>
+
+<section class="panel" id="t5">
+<div class="title-row"><div class="num" style="background:#8d69b8">5</div><h2>Заполни текст · 王玉</h2></div>
+<p class="instruction">Некоторые слова можно использовать больше одного раза.</p>
+<div class="generic-bank" id="bank5"></div>
+<div class="generic-text">
+<div><span class="name"><small>Wáng Yù</small>王玉</span> <span class="gblank" data-task="5" data-answer="姓">________</span> 王，不 <span class="gblank" data-task="5" data-answer="姓">________</span> 玉。</div>
+<div>她 <span class="gblank" data-task="5" data-answer="是">________</span> 中国人，她的年龄是二十 <span class="gblank" data-task="5" data-answer="岁">________</span>。</div>
+<div>她 <span class="gblank" data-task="5" data-answer="住在">________</span> <span class="place"><small>Běijīng</small>北京</span>。她爸爸在医院工作，她妈妈 <span class="gblank" data-task="5" data-answer="也">________</span> 在医院工作，他们 <span class="gblank" data-task="5" data-answer="都">________</span> 是医生。</div>
+<div><span class="name"><small>Wáng Yù</small>王玉</span> 最喜欢的运动员是 <span class="name"><small>Yáo Míng</small>姚明</span>，他 <span class="gblank" data-task="5" data-answer="很">________</span> 高，也很帅。她最喜欢的 <span class="gblank" data-task="5" data-answer="演员">________</span> 是 <span class="name"><small>Lǐ Xiǎolóng</small>李小龙</span>。</div>
+</div>
+<div class="actions"><button class="btn" onclick="checkGeneric(5)">Проверить</button><button class="btn secondary" onclick="resetGeneric(5)">Сбросить</button></div>
+<div class="feedback" id="fb5">Заполни все пропуски.</div>
+</section>
+
+<section class="panel" id="t6">
+<div class="title-row"><div class="num" style="background:#4c88a5">6</div><h2>Продолжи текст · 姚明</h2></div>
+<p class="instruction">Используй каждое слово из банка один раз.</p>
+<div class="generic-bank" id="bank6"></div>
+<div class="generic-text">
+<div>他是我最喜欢的篮球 <span class="gblank" data-task="6" data-answer="运动员">________</span>，他很 <span class="gblank" data-task="6" data-answer="高">________</span>。</div>
+<div>他是 <span class="gblank" data-task="6" data-answer="美国">________</span> 人，但是他现在住在 <span class="gblank" data-task="6" data-answer="中国">________</span>。</div>
+<div>他 <span class="gblank" data-task="6" data-answer="爸爸和妈妈">________</span> 都住在中国，他姐姐和弟弟也住在中国。</div>
+<div>他姐姐是护士，在 <span class="gblank" data-task="6" data-answer="医院">________</span> 工作，他弟弟是 <span class="gblank" data-task="6" data-answer="学生">________</span>，也是篮球运动员，他们都 <span class="gblank" data-task="6" data-answer="喜欢">________</span> 篮球。</div>
+<div>他是 <span class="name"><small>Yáo Míng</small>姚明</span>！</div>
+</div>
+<div class="actions"><button class="btn" onclick="checkGeneric(6)">Проверить</button><button class="btn secondary" onclick="resetGeneric(6)">Сбросить</button></div>
+<div class="feedback" id="fb6">Заполни 8 пропусков.</div>
+</section>
+
+<section class="panel" id="t7">
+<div class="title-row"><div class="num" style="background:#5d6db7">7</div><h2>Заполни диалог</h2></div>
+<p class="instruction">Перетащи слова в правильные пропуски.</p>
+<div class="generic-bank" id="bank7"></div>
+<div class="generic-text">
+<div>A：你喜欢 <span class="gblank" data-task="7" data-answer="篮球">________</span> 吗？</div>
+<div>B：我 <span class="gblank" data-task="7" data-answer="很">________</span> 喜欢篮球。</div>
+<div>A：你喜欢的篮球 <span class="gblank" data-task="7" data-answer="运动员">________</span> 是谁？</div>
+<div>B：我最喜欢 <span class="name"><small>Yáo Míng</small>姚明</span>。他很 <span class="gblank" data-task="7" data-answer="酷">________</span>。</div>
+<div>A：他住在 <span class="place"><small>Shànghǎi</small>上海</span> <span class="gblank" data-task="7" data-answer="吗">________</span>？</div>
+<div>B：不，他 <span class="gblank" data-task="7" data-answer="现在">________</span> 住在 <span class="place"><small>Měiguó</small>美国</span>。</div>
+</div>
+<div class="actions"><button class="btn" onclick="checkGeneric(7)">Проверить</button><button class="btn secondary" onclick="resetGeneric(7)">Сбросить</button></div>
+<div class="feedback" id="fb7">Заполни 6 пропусков.</div>
+</section>
+
+</div>
+
+<script>
+const done=new Set();
+function markDone(n){done.add(n);document.getElementById('score').textContent=`Выполнено: ${done.size} / 7`;document.getElementById('bar').style.width=(done.size/7*100)+'%'}
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');
+});
+
+/* 1 */
+const orderSentences=['这是我妹妹。','她很漂亮！','她是篮球运动员。','她十八岁。'];
+let dragged=null;
+
+function makeToken(ch){
+const b=document.createElement('button');
+b.className='token';b.textContent=ch;b.draggable=true;
+b.addEventListener('dragstart',()=>dragged=b);
+b.onclick=()=>{
+const card=b.closest('.order-card'),bank=card.querySelector('.bank'),ans=card.querySelector('.answer');
+if(b.parentElement===bank){ans.appendChild(b);b.classList.add('in-answer')}
+else{bank.appendChild(b);b.classList.remove('in-answer')}
+};
+return b;
+}
+function makeDrop(zone){
+zone.addEventListener('dragover',e=>e.preventDefault());
+zone.addEventListener('drop',e=>{
+e.preventDefault();if(!dragged)return;
+const target=e.target.closest('.token');
+if(target&&target!==dragged&&target.parentElement===zone){
+const r=target.getBoundingClientRect();
+if(e.clientX<r.left+r.width/2)zone.insertBefore(dragged,target);else zone.insertBefore(dragged,target.nextSibling);
+}else zone.appendChild(dragged);
+dragged.classList.toggle('in-answer',zone.classList.contains('answer'));dragged=null;
+});
+}
+function renderOrder(){
+const wrap=document.getElementById('orderWrap');wrap.innerHTML='';
+orderSentences.forEach((s,i)=>{
+const d=document.createElement('div');d.className='order-card';
+d.innerHTML=`<h3>${i+1}. Собери предложение</h3><div class="bank"></div><div class="answer"></div>`;
+const bank=d.querySelector('.bank');
+shuffle([...s]).forEach(ch=>bank.appendChild(makeToken(ch)));
+makeDrop(bank);makeDrop(d.querySelector('.answer'));wrap.appendChild(d);
+});
+const fb=document.getElementById('orderFb');fb.className='feedback';fb.textContent='Собери 4 предложения.';
+}
+function checkOrder(){
+let good=0;
+document.querySelectorAll('.order-card').forEach((card,i)=>{
+const got=[...card.querySelector('.answer').children].map(x=>x.textContent).join('');
+const zone=card.querySelector('.answer'),ok=got===orderSentences[i];
+zone.classList.toggle('correct',ok);zone.classList.toggle('wrong',!ok);if(ok)good++;
+});
+const fb=document.getElementById('orderFb');
+fb.className='feedback '+(good===orderSentences.length?'ok':'bad');
+fb.textContent=good===orderSentences.length?'✓ Всё правильно!':`Правильно: ${good} / ${orderSentences.length}`;
+if(good===orderSentences.length)markDone(1);
+}
+
+/* 2 */
+const fillWords=['你好','叫','明星','人','姐姐','漂亮','多大','帅'];
+let selectedChip=null;
+function renderWordBank(){
+const bank=document.getElementById('wordBank');bank.innerHTML='';
+shuffle(fillWords).forEach(w=>{
+const b=document.createElement('button');b.className='word-chip';b.textContent=w;b.draggable=true;
+b.onclick=()=>{document.querySelectorAll('.word-chip').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selectedChip=b};
+b.addEventListener('dragstart',()=>selectedChip=b);bank.appendChild(b);
+});
+}
+function placeWord(blank){
+if(!selectedChip)return;
+if(blank.dataset.word){
+const old=[...document.querySelectorAll('.word-chip')].find(x=>x.textContent===blank.dataset.word);
+if(old)old.classList.remove('used');
+}
+blank.textContent=selectedChip.textContent;blank.dataset.word=selectedChip.textContent;blank.classList.add('filled');
+selectedChip.classList.add('used');selectedChip.classList.remove('selected');selectedChip=null;
+}
+document.querySelectorAll('.blank').forEach(blank=>{
+blank.addEventListener('dragover',e=>e.preventDefault());
+blank.addEventListener('drop',e=>{e.preventDefault();placeWord(blank)});
+blank.onclick=()=>placeWord(blank);
+});
+function checkFill(){
+const blanks=[...document.querySelectorAll('.blank')];let good=0;
+blanks.forEach(b=>{const ok=b.dataset.word===b.dataset.answer;b.classList.toggle('correct',ok);b.classList.toggle('wrong',!ok);if(ok)good++});
+const fb=document.getElementById('fillFb');fb.className='feedback '+(good===blanks.length?'ok':'bad');
+fb.textContent=good===blanks.length?'✓ Все слова стоят правильно!':`Правильно: ${good} / ${blanks.length}`;
+if(good===blanks.length)markDone(2);
+}
+function resetFill(){
+document.querySelectorAll('.blank').forEach(b=>{b.textContent='________';delete b.dataset.word;b.className='blank'});
+renderWordBank();const fb=document.getElementById('fillFb');fb.className='feedback';fb.textContent='Используй слова из банка.';
+}
+
+/* 3 */
+const pairs=[
+{q:'<span class="name"><small>Wáng Yù</small>王玉</span>的哥哥在哪里工作？',a:'他在学校工作。'},
+{q:'她多大？',a:'她五岁。'},
+{q:'你姓李吗？',a:'我不姓李，我姓王。'},
+{q:'他是谁？',a:'他是<span class="name"><small>Yáo Míng</small>姚明</span>。'},
+{q:'<span class="name"><small>Ānnà</small>安娜</span>住在哪里？',a:'她住在<span class="name"><small>Měiguó</small>美国</span>。'},
+{q:'<span class="name"><small>Mǎkè</small>马克</span>是学生，<span class="name"><small>Mǎkè</small>马克</span>的妹妹呢？',a:'他妹妹是记者。'}
+];
+let activeQ=null,matched=new Set();
+
+function renderMatch(){
+const qbox=document.getElementById('questions'),abox=document.getElementById('answers');
+qbox.innerHTML='';abox.innerHTML='';document.getElementById('matchLog').innerHTML='';activeQ=null;matched=new Set();
+pairs.forEach((p,i)=>{
+const b=document.createElement('button');b.className='match-item';b.dataset.i=i;b.innerHTML=p.q;
+b.onclick=()=>{if(b.classList.contains('done'))return;document.querySelectorAll('#questions .match-item').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeQ=i;document.getElementById('matchFb').textContent='Теперь выбери ответ справа.'};
+qbox.appendChild(b);
+});
+shuffle(pairs.map((p,i)=>({i,html:p.a}))).forEach(obj=>{
+const b=document.createElement('button');b.className='match-item';b.dataset.i=obj.i;b.innerHTML=obj.html;
+b.onclick=()=>{
+if(b.classList.contains('done'))return;
+if(activeQ===null){document.getElementById('matchFb').textContent='Сначала выбери вопрос слева.';return}
+if(+b.dataset.i===activeQ){
+const q=[...document.querySelectorAll('#questions .match-item')].find(x=>+x.dataset.i===activeQ);
+q.classList.remove('active');q.classList.add('done');b.classList.add('done');matched.add(activeQ);
+const log=document.createElement('div');log.className='match-row';log.innerHTML='✓ '+pairs[activeQ].q+' → '+pairs[activeQ].a;document.getElementById('matchLog').appendChild(log);
+activeQ=null;document.getElementById('matchFb').className='feedback';document.getElementById('matchFb').textContent='Верно! Выбери следующий вопрос.';
+if(matched.size===pairs.length){document.getElementById('matchFb').className='feedback ok';document.getElementById('matchFb').textContent='✓ Все вопросы соединены правильно!';markDone(3)}
+}else{document.getElementById('matchFb').className='feedback bad';document.getElementById('matchFb').textContent='Не подходит. Попробуй другой ответ.'}
+};
+abox.appendChild(b);
+});
+}
+function resetMatch(){renderMatch();const fb=document.getElementById('matchFb');fb.className='feedback';fb.textContent='Выбери вопрос.'}
+
+
+/* 4-7 generic fill tasks */
+const genericWords={
+  4:['也','都','哪里','真','哪','很'],
+  5:['住在','是','都','姓','演员','也','很','岁'],
+  6:['中国','运动员','美国','喜欢','高','爸爸和妈妈','学生','医院'],
+  7:['运动员','篮球','很','现在','酷','吗']
+};
+const genericSelected={4:null,5:null,6:null,7:null};
+
+function renderGenericBank(task){
+  const bank=document.getElementById('bank'+task);
+  bank.innerHTML='';
+  shuffle(genericWords[task]).forEach(w=>{
+    const b=document.createElement('button');
+    b.className='generic-chip';
+    b.textContent=w;
+    b.draggable=true;
+    b.onclick=()=>{
+      bank.querySelectorAll('.generic-chip').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      genericSelected[task]=b;
+    };
+    b.addEventListener('dragstart',()=>{genericSelected[task]=b});
+    bank.appendChild(b);
+  });
+}
+
+function placeGeneric(blank){
+  const task=+blank.dataset.task;
+  const chip=genericSelected[task];
+  if(!chip)return;
+
+  // In task 5 words may be reused; elsewhere mark as used.
+  if(task!==5 && blank.dataset.word){
+    const old=[...document.querySelectorAll('#bank'+task+' .generic-chip')].find(x=>x.textContent===blank.dataset.word);
+    if(old)old.classList.remove('used');
+  }
+  blank.textContent=chip.textContent;
+  blank.dataset.word=chip.textContent;
+  blank.classList.add('filled');
+
+  if(task!==5) chip.classList.add('used');
+  chip.classList.remove('selected');
+  genericSelected[task]=null;
+}
+
+document.querySelectorAll('.gblank').forEach(blank=>{
+  blank.addEventListener('dragover',e=>e.preventDefault());
+  blank.addEventListener('drop',e=>{e.preventDefault();placeGeneric(blank)});
+  blank.onclick=()=>placeGeneric(blank);
+});
+
+function checkGeneric(task){
+  const blanks=[...document.querySelectorAll('.gblank[data-task="'+task+'"]')];
+  let good=0;
+  blanks.forEach(b=>{
+    const ok=b.dataset.word===b.dataset.answer;
+    b.classList.toggle('correct',ok);
+    b.classList.toggle('wrong',!ok);
+    if(ok)good++;
+  });
+  const fb=document.getElementById('fb'+task);
+  fb.className='feedback '+(good===blanks.length?'ok':'bad');
+  fb.textContent=good===blanks.length?'✓ Всё правильно!':`Правильно: ${good} / ${blanks.length}`;
+  if(good===blanks.length)markDone(task);
+}
+
+function resetGeneric(task){
+  document.querySelectorAll('.gblank[data-task="'+task+'"]').forEach(b=>{
+    b.textContent='________';
+    delete b.dataset.word;
+    b.className='gblank';
+  });
+  genericSelected[task]=null;
+  renderGenericBank(task);
+  const fb=document.getElementById('fb'+task);
+  fb.className='feedback';
+  fb.textContent=task===4?'Используй все 6 слов.':task===5?'Заполни все пропуски.':task===6?'Заполни 8 пропусков.':'Заполни 6 пропусков.';
+}
+
+
+renderOrder();renderWordBank();renderMatch();renderGenericBank(4);renderGenericBank(5);renderGenericBank(6);renderGenericBank(7);
+</script>
+</body>
+</html>
