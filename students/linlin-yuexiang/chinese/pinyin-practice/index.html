@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>林林和月香 · 中文互动练习</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <section class="hero">
+    <h1>中文互动练习</h1>
+    <p>更清晰的版本：深色文字、可见选项、无声调输入 + 声调选择</p>
+    <div class="progress-wrap">
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="score" id="scoreText">Выполнено: 0 / 4</div>
+    </div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="t1">1. 写拼音 + 声调</button>
+    <button class="tab" data-tab="t2">2. 排列句子</button>
+    <button class="tab" data-tab="t3">3. 填空</button>
+    <button class="tab" data-tab="t4">4. 阅读理解</button>
+  </nav>
+
+  <section class="panel active" id="t1">
+    <div class="title-row"><div class="num">1</div><h2>Напиши pinyin без тонов, потом выбери правильный тон</h2></div>
+    <p class="instruction">Сначала напиши pinyin <b>без тонов</b> (например: <b>xihuan</b>, <b>mingzi</b>). Если основа написана правильно, автоматически появятся варианты с тонами.</p>
+    <div class="pinyin-grid" id="pinyinGrid"></div>
+    <div class="actions">
+      <button class="btn" onclick="checkPinyin()">Проверить</button>
+      <button class="btn secondary" onclick="renderPinyin()">Сбросить</button>
+    </div>
+    <div class="feedback" id="pinyinFb">Сделай обе части: ввод и выбор тона.</div>
+  </section>
+
+  <section class="panel" id="t2">
+    <div class="title-row"><div class="num">2</div><h2>Поставь иероглифы в правильный порядок</h2></div>
+    <p class="instruction">Сочетание цветов изменено: теперь иероглифы и зоны ответа контрастные и хорошо видны.</p>
+    <div id="sentenceWrap"></div>
+    <div class="actions">
+      <button class="btn" onclick="checkSentences()">Проверить</button>
+      <button class="btn secondary" onclick="renderSentences()">Перемешать заново</button>
+    </div>
+    <div class="feedback" id="sentenceFb">Собери все 4 предложения.</div>
+  </section>
+
+  <section class="panel" id="t3">
+    <div class="title-row"><div class="num">3</div><h2>Перетащи слова в пропуски</h2></div>
+    <p class="instruction">Теперь слова и пропуски сделаны темнее и контрастнее. Можно перетаскивать или нажимать.</p>
+    <div class="word-bank" id="wordBank"></div>
+    <div class="fill-lines">
+      <div class="fill-line">1. 我是上海人，小林是北京人，我们 <span class="dropblank" data-answer="都">________</span> 是中国人。</div>
+      <div class="fill-line">2. Mr. Logan 在台北 <span class="dropblank" data-answer="出生">________</span>，在美国长大。</div>
+      <div class="fill-line">3. Alice 是法国人，Chloe <span class="dropblank" data-answer="也">________</span> 是法国人。</div>
+      <div class="fill-line">4. 你是英国人 <span class="dropblank" data-answer="还是">________</span> 美国人？</div>
+      <div class="fill-line">5. 香港很美，我们都很喜欢 <span class="dropblank" data-answer="住">________</span> 在香港。</div>
+      <div class="fill-line">6. 他是 <span class="dropblank" data-answer="一半">________</span> 德国人。</div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="checkFill()">Проверить</button>
+      <button class="btn secondary" onclick="resetFill()">Сбросить</button>
+    </div>
+    <div class="feedback" id="fillFb">Используй каждое слово один раз.</div>
+  </section>
+
+  <section class="panel" id="t4">
+    <div class="title-row"><div class="num">4</div><h2>Прочитай текст и выбери ответ</h2></div>
+    <p class="instruction">Варианты ответов теперь сделаны темнее и крупнее.</p>
+    <div class="reading-box">
+      我叫张心心，我有一个好朋友叫朱华，大家叫他小朱。<br>
+      我今年十二岁，小朱十四岁。<br>
+      小朱是一半中国人，一半英国人。他有两个哥哥，他和两个哥哥都在伦敦出生和长大。<br>
+      小朱的大哥住在柏林，二哥住在伦敦，小朱和他爸爸、妈妈住在北京。<br>
+      小朱喜欢学外语，他会说英语，也会说一点儿汉语。
+    </div>
+    <div id="questionsWrap"></div>
+    <div class="actions">
+      <button class="btn" onclick="checkReading()">Проверить</button>
+      <button class="btn secondary" onclick="renderQuestions()">Сбросить</button>
+    </div>
+    <div class="feedback" id="readingFb">Ответь на 5 вопросов.</div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
