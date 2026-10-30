@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>汉语练习 · Интерактивная практика A1</title>
+<style>
+:root{--forest:#1f513e;--green:#347b54;--mint:#eaf4ec;--pale:#f6faf7;--ink:#24392e;--muted:#66766b;--line:#d8e5db;--gold:#f6edcf;--wrong:#a4443d;--wrongbg:#fff3ef;--right:#2f794f;--rightbg:#eaf7ef;--shadow:0 9px 29px rgba(20,69,40,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(155deg,#edf4eb 0,#fafcf8 300px,#f6f9f5 100%);color:var(--ink);font:16px/1.6 system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #83af92;outline-offset:3px}
+.container{max-width:1130px;margin:auto;padding:26px 18px 65px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#174631,#347d54);color:white;border-radius:25px;padding:32px 38px 30px;box-shadow:var(--shadow)}.hero:after{content:'汉';position:absolute;right:26px;top:-80px;font-size:235px;line-height:1;color:#ffffff0f;pointer-events:none}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:800;color:#e3eecf;text-transform:uppercase}.hero h1{margin:8px 0 8px;font-size:clamp(26px,3.7vw,43px);line-height:1.15;letter-spacing:-.025em}.hero p{max-width:680px;margin:0;color:#e5f3e7;font-size:15px}.hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}.hero-tags span{border:1px solid #ffffff47;border-radius:999px;padding:4px 11px;font-size:12px;background:#ffffff12}
+.toolbar{position:sticky;top:0;z-index:20;display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:#f7faf4ee;border:1px solid var(--line);border-radius:17px;padding:11px 15px;margin:19px 0 18px;backdrop-filter:blur(12px)}.progressbox{flex:1;min-width:190px}.progresslabel{display:flex;gap:12px;align-items:center;justify-content:space-between;font-weight:750;font-size:13px;margin-bottom:7px}.progress{height:8px;border-radius:30px;background:#dae9dc;overflow:hidden}.progress div{height:100%;background:linear-gradient(90deg,#69ac73,#2d8154);width:0;transition:width .2s}.toolbar-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;justify-content:center;align-items:center;border-radius:11px;border:1px solid transparent;padding:9px 15px;font-size:13px;font-weight:800;gap:7px;transition:background .15s,transform .12s}.btn:active{transform:scale(.97)}.btn.primary{background:var(--forest);color:white}.btn.primary:hover{background:#2e6a4c}.btn.outline{background:white;border-color:#cbdacf;color:#35634b}.btn.outline:hover{background:var(--mint)}.btn.ghost{background:#eef4ec;color:#3d6e4d}.btn.small{padding:8px 12px}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.intro{background:#fff8e9;border:1px solid #e9ddbd;border-radius:14px;padding:13px 17px;margin-bottom:18px;font-size:14px;color:#6e5c2f}.intro strong{color:#675022}.section{background:white;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:20px;overflow:hidden;margin:20px 0;scroll-margin-top:95px}.sect-head{background:linear-gradient(90deg,#eff7ed,#fafcf9);border-bottom:1px solid #e0eadd;padding:20px 24px 17px;display:flex;gap:13px;align-items:flex-start}.number{background:#347b4b;border-radius:11px;color:white;min-width:39px;height:39px;display:grid;place-items:center;font-size:21px;font-weight:850}.sect-title{flex:1}.sect-title h2{margin:0;font-size:clamp(19px,2.2vw,24px);line-height:1.3;letter-spacing:-.02em;color:#194d35}.sect-title p{margin:4px 0 0;color:#5d7966;font-size:13px}.section-body{padding:20px 23px 22px}.section-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#f9fbf8;border-top:1px solid #eaf0e8;padding:13px 22px}.section-foot .info{font-size:13px;color:var(--muted);flex:1;min-width:160px}.subheading{font-size:14px;font-weight:800;color:#33644b;margin:0 0 12px}
+.wordbank{display:flex;gap:11px;flex-wrap:wrap;padding:14px;background:#f4f9f1;border:1px dashed #c5ddc7;border-radius:13px;margin-bottom:16px;min-height:76px;align-items:center}.wordbank.empty{color:#829487;font-size:13px}.tile{user-select:none;-webkit-user-select:none;touch-action:manipulation;display:inline-flex;flex-direction:column;gap:1px;vertical-align:middle;align-items:center;justify-content:center;min-height:41px;padding:7px 12px;border:1px solid #cfdfcc;background:#edf5e6;color:#16412e;border-radius:10px;font-weight:760;cursor:grab;box-shadow:0 2px 0 #dee9d8;line-height:1.3}.tile:hover{background:#dff0d8;border-color:#a3c8a7}.tile:active{cursor:grabbing}.tile.selected{border:2px solid #cc9333;background:#fff1c7}.tile .cn{font-size:21px;font-family:'Microsoft YaHei','Noto Sans CJK SC','PingFang SC',sans-serif}.tile .roman{font-size:12px;color:#5b795f;font-weight:650}.tile.compact{min-height:38px;padding:6px 10px;font-size:18px}.tile.compact .cn{font-size:18px}.tile ruby{font-size:19px}.tile rt{font-size:10px;color:#4b7559;font-weight:650}
+.task{position:relative;border:1px solid #e6eee7;border-radius:13px;padding:16px;margin:10px 0;background:#fff}.task.is-correct{background:var(--rightbg);border-color:#b8dfc2}.task.is-wrong{background:var(--wrongbg);border-color:#efc7c0}.task-line{display:flex;align-items:center;gap:11px;flex-wrap:wrap}.index{font-weight:850;color:#388452;min-width:20px;font-size:15px}.chinese{font-family:'Microsoft YaHei','Noto Sans CJK SC','PingFang SC',sans-serif;font-size:clamp(19px,2vw,24px);line-height:2.15;letter-spacing:.01em}.chinese ruby{ruby-align:center;white-space:nowrap}.chinese rt{font:12px/1.2 system-ui,sans-serif;color:#64816a;letter-spacing:0}.slot{border:2px dashed #afc7b0;border-radius:10px;background:#f7faf6;min-height:48px;min-width:83px;display:inline-flex;justify-content:center;align-items:center;vertical-align:middle;margin:0 4px;padding:3px;cursor:pointer;color:#99b3a1}.slot:hover,.slot.drag-over{background:#e2f3e5;border-color:#3c925b}.slot.filled{border-style:solid;background:#edf6ea}.slot .tile{margin:0}.status{margin-left:auto;font-weight:900;font-size:16px}.is-correct .status{color:var(--right)}.is-wrong .status{color:var(--wrong)}.muted{color:var(--muted)}.hint{font-size:12px;color:#78917d;margin-top:6px}.mini-intro{font-size:14px;color:#5b7965;margin:3px 0 13px}
+.insert-area{display:flex;align-items:center;gap:0;flex-wrap:wrap;font-size:22px;line-height:2.9;padding:4px 0}.insert-piece{font-family:'Microsoft YaHei','Noto Sans CJK SC','PingFang SC',sans-serif;white-space:nowrap}.insert-piece ruby rt{font:11px/1.1 system-ui;color:#647f6a}.gap-slot{height:40px;min-width:16px;display:inline-flex;align-items:center;justify-content:center;border-radius:7px;border:1px dashed transparent;background:#eff8f033;cursor:pointer;transition:min-width .12s,background .12s;vertical-align:middle}.gap-slot:hover,.gap-slot.drag-over{min-width:31px;background:#d9efdf;border-color:#7cbb8e}.gap-slot.placed{min-width:41px;background:#e8f4e5;border-color:#b7d8ae}.gap-slot .tile{padding:5px 9px;min-height:34px}.insert-bank{display:flex;gap:9px;align-items:center;margin-top:3px}.insert-bank .muted{font-size:12px}.insert-bank.empty .muted{color:#92a397}
+.order-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.order-task{margin:0;min-width:0}.order-task .task-line{align-items:flex-start}.order-task .wordbank{padding:10px;min-height:62px;margin:9px 0 11px;gap:7px}.order-task .tile{padding:6px 9px;min-height:37px}.order-task .tile .cn{font-size:19px}.order-task .tile rt{font-size:10px}.orderzone{padding:10px;min-height:63px;display:flex;gap:7px;align-items:center;align-content:flex-start;flex-wrap:wrap;border:2px dashed #acc6b0;background:#f8fbf7;border-radius:11px;cursor:pointer}.orderzone.drag-over{background:#e4f5e7;border-color:#529a65}.orderzone .placeholder{color:#9cac9c;font-size:13px}.orderzone .tile{background:#e3f3e4;border-color:#add5b2}.subblock{margin-bottom:16px}.subblock+.subblock{border-top:1px dashed #d8e6d8;padding-top:18px}.subblock-head{font-weight:850;color:#2a6146;font-size:16px;margin:0 0 13px}
+.reading{background:linear-gradient(135deg,#f1f6ee,#f7f9f5);border-left:5px solid #8cb59a;border-radius:12px;padding:18px 22px;line-height:2.3;font-size:23px;font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;margin:0 0 17px}.reading ruby rt{font:12px/1.2 system-ui;color:#637d65}.choice-label{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:680;cursor:pointer;padding:6px 10px;border-radius:9px;background:#f5f8f4;border:1px solid #e0e9de}.choice-label input{accent-color:#38754f;width:16px;height:16px;margin:0}.choice-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tf-statement{flex:1;min-width:240px}.text-answer{display:block;width:100%;min-height:76px;resize:vertical;padding:12px;border:1px solid #bdcfbf;border-radius:9px;margin:7px 0 2px;background:#fbfdfb;font-size:17px;line-height:1.5}.text-answer:focus{border-color:#4f9362}.readingq{font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:21px}
+.pinyin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.pinyin-task{margin:0;padding:15px;min-width:0}.pinyin-top{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:9px}.pinyin-word{font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:23px;font-weight:650;min-width:65px}.plain-input{min-width:0;flex:1;border:1px solid #c8d7c7;background:#fafdFA;border-radius:9px;padding:10px 11px;font-size:16px}.pinyin-stage{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tone-groups{display:grid;gap:10px;margin-top:11px}.tone-group{border:1px solid #e2e9e1;background:#fafcf9;border-radius:10px;padding:9px 10px}.syllable-heading{color:#69806b;font-size:12px;font-weight:750;margin:0 0 6px}.tones{display:flex;gap:6px;flex-wrap:wrap}.tone-option{border:1px solid #cbdccc;background:white;color:#2a513a;border-radius:8px;min-width:53px;padding:7px 10px;font-size:16px;font-weight:800}.tone-option:hover{background:#e9f4e9}.tone-option.active{background:#347b54;color:white;border-color:#347b54}.stage-error{color:#a45145;font-size:12px;margin-top:5px}.stage-success{color:#377c50;font-size:12px;margin-top:5px}.tone-complete{font-size:13px;color:#537e5e}
+.pairnote{display:grid;grid-template-columns:1fr 1fr;gap:11px}.name-note{background:#f6faf5;border:1px solid #e3ede1;border-radius:10px;padding:10px 12px;font-size:14px}.name-note ruby{font-size:18px}.name-note rt{font-size:10px}.name-note span{color:#66806d;font-size:12px;display:block}.footerhelp{margin-top:19px;padding:18px 21px;border:1px solid #e1e7d9;background:#fbfbf1;border-radius:15px}.footerhelp h3{font-size:16px;color:#43624b;margin:0 0 13px}.key-toggle{font-size:13px;font-weight:780;color:#356c4a;border:0;background:none;text-decoration:underline;padding:10px 0}.keys{background:#f0f7ee;border-radius:11px;border:1px solid #d5e7d3;padding:15px;font-size:14px;overflow-wrap:anywhere}.keys p{margin:6px 0}.warn{color:#935b34}
+@media(max-width:800px){.order-grid,.pinyin-grid{grid-template-columns:1fr}.hero{padding:26px 22px}.container{padding:14px 12px 42px}.section-body{padding:15px}.sect-head{padding:17px 15px}.section-foot{padding:13px 15px}.pairnote{grid-template-columns:1fr 1fr}.toolbar{position:static}.chinese{font-size:21px}.reading{font-size:20px;padding:14px 15px}}
+@media(max-width:500px){.pairnote{grid-template-columns:1fr}.hero h1{font-size:26px}.toolbar-actions{width:100%}.toolbar-actions .btn{flex:1}.chinese{font-size:20px}.slot{min-width:68px}.insert-area{font-size:19px}.task{padding:12px}.choice-row{width:100%}.choice-label{flex:1;justify-content:center}.pinyin-word{min-width:50px}}@media print{body{background:#fff}.toolbar,.section-foot,.intro,.key-toggle,.keys,.btn{display:none!important}.section{break-inside:avoid;box-shadow:none}.hero{background:white;color:#174631;box-shadow:none;border:1px solid #ddd}.hero p,.hero-tags{color:#355}.container{padding:0}}
+</style>
+</head>
+<body>
+<main class="container">
+  <header class="hero">
+    <div class="eyebrow">初级汉语 · A1 · 互动练习</div>
+    <h1>Китайский: слова, предложения и пиньинь</h1>
+    <p>Интерактивные упражнения по 是、不、也、都, порядку слов, конструкции 的, чтению и тонам. По материалам рабочих листов.</p>
+    <div class="hero-tags"><span>Перетаскивание мышкой</span><span>Поддержка нажатий</span><span>Проверка ответов</span><span>Пиньинь в два этапа</span></div>
+  </header>
+  <div class="toolbar"><div class="progressbox"><div class="progresslabel"><span>Выполнено упражнений</span><span id="progress-text">0 / 50</span></div><div class="progress"><div id="progress-inner"></div></div></div><div class="toolbar-actions"><button class="btn primary" data-action="check-all">Проверить всё</button><button class="btn outline" data-action="reset">Начать заново</button></div></div>
+  <div class="intro"><strong>Как выполнять:</strong> перетаскивай зелёные карточки в пустые области. На телефоне можно нажать на карточку, затем на нужное место. В заданиях на порядок слов нажимай на слова по очереди или перетаскивай их в ответ; чтобы вернуть слово, нажми на него ещё раз. <strong>Пиньинь:</strong> сначала напиши без тонов (например, <b>ye</b>), затем выбери тоны каждого слога.</div>
+  <div id="app" aria-live="off"></div>
+  <div class="footerhelp"><h3>Имена и географическое название из заданий</h3><div class="pairnote" id="name-notes"></div></div>
+</main>
+<script>
+'use strict';
+const names={'林月':['Lín Yuè','Линь Юэ — китайское имя'],'林华':['Lín Huá','Линь Хуа — китайское имя'],'王玉':['Wáng Yù','Ван Юй — китайское имя'],'史蒂夫':['Shǐdìfū','Стив — транскрипция имени'],'马克':['Mǎkè','Марк — транскрипция имени'],'杰克':['Jiékè','Джек — транскрипция имени'],'哈利':['Hālì','Гарри — транскрипция имени'],'永民':['Yǒngmín','Ёнмин — корейское имя'],'安娜':['Ānnà','Анна — транскрипция имени'],'丁云':['Dīng Yún','Дин Юнь — китайское имя'],'悉尼':['Xīní','Сидней — город, не имя человека']};
+const fillItems=[{pre:'他',post:'医生。',answer:'是'},{pre:'我',post:'是医生，我是老师。',answer:'不'},{pre:'我们是老师，我们',post:'在大学工作。',answer:'都'},{pre:'我在医院工作，她',post:'在医院工作。',answer:'也'}];
+const fillBank=[['bù','不'],['shì','是'],['yě','也'],['dōu','都']];
+const insertion=[
+ {words:['林月','是','老师','，','林华','是','老师','。'],word:'也',pos:5},
+ {words:['她们','是','老师','。'],word:'都',pos:1},
+ {words:['杰克','不','是','学生','，','哈利','也','是','学生','。'],word:'不',pos:7},
+ {words:['他们','都','是','学生','。'],word:'不',pos:2}
+];
+const order1=[
+ {tokens:['中国人','是','不','史蒂夫','。'],answer:['史蒂夫','不','是','中国人','。']},
+ {tokens:['王玉','姓','不','玉','。'],answer:['王玉','不','姓','玉','。']},
+ {tokens:['学生','不','是','马克','也','。'],answer:['马克','也','不','是','学生','。']},
+ {tokens:['美国','都','工作','在','他们','。'],answer:['他们','都','在','美国','工作','。']}
+];
+const order2=[
+ {tokens:['在医院','工作','她','。'],answer:['她','在医院','工作','。']},
+ {tokens:['永民','韩国人','是','也','。'],answer:['永民','也','是','韩国人','。']},
+ {tokens:['北京','王玉','住在','。'],answer:['王玉','住在','北京','。']},
+ {tokens:['中文','名字','的','安娜','是','Anna','。'],answer:['Anna','的','中文','名字','是','安娜','。']},
+ {tokens:['都','学生','是','我们','。'],answer:['我们','都','是','学生','。']},
+ {tokens:['悉尼','住在','不','马克','。'],answer:['马克','不','住在','悉尼','。']},
+ {tokens:['也','北京','我','住在','。'],answer:['我','也','住在','北京','。']},
+ {tokens:['在学校','工作','她哥哥','。'],answer:['她哥哥','在学校','工作','。']}
+];
+const orders=[...order1,...order2];
+const phrases=[
+ {tokens:['工作','医生','的'],answer:['医生','的','工作']},
+ {tokens:['学生','我','的'],answer:['我','的','学生']},
+ {tokens:['护士','医院','的'],answer:['医院','的','护士']},
+ {tokens:['工作','爸爸','的'],answer:['爸爸','的','工作']},
+ {tokens:['照片','姐姐','的'],answer:['姐姐','的','照片']}
+];
+const pinyinWords=[
+ {han:'他',plain:'ta',parts:['ta'],tones:[1]},
+ {han:'爸爸',plain:'baba',parts:['ba','ba'],tones:[4,0]},
+ {han:'妈妈',plain:'mama',parts:['ma','ma'],tones:[1,0]},
+ {han:'哪',plain:'na',parts:['na'],tones:[3]},
+ {han:'加拿大',plain:'jianada',parts:['jia','na','da'],tones:[1,2,4]},
+ {han:'法国',plain:'faguo',parts:['fa','guo'],tones:[3,2]},
+ {han:'也',plain:'ye',parts:['ye'],tones:[3]},
+ {han:'这',plain:'zhe',parts:['zhe'],tones:[4]},
+ {han:'和',plain:'he',parts:['he'],tones:[2]},
+ {han:'哥哥',plain:'gege',parts:['ge','ge'],tones:[1,0]},
+ {han:'记者',plain:'jizhe',parts:['ji','zhe'],tones:[4,3]},
+ {han:'呢',plain:'ne',parts:['ne'],tones:[0]},
+ {han:'一',plain:'yi',parts:['yi'],tones:[1]},
+ {han:'弟弟',plain:'didi',parts:['di','di'],tones:[4,0]},
+ {han:'是',plain:'shi',parts:['shi'],tones:[4]},
+ {han:'名字',plain:'mingzi',parts:['ming','zi'],tones:[2,0]},
+ {han:'哪里',plain:'nali',parts:['na','li'],tones:[3,0]},
+ {han:'医生',plain:'yisheng',parts:['yi','sheng'],tones:[1,1]}
+];
+const statements=[['马克的爸爸在医院工作。',true],['马克的妈妈不是医生。',false],['马克的妹妹是学生。',false],['马克的弟弟不是记者。',true]];
+const questions=[{q:'丁云做什么工作？',required:['老师'],example:'丁云是学校的老师。'},{q:'他在哪里工作？',required:['学校'],example:'他在学校工作。'},{q:'他哥哥住在哪里？他姐姐呢？',required:['英国','法国'],example:'他哥哥在英国，他姐姐在法国。'}];
+const sections=['fill','insert','order','phrase','pinyin','tf','qa'];
+let state,checks,picked=null,dragged=null;
+function initialState(){return {fill:Array(4).fill(null),insert:Array(4).fill(null),order:orders.map(()=>[]),phrase:phrases.map(()=>[]),pinyin:pinyinWords.map(x=>({text:'',stage:0,chosen:Array(x.parts.length).fill(null),error:''})),tf:Array(4).fill(null),qa:Array(3).fill('')}}
+function init(){state=initialState();checks=Object.fromEntries(sections.map(s=>[s,false]));picked=null;dragged=null;renderAll()}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function rubyText(s){if(names[s]&&s!=='悉尼')return `<ruby>${s}<rt>${names[s][0]}</rt></ruby>`;return escapeHtml(s)}
+function tile(txt,attrs={},pinyin=null){let attr=Object.entries(attrs).map(([k,v])=>` data-${k}="${escapeHtml(v)}"`).join('');return `<button type="button" draggable="true" class="tile${picked&&picked.type===attrs.type&&String(picked.item)===String(attrs.item)&&String(picked.idx)===String(attrs.idx)?' selected':''}"${attr}>${pinyin?`<span class="roman">${escapeHtml(pinyin)}</span>`:''}<span class="cn">${rubyText(txt)}</span></button>`}
+function feedbackClass(section,index){return checks[section]?(isCorrect(section,index)?' is-correct':' is-wrong'):''}
+function status(section,index){return !checks[section]?'':`<span class="status" aria-label="${isCorrect(section,index)?'Верно':'Неверно'}">${isCorrect(section,index)?'✓':'✕'}</span>`}
+function norm(s){return String(s||'').toLowerCase().replace(/[\s，。！!、·.,?？:：'"\-]/g,'').trim()}
+function normPinyin(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-züv]/g,'')}
+function isCorrect(section,i){if(section==='fill')return state.fill[i]===fillItems[i].answer;if(section==='insert')return state.insert[i]===insertion[i].pos;
+ if(section==='order')return norm(state.order[i].map(id=>orders[i].tokens[id]).join(''))===norm(orders[i].answer.join(''));
+ if(section==='phrase')return norm(state.phrase[i].map(id=>phrases[i].tokens[id]).join(''))===norm(phrases[i].answer.join(''));
+ if(section==='pinyin'){let p=state.pinyin[i],w=pinyinWords[i];return normPinyin(p.text)===w.plain&&p.stage===1&&p.chosen.every((a,j)=>a===w.tones[j])}
+ if(section==='tf')return state.tf[i]===statements[i][1];
+ if(section==='qa')return questions[i].required.every(term=>state.qa[i].includes(term));return false}
+function answered(section,i){if(section==='fill')return state.fill[i]!==null;if(section==='insert')return state.insert[i]!==null;
+ if(section==='order')return state.order[i].length===orders[i].tokens.length;if(section==='phrase')return state.phrase[i].length===phrases[i].tokens.length;
+ if(section==='pinyin')return state.pinyin[i].stage===1&&state.pinyin[i].chosen.every(x=>x!==null);if(section==='tf')return state.tf[i]!==null;if(section==='qa')return state.qa[i].trim().length>0;return false}
+function sectionLength(s){return ({fill:4,insert:4,order:12,phrase:5,pinyin:18,tf:4,qa:3})[s]}
+function sectionScore(s){let n=sectionLength(s),ok=0,done=0;for(let i=0;i<n;i++){if(answered(s,i))done++;if(isCorrect(s,i))ok++}return {n,ok,done}}
+function sectionFooter(s){let d=sectionScore(s);return `<footer class="section-foot"><button class="btn primary small" data-action="check-section" data-section="${s}">Проверить блок</button><button class="btn ghost small" data-action="clear-section" data-section="${s}">Очистить блок</button><div class="info">${checks[s]?`Правильно: <strong>${d.ok} из ${d.n}</strong>`:`Заполнено: ${d.done} из ${d.n}`}</div></footer>`}
+function wrapSection(num,title,sub,body,s){return `<section class="section" id="section-${s}"><header class="sect-head"><div class="number">${num}</div><div class="sect-title"><h2>${title}</h2><p>${sub}</p></div></header><div class="section-body">${body}</div>${sectionFooter(s)}</section>`}
+function renderFill(){let bank=fillBank.filter(([p,ch])=>!state.fill.includes(ch));let bankhtml=bank.length?bank.map(([p,ch])=>tile(ch,{type:'fill-bank',item:ch},p)).join(''):'<span class="muted">Все слова помещены в предложения</span>';
+ let body=`<div class="subheading">Перетащи слово в подходящий пропуск</div><div class="wordbank" data-drop-type="fill-bank">${bankhtml}</div>`;
+ fillItems.forEach((it,i)=>{let ch=state.fill[i];body+=`<div class="task${feedbackClass('fill',i)}"><div class="task-line"><span class="index">${i+1}</span><div class="chinese">${it.pre} <span class="slot${ch?' filled':''}" data-drop-type="fill" data-index="${i}" tabindex="0">${ch?tile(ch,{type:'fill-placed',idx:i,item:ch}):'＋'}</span> ${it.post}</div>${status('fill',i)}</div></div>`});return wrapSection(1,'Вставь слово: 是、不、也、都','Одно слово используется один раз. Перетащи его в нужный пропуск.',body,'fill')}
+function renderInsert(){let body=`<p class="mini-intro">Перетащи слово в одну из щелей между частями предложения. Для точного выбора можно нажать на слово, затем на нужную позицию.</p>`;
+ insertion.forEach((it,i)=>{body+=`<div class="task${feedbackClass('insert',i)}"><div class="task-line"><span class="index">${i+1}</span><div style="flex:1;min-width:0"><div class="insert-area">`;
+ for(let j=0;j<=it.words.length;j++){let filled=state.insert[i]===j;body+=`<span class="gap-slot${filled?' placed':''}" data-drop-type="insert" data-index="${i}" data-pos="${j}" tabindex="0" title="Вставить слово сюда">${filled?tile(it.word,{type:'insert-placed',idx:i,item:it.word}):''}</span>`;if(j<it.words.length)body+=`<span class="insert-piece">${rubyText(it.words[j])}</span>`}
+ body+=`</div><div class="insert-bank${state.insert[i]!==null?' empty':''}">${state.insert[i]===null?tile(it.word,{type:'insert-bank',idx:i,item:it.word}):'<span class="muted">Слово помещено · нажми на него, чтобы вернуть</span>'}</div></div>${status('insert',i)}</div></div>`});return wrapSection(2,'Поставь слово на правильное место','Выбери позицию для слова в скобках (也、都、不).',body,'insert')}
+function buildOrderCard(it,index,kind){let arr=state[kind][index],remaining=it.tokens.map((_,k)=>k).filter(k=>!arr.includes(k));let x=`<div class="task order-task${feedbackClass(kind,index)}"><div class="task-line"><span class="index">${kind==='order'?index+1:index+1}</span><span class="hint">Перетащи слова в строку ниже</span>${status(kind,index)}</div>`;
+ x+=`<div class="wordbank${remaining.length?'':' empty'}" data-drop-type="order-bank" data-kind="${kind}" data-index="${index}">${remaining.length?remaining.map(t=>tile(it.tokens[t],{type:'order-bank',kind,idx:index,item:t})).join(''):'<span class="muted">Все карточки перемещены</span>'}</div>`;
+ x+=`<div class="orderzone" data-drop-type="order-answer" data-kind="${kind}" data-index="${index}" tabindex="0">${arr.length?arr.map(t=>tile(it.tokens[t],{type:'order-answer',kind,idx:index,item:t})).join(''):'<span class="placeholder">Нажми или перетащи слова сюда →</span>'}</div></div>`;return x}
+function renderOrder(){let body=`<p class="mini-intro">Составь предложения из карточек, включая точку. Карточки в ответе можно переставлять перетаскиванием.</p><div class="subblock"><div class="subblock-head">Часть A · Основные структуры (1–4)</div><div class="order-grid">`+orders.slice(0,4).map((it,i)=>buildOrderCard(it,i,'order')).join('')+`</div></div><div class="subblock"><div class="subblock-head">Часть B · Место, профессия и принадлежность (5–12)</div><div class="order-grid">`+orders.slice(4).map((it,i)=>buildOrderCard(it,i+4,'order')).join('')+`</div></div>`;
+ return wrapSection(3,'Порядок слов: составь предложения','Объединены оба упражнения на перестановку слов — всего 12 предложений.',body,'order')}
+function renderPhrase(){let body=`<p class="mini-intro">Расположи слова так, чтобы получилось правильное словосочетание с 的.</p><div class="order-grid">`+phrases.map((it,i)=>buildOrderCard(it,i,'phrase')).join('')+`</div>`;return wrapSection(4,'Порядок слов: словосочетания с 的','Переставь карточки, чтобы выразить принадлежность или характеристику.',body,'phrase')}
+const toneMarks={'a':['ā','á','ǎ','à'],'e':['ē','é','ě','è'],'i':['ī','í','ǐ','ì'],'o':['ō','ó','ǒ','ò'],'u':['ū','ú','ǔ','ù'],'ü':['ǖ','ǘ','ǚ','ǜ']};
+function toneForm(s,number){if(number===0)return s;let letters=[...s];let lower=s.toLowerCase();let at=lower.indexOf('a');if(at<0)at=lower.indexOf('e');if(at<0&&lower.includes('ou'))at=lower.indexOf('o');if(at<0){for(let j=0;j<lower.length;j++)if('aeiouü'.includes(lower[j]))at=j}if(at<0)return s;letters[at]=toneMarks[lower[at]][number-1];return letters.join('')}
+function renderPinyin(){let body=`<p class="mini-intro"><strong>Шаг 1:</strong> введи латиницей пиньинь без тонов и нажми «К тонам». <strong>Шаг 2:</strong> выбери правильное произношение <em>каждого слога</em> (в том числе нейтральный тон).</p><div class="pinyin-grid">`;
+ pinyinWords.forEach((w,i)=>{let p=state.pinyin[i];body+=`<div class="task pinyin-task${feedbackClass('pinyin',i)}"><div class="pinyin-top"><span class="index">${i+1}</span><span class="pinyin-word">${w.han}</span>${status('pinyin',i)}</div><div class="pinyin-stage"><input type="text" class="plain-input" aria-label="Пиньинь без тонов для ${w.han}" data-pinyin-input="${i}" placeholder="Например: ${i===6?'ye':'pinyin без тонов'}" spellcheck="false" autocomplete="off" value="${escapeHtml(p.text)}" ${p.stage?'readonly':''}><button class="btn ${p.stage?'outline':'primary'} small" data-action="pinyin-stage" data-index="${i}">${p.stage?'Изменить':'К тонам →'}</button></div>`;
+ if(p.error)body+=`<div class="stage-error">${p.error}</div>`;
+ if(p.stage){body+=`<div class="tone-groups">`;
+ w.parts.forEach((syll,j)=>{body+=`<div class="tone-group"><div class="syllable-heading">Слог ${j+1} · ${escapeHtml(syll)}</div><div class="tones">`;
+ for(let t of [1,2,3,4,0]){body+=`<button class="tone-option${p.chosen[j]===t?' active':''}" data-action="choose-tone" data-index="${i}" data-syll="${j}" data-tone="${t}" aria-pressed="${p.chosen[j]===t}">${toneForm(syll,t)}</button>`}
+ body+=`</div></div>`});body+=`</div>`}
+ body+='</div>'});body+=`</div>`;return wrapSection(5,'Произношение: сначала пиньинь, потом тоны','18 слов · написание без диакритики → выбор тонов отдельно для каждого слога.',body,'pinyin')}
+function renderTrueFalse(){let body=`<p class="mini-intro">Прочитай текст от лица Марка и отметь, соответствуют ли утверждения содержанию.</p><div class="reading">我爸爸是医生，我妈妈也是医生，他们都在医院工作。我妹妹是记者，我弟弟是学生。</div>`;
+ statements.forEach(([t,a],i)=>{body+=`<div class="task${feedbackClass('tf',i)}"><div class="task-line"><span class="index">${i+1}</span><div class="chinese tf-statement">${t.replaceAll('马克',rubyText('马克'))}</div><div class="choice-row"><label class="choice-label"><input type="radio" name="tf${i}" data-tf="${i}" value="true" ${state.tf[i]===true?'checked':''}>对 · верно</label><label class="choice-label"><input type="radio" name="tf${i}" data-tf="${i}" value="false" ${state.tf[i]===false?'checked':''}>不对 · неверно</label></div>${status('tf',i)}</div></div>`});return wrapSection(6,'Чтение: верно или неверно?','Прочитай короткий текст о семье, затем оцени 4 утверждения.',body,'tf')}
+function renderQA(){let body=`<p class="mini-intro">Ответь короткими предложениями на китайском языке. Проверка допускает разные формулировки, если есть необходимые сведения.</p><div class="reading">我叫<ruby>丁云<rt>Dīng Yún</rt></ruby>，我是学校的老师。学生都叫我丁老师。我哥哥也是老师，他在英国。我姐姐在法国，她是记者。</div>`;
+ questions.forEach((q,i)=>{body+=`<div class="task${feedbackClass('qa',i)}"><div class="task-line"><span class="index">${i+1}</span><span class="readingq">${i===0?q.q.replace('丁云',rubyText('丁云')):q.q}</span>${status('qa',i)}</div><textarea class="text-answer" data-qa="${i}" placeholder="Напиши ответ иероглифами…">${escapeHtml(state.qa[i])}</textarea>${checks.qa&&!isCorrect('qa',i)?'<div class="hint warn">Проверь содержание ответа: нужные сведения должны быть указаны явно.</div>':''}</div>`});return wrapSection(7,'Чтение: ответь на вопросы','Прочитай рассказ 丁云 и ответь на три вопроса.',body,'qa')}
+function renderAll(){document.getElementById('app').innerHTML=renderFill()+renderInsert()+renderOrder()+renderPhrase()+renderPinyin()+renderTrueFalse()+renderQA();updateProgress()}
+function updateProgress(){let total=0,correct=0;sections.forEach(s=>{for(let i=0;i<sectionLength(s);i++){if(answered(s,i))total++;if(isCorrect(s,i))correct++}});document.getElementById('progress-text').textContent=`${total} / 50`;document.getElementById('progress-inner').style.width=(total/50*100)+'%';document.getElementById('progress-inner').title=`Правильных ответов: ${correct} / 50`}
+function touchChange(section){checks[section]=false;renderAll()}
+function findDrop(el){return el&&el.closest('[data-drop-type]')}
+function findTile(el){return el&&el.closest('[data-type]')}
+function addOrder(kind,idx,id,pos=null){let arr=state[kind][idx],old=arr.indexOf(id);if(old!==-1){arr.splice(old,1);if(pos!==null&&pos>old)pos--}if(pos===null||pos>arr.length)pos=arr.length;arr.splice(pos,0,id)}
+function placeFill(ch,index){let old=state.fill.indexOf(ch);if(old!==-1)state.fill[old]=null;state.fill[index]=ch;picked=null;touchChange('fill')}
+function handleTokenClick(tok){let type=tok.dataset.type,item=tok.dataset.item,idx=Number(tok.dataset.idx),kind=tok.dataset.kind;
+ if(type==='fill-bank'){picked=picked?.type==='fill-bank'&&picked.item===item?null:{type:'fill-bank',item};renderAll();return}
+ if(type==='fill-placed'){state.fill[idx]=null;picked=null;touchChange('fill');return}
+ if(type==='insert-bank'){picked=picked?.type==='insert-bank'&&picked.idx===idx?null:{type:'insert-bank',idx,item};renderAll();return}
+ if(type==='insert-placed'){state.insert[idx]=null;picked=null;touchChange('insert');return}
+ if(type==='order-bank'){addOrder(kind,idx,Number(item));touchChange(kind);return}
+ if(type==='order-answer'){state[kind][idx]=state[kind][idx].filter(x=>x!==Number(item));touchChange(kind)}
+}
+function dropAt(target,drag,ev){let d=target.dataset.dropType,idx=Number(target.dataset.index),pos=Number(target.dataset.pos);
+ if(d==='fill'){if(['fill-bank','fill-placed'].includes(drag.type))placeFill(drag.item,idx);return}
+ if(d==='fill-bank'){if(drag.type==='fill-placed'){state.fill[drag.idx]=null;touchChange('fill')}return}
+ if(d==='insert'){if(['insert-bank','insert-placed'].includes(drag.type)&&drag.idx===idx){state.insert[idx]=pos;picked=null;touchChange('insert')}return}
+ if(d==='order-answer'||d==='order-bank'){let kind=target.dataset.kind;if(!['order-bank','order-answer'].includes(drag.type)||kind!==drag.kind||idx!==drag.idx)return;
+ let id=Number(drag.item);
+ if(d==='order-bank'){state[kind][idx]=state[kind][idx].filter(t=>t!==id)}else{let end=target.querySelectorAll('.tile'),p=end.length;const e=ev?.target?.closest('.tile');if(e&&target.contains(e)){let at=state[kind][idx].indexOf(Number(e.dataset.item));if(at>=0){let r=e.getBoundingClientRect();p=at+(ev.clientX>r.left+r.width/2?1:0)}}addOrder(kind,idx,id,p)}touchChange(kind)}
+}
+const app=document.getElementById('app');
+app.addEventListener('click',e=>{
+ let ac=e.target.closest('[data-action]');if(ac){let a=ac.dataset.action,s=ac.dataset.section,i=Number(ac.dataset.index);
+ if(a==='check-section'){checks[s]=true;renderAll();return}
+ if(a==='clear-section'){clearSection(s);return}
+ if(a==='pinyin-stage'){let p=state.pinyin[i],w=pinyinWords[i];if(p.stage){p.stage=0;p.chosen.fill(null);p.error=''}else if(normPinyin(p.text)!==w.plain){p.error='Написание без тонов пока неверное. Попробуй ещё раз.'}else{p.stage=1;p.error=''}touchChange('pinyin');return}
+ if(a==='choose-tone'){state.pinyin[i].chosen[Number(ac.dataset.syll)]=Number(ac.dataset.tone);touchChange('pinyin');return}
+ }
+ let tok=findTile(e.target);if(tok){handleTokenClick(tok);return}
+ let d=findDrop(e.target);if(!d)return;
+ if(d.dataset.dropType==='fill'){let i=Number(d.dataset.index);if(picked?.type==='fill-bank')placeFill(picked.item,i);else if(state.fill[i]){state.fill[i]=null;touchChange('fill')}return}
+ if(d.dataset.dropType==='insert'&&picked?.type==='insert-bank'&&picked.idx===Number(d.dataset.index)){state.insert[picked.idx]=Number(d.dataset.pos);picked=null;touchChange('insert');return}
+});
+app.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){let drop=e.target.closest('.slot,.gap-slot,.orderzone');if(drop){e.preventDefault();drop.click()}}});
+app.addEventListener('input',e=>{if(e.target.hasAttribute('data-pinyin-input')){let i=Number(e.target.dataset.pinyinInput);state.pinyin[i].text=e.target.value;state.pinyin[i].error='';checks.pinyin=false;updateProgress()}if(e.target.hasAttribute('data-qa')){state.qa[Number(e.target.dataset.qa)]=e.target.value;checks.qa=false;updateProgress()}});
+app.addEventListener('change',e=>{if(e.target.hasAttribute('data-tf')){state.tf[Number(e.target.dataset.tf)]=e.target.value==='true';touchChange('tf')}});
+app.addEventListener('dragstart',e=>{let tok=findTile(e.target);if(!tok)return;dragged={type:tok.dataset.type,idx:Number(tok.dataset.idx),kind:tok.dataset.kind,item:tok.dataset.item};e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',JSON.stringify(dragged));tok.style.opacity='.6'});
+app.addEventListener('dragend',e=>{dragged=null;app.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));app.querySelectorAll('.tile').forEach(x=>x.style.opacity='')});
+app.addEventListener('dragover',e=>{let d=findDrop(e.target);if(d){e.preventDefault();e.dataTransfer.dropEffect='move';app.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));d.classList.add('drag-over')}});
+app.addEventListener('drop',e=>{let d=findDrop(e.target);if(!d)return;e.preventDefault();let data=dragged;if(!data){try{data=JSON.parse(e.dataTransfer.getData('text/plain'))}catch{}}if(data)dropAt(d,data,e);dragged=null});
+// Touch: tapping cards is always supported. A direct finger drag is also accepted.
+let touchDrag=null;
+app.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;let t=findTile(e.target);if(!t)return;touchDrag={t,x:e.clientX,y:e.clientY,active:false,payload:{type:t.dataset.type,idx:Number(t.dataset.idx),kind:t.dataset.kind,item:t.dataset.item}}}, {passive:true});
+app.addEventListener('pointermove',e=>{if(!touchDrag)return;if(Math.hypot(e.clientX-touchDrag.x,e.clientY-touchDrag.y)>13){touchDrag.active=true;touchDrag.t.style.opacity='.5';let dest=document.elementFromPoint(e.clientX,e.clientY);app.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));findDrop(dest)?.classList.add('drag-over')}}, {passive:true});
+app.addEventListener('pointerup',e=>{if(!touchDrag)return;let t=touchDrag;if(t.active){let dest=document.elementFromPoint(e.clientX,e.clientY),target=findDrop(dest);if(target)dropAt(target,t.payload,e);else t.t.style.opacity='';}touchDrag=null;app.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'))});
+function clearSection(s){if(s==='fill')state.fill.fill(null);if(s==='insert')state.insert.fill(null);if(s==='order')state.order=orders.map(()=>[]);if(s==='phrase')state.phrase=phrases.map(()=>[]);if(s==='pinyin')state.pinyin=pinyinWords.map(w=>({text:'',stage:0,chosen:Array(w.parts.length).fill(null),error:''}));if(s==='tf')state.tf.fill(null);if(s==='qa')state.qa.fill('');checks[s]=false;picked=null;renderAll()}
+function checkAll(){sections.forEach(s=>checks[s]=true);renderAll();let correct=0;sections.forEach(s=>{for(let i=0;i<sectionLength(s);i++)if(isCorrect(s,i))correct++});alert(`Результат: ${correct} из 50.\nЗелёным отмечены правильные ответы, красным — то, что нужно исправить.`)}
+document.addEventListener('click',e=>{let action=e.target.closest('[data-action]');if(!action||app.contains(action))return;if(action.dataset.action==='check-all')checkAll();if(action.dataset.action==='reset'&&confirm('Очистить все ответы и начать заново?'))init()});
+document.getElementById('name-notes').innerHTML=Object.entries(names).map(([name,[p,desc]])=>`<div class="name-note"><strong>${escapeHtml(name)}</strong> · <b>${escapeHtml(p)}</b><span>${escapeHtml(desc)}</span></div>`).join('');
+init();
+</script>
+</body>
+</html>
