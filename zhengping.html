@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>正平 — Character & Pinyin Practice</title>
+<style>
+:root{
+  --bg1:#0e3b31;--bg2:#082820;--wood:#6b4126;--wood2:#341e11;
+  --tile:#f5ecd5;--tile2:#d8c9a8;--ink:#202622;--gold:#d1aa59;
+  --good:#58c989;--bad:#ef7770;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;color:#fff;
+  font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+  background:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 2px,rgba(0,0,0,.012) 2px 4px),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+}
+.app{max-width:1180px;margin:auto;padding:14px}
+.frame{
+  border:12px solid var(--wood);border-right-color:var(--wood2);border-bottom-color:var(--wood2);
+  border-radius:24px;background:rgba(0,0,0,.18);overflow:hidden;
+  box-shadow:0 18px 42px rgba(0,0,0,.28)
+}
+header{padding:18px 20px 14px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(26px,4vw,42px)}
+header p{margin:6px 0 0;color:#d6ebe3}
+.badge{background:var(--tile);color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:900;box-shadow:0 4px 0 var(--tile2)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid #ffffff18;border-bottom:1px solid #ffffff18}
+.tab{border:0;border-radius:10px;padding:10px 14px;background:#ffffff18;color:#fff;font-weight:900;cursor:pointer}
+.tab.active{background:var(--tile);color:var(--ink);box-shadow:0 4px 0 var(--tile2)}
+.progress-wrap{padding:13px 18px 0}
+.progress{height:9px;background:#ffffff18;border-radius:999px;overflow:hidden}.progress>div{height:100%;width:0;background:var(--gold);transition:.2s}
+.score{margin-top:7px;color:#efd996;font-weight:900}
+main{padding:18px}
+.panel{display:none}.panel.active{display:block}
+h2{margin:0 0 7px;font-size:28px}
+.note{margin:0 0 17px;color:#d5eae2}
+.card{background:#ffffff0c;border:1px solid #ffffff18;border-radius:16px;padding:15px;margin-bottom:15px}
+.round{color:#d2e6df;text-align:center;font-size:14px;margin-bottom:4px}
+.target{font-size:58px;text-align:center;font-weight:900;margin:5px 0 16px}
+.target.pinyin{font-size:44px;color:#f0d99a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:11px}
+.tile{
+  min-height:72px;border:0;border-radius:12px;cursor:pointer;
+  background:linear-gradient(155deg,#fffdf7,var(--tile) 55%,var(--tile2));
+  color:var(--ink);font-size:34px;font-weight:900;
+  box-shadow:0 6px 0 #c2b493,0 10px 16px rgba(0,0,0,.24);
+  padding:8px
+}
+.tile.text{font-size:21px;min-height:62px}
+.tile:hover{transform:translateY(-2px)}
+.tile.correct{outline:4px solid var(--good)}
+.tile.wrong{outline:4px solid var(--bad)}
+.feedback{margin-top:13px;padding:10px 12px;background:#00000025;border-radius:10px;min-height:43px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--gold);color:#2f2414;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #96783c}
+.btn.secondary{background:#ffffff18;color:#fff;box-shadow:none}
+.list{display:grid;gap:12px}
+.item{background:#ffffff0b;border-radius:14px;padding:13px}
+.item-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.char{font-size:38px;font-weight:900}
+.word{font-size:34px;font-weight:900}
+.mini{font-size:13px;color:#d1e6de}
+@media(max-width:650px){
+  .app{padding:6px}.frame{border-width:7px;border-radius:17px}main{padding:12px}.tabs{padding:10px}
+  .target{font-size:48px}.target.pinyin{font-size:37px}.tile{font-size:29px;min-height:64px}.tile.text{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="app"><div class="frame">
+<header>
+  <div>
+    <h1>汉字与拼音练习</h1>
+    <p>Student: 正平 · Character recognition and pinyin</p>
+  </div>
+  <div class="badge">正平 · Zhèngpíng</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="p1">1. Find by Pinyin</button>
+  <button class="tab" data-tab="p2">2. Find the Pinyin</button>
+  <button class="tab" data-tab="p3">3. Word Pinyin</button>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="score" id="score">Completed: 0 / 3</div>
+</div>
+
+<main>
+<section id="p1" class="panel active">
+  <h2>1. Find the character by pinyin</h2>
+  <p class="note">Look at the pinyin and find the correct Chinese character among 10 visually similar characters.</p>
+  <div class="card">
+    <div class="round" id="charRound"></div>
+    <div class="target pinyin" id="charTarget">nǐ</div>
+    <div class="grid" id="charGrid"></div>
+    <div class="feedback" id="charFeedback">Choose one tile.</div>
+  </div>
+  <div class="actions"><button class="btn" id="nextChar">Next Character</button></div>
+</section>
+
+<section id="p2" class="panel">
+  <h2>2. Find the correct pinyin</h2>
+  <p class="note">Choose the only correct pinyin for each character.</p>
+  <div class="card">
+    <div class="round" id="pyRound"></div>
+    <div class="target" id="pyChar">你</div>
+    <div class="grid" id="pyGrid"></div>
+    <div class="feedback" id="pyFeedback">Choose one pinyin.</div>
+  </div>
+  <div class="actions"><button class="btn" id="nextPy">Next Character</button></div>
+</section>
+
+<section id="p3" class="panel">
+  <h2>3. Find the correct pinyin for the whole word</h2>
+  <p class="note">Choose the correct pronunciation for each word.</p>
+  <div class="card">
+    <div class="round" id="wordRound"></div>
+    <div class="target" id="wordTarget">你好</div>
+    <div class="grid" id="wordGrid"></div>
+    <div class="feedback" id="wordFeedback">Choose one pinyin.</div>
+  </div>
+  <div class="actions"><button class="btn" id="nextWord">Next Word</button></div>
+</section>
+</main>
+</div></div>
+
+<script>
+const q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const done=new Set();
+function markDone(n){
+  done.add(n);
+  q('#score').textContent=`Completed: ${done.size} / 3`;
+  q('#progressBar').style.width=`${done.size/3*100}%`;
+}
+qa('.tab').forEach(b=>b.addEventListener('click',()=>{
+  qa('.tab').forEach(x=>x.classList.remove('active'));
+  qa('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); q('#'+b.dataset.tab).classList.add('active');
+}));
+
+const charRounds=[
+ {p:'nǐ',t:'你',o:['你','伱','妳','他','佢','侬','尔','仁','什','休']},
+ {p:'nín',t:'您',o:['您','你','恁','怹','念','恧','侬','恁','佞','伈']},
+ {p:'tā',t:'他',o:['他','她','佗','地','池','驰','弛','祂','牠','佢']},
+ {p:'tā',t:'她',o:['她','他','妳','姣','妈','姐','妹','如','好','姒']},
+ {p:'jiào',t:'叫',o:['叫','叩','召','叼','叨','叻','叽','叶','吅','咤']},
+ {p:'míng',t:'名',o:['名','各','多','夕','句','吕','吝','君','合','石']},
+ {p:'zì',t:'字',o:['字','学','宇','守','安','宋','孛','孚','存','仔']},
+ {p:'xìng',t:'姓',o:['姓','性','牲','笙','星','生','姪','姝','妊','妨']},
+ {p:'shén',t:'什',o:['什','仆','仕','仟','件','仁','仂','化','付','仙']},
+ {p:'me',t:'么',o:['么','幺','公','厶','久','勾','玄','云','去','之']},
+ {p:'zhèng',t:'正',o:['正','止','王','五','亚','土','工','证','征','歪']},
+ {p:'píng',t:'平',o:['平','乎','羊','干','半','坪','评','苹','年','手']}
+];
+let ci=0, charSolved=new Set();
+
+function renderChar(){
+ const r=charRounds[ci]; q('#charRound').textContent=`${ci+1} / ${charRounds.length}`;
+ q('#charTarget').textContent=r.p; q('#charFeedback').textContent='Choose one tile.';
+ const g=q('#charGrid'); g.innerHTML='';
+ shuffle([...new Set(r.o)]).forEach(ch=>{
+  const b=document.createElement('button'); b.className='tile'; b.textContent=ch;
+  b.onclick=()=>{
+   qa('#charGrid .tile').forEach(x=>x.classList.remove('correct','wrong'));
+   if(ch===r.t){b.classList.add('correct');charSolved.add(ci);q('#charFeedback').textContent=`✓ ${r.p} = ${r.t}`;if(charSolved.size===charRounds.length)markDone(1)}
+   else{b.classList.add('wrong');q('#charFeedback').textContent='Not quite. Look at the components carefully.'}
+  };
+  g.appendChild(b);
+ });
+}
+q('#nextChar').onclick=()=>{ci=(ci+1)%charRounds.length;renderChar()};
+
+const pyRounds=[
+ {c:'你',a:'nǐ',o:['nǐ','ní','nì','nī','nǚ','lǐ','mǐ','nǚ','nǐng','nìng']},
+ {c:'您',a:'nín',o:['nín','nǐn','nìn','nīn','níng','nǐ','nì','lín','mín','rén']},
+ {c:'他',a:'tā',o:['tā','tá','tǎ','tà','tuō','tài','dā','tāi','tàn','táng']},
+ {c:'她',a:'tā',o:['tā','tá','tǎ','tà','tuō','tǎn','dā','tāi','táng','tàn']},
+ {c:'叫',a:'jiào',o:['jiào','jiāo','jiáo','jiǎo','jiù','jiào','qiào','jiǎ','jiě','jiàn']},
+ {c:'名',a:'míng',o:['míng','mǐng','mìng','mīng','mín','mǐn','mìn','mí','mǎng','méng']},
+ {c:'字',a:'zì',o:['zì','zī','zí','zǐ','cì','zǐ','zǎi','zhì','zé','zōng']},
+ {c:'姓',a:'xìng',o:['xìng','xīng','xíng','xǐng','xìn','xǐn','shìng','xīn','xiàng','xì']},
+ {c:'什',a:'shén',o:['shén','shēn','shěn','shèn','shí','shì','sén','chén','shénɡ','shǎn']},
+ {c:'么',a:'me',o:['me','mē','mé','mě','mè','ma','mó','mò','mǒ','mā']}
+];
+let pi=0, pySolved=new Set();
+
+function renderPy(){
+ const r=pyRounds[pi];q('#pyRound').textContent=`${pi+1} / ${pyRounds.length}`;q('#pyChar').textContent=r.c;q('#pyFeedback').textContent='Choose one pinyin.';
+ const g=q('#pyGrid');g.innerHTML='';
+ shuffle([...new Set(r.o)]).forEach(py=>{
+  const b=document.createElement('button');b.className='tile text';b.textContent=py;
+  b.onclick=()=>{
+   qa('#pyGrid .tile').forEach(x=>x.classList.remove('correct','wrong'));
+   if(py===r.a){b.classList.add('correct');pySolved.add(pi);q('#pyFeedback').textContent=`✓ ${r.c} = ${r.a}`;if(pySolved.size===pyRounds.length)markDone(2)}
+   else{b.classList.add('wrong');q('#pyFeedback').textContent='Wrong tone or syllable. Try again.'}
+  };g.appendChild(b)
+ });
+}
+q('#nextPy').onclick=()=>{pi=(pi+1)%pyRounds.length;renderPy()};
+
+const wordRounds=[
+ {w:'你好',a:'nǐ hǎo',o:['nǐ hǎo','ní hǎo','nǐ hào','nì hǎo','nī hǎo','nǐ hāo','ní hào','nì hāo','nǐ háo','nī hào']},
+ {w:'再见',a:'zài jiàn',o:['zài jiàn','zǎi jiàn','zài jiān','zāi jiàn','zài jiǎn','zái jiàn','zài jián','zǎi jiǎn','zāi jiān','zài jiàn']},
+ {w:'名字',a:'míng zi',o:['míng zi','mǐng zi','míng zì','mìng zi','mīng zǐ','míng zī','mǐng zì','mìng zǐ','mīng zi','míng zǐ']},
+ {w:'您好',a:'nín hǎo',o:['nín hǎo','nǐn hǎo','nín hào','nìn hǎo','nīn hǎo','níng hǎo','nín hāo','nǐn hào','nìn hāo','nín háo']}
+];
+let wi=0, wordSolved=new Set();
+
+function renderWord(){
+ const r=wordRounds[wi];q('#wordRound').textContent=`${wi+1} / ${wordRounds.length}`;q('#wordTarget').textContent=r.w;q('#wordFeedback').textContent='Choose one pinyin.';
+ const g=q('#wordGrid');g.innerHTML='';
+ shuffle([...new Set(r.o)]).forEach(py=>{
+  const b=document.createElement('button');b.className='tile text';b.textContent=py;
+  b.onclick=()=>{
+   qa('#wordGrid .tile').forEach(x=>x.classList.remove('correct','wrong'));
+   if(py===r.a){b.classList.add('correct');wordSolved.add(wi);q('#wordFeedback').textContent=`✓ ${r.w} = ${r.a}`;if(wordSolved.size===wordRounds.length)markDone(3)}
+   else{b.classList.add('wrong');q('#wordFeedback').textContent='Wrong pronunciation. Try again.'}
+  };g.appendChild(b)
+ });
+}
+q('#nextWord').onclick=()=>{wi=(wi+1)%wordRounds.length;renderWord()};
+
+renderChar();renderPy();renderWord();
+</script>
+</body>
+</html>
