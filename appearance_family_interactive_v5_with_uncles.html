@@ -159,6 +159,18 @@ function choices(){q('#choices').innerHTML=D.choice.map((c,i)=>`<div class="choi
 function sortRender(){q('#sorts').innerHTML='';D.sorts.forEach((t,i)=>{let box=document.createElement('div');box.className='sortitem';box.innerHTML=`<b>${i+1}. ${t[0]}</b>`;let c=document.createElement('div');c.className='chips';let z=document.createElement('div');z.className='zone';z.dataset.i=i;sh(t[2]).forEach(p=>{let b=document.createElement('button');b.className='chip';b.textContent=p;b.onclick=()=>{if(b.classList.contains('used'))return;b.classList.add('used');let a=document.createElement('button');a.className='chip';a.textContent=p;a.onclick=()=>{a.remove();b.classList.remove('used')};z.appendChild(a)};c.appendChild(b)});box.append(c,z);q('#sorts').appendChild(box)})}
 function sortCheck(){let n=0;qa('.zone').forEach(z=>{let got=[...z.querySelectorAll('.chip')].map(x=>x.textContent).join(''),ok=got===D.sorts[+z.dataset.i][1];z.classList.toggle('ok',ok);z.classList.toggle('bad',!ok);if(ok)n++});q('#sortFb').textContent=n===D.sorts.length?'✓ All correct!':`Correct: ${n} / ${D.sorts.length}`}
 const familyAnswers={father:'1',mother:'1',son:'1'};
+
+function shuffleFamilyPortraits(){
+  qa('.role-options').forEach(group=>{
+    const cards=sh([...group.querySelectorAll('.role-card')]);
+    cards.forEach((card,pos)=>{
+      const num=card.querySelector('.role-num');
+      if(num) num.textContent=String(pos+1);
+      group.appendChild(card);
+    });
+  });
+}
+shuffleFamilyPortraits();
 qa('.role-card').forEach(card=>card.onclick=()=>{
   const role=card.dataset.role;
   qa(`.role-card[data-role="${role}"]`).forEach(x=>x.classList.remove('selected','correct','wrong'));
