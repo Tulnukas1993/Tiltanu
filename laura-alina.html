@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Laura & Alina — Personal Information Practice</title>
+<style>
+:root{--bg:#0d382e;--bg2:#08271f;--tile:#f5ecd5;--tile2:#d7c9a7;--gold:#d2ad5e;--good:#57c786;--bad:#ef7871}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,var(--bg),var(--bg2));color:#fff;font-family:Arial,"Microsoft YaHei",sans-serif}
+.app{max-width:1120px;margin:auto;padding:14px}.frame{border:10px solid #684025;border-right-color:#351f12;border-bottom-color:#351f12;border-radius:22px;background:rgba(0,0,0,.18);overflow:hidden}
+header{padding:18px}.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid #ffffff20;border-bottom:1px solid #ffffff20}
+.tab,.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.tab{background:#ffffff18;color:#fff}.tab.active{background:var(--tile);color:#222}
+main{padding:18px}.panel{display:none}.panel.active{display:block}.note{color:#d7ebe4;margin-top:0}.card{background:#ffffff0d;border:1px solid #ffffff18;border-radius:15px;padding:14px;margin:14px 0}
+.row{display:grid;grid-template-columns:34px 1fr minmax(170px,.7fr);gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff12}.row:last-child{border-bottom:0}
+.n{background:var(--gold);color:#2d2415;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}.zh{font-size:21px;font-weight:800}.py{font-size:13px;color:#eadca9;margin-top:3px}
+select,input{width:100%;min-height:44px;border-radius:9px;border:0;padding:9px;font-size:16px}.bank{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}.ans{background:var(--tile);color:#222;border-radius:11px;padding:11px;font-weight:700}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{background:var(--gold);color:#2b2113}.btn.secondary{background:#ffffff18;color:#fff}.feedback{margin-top:12px;background:#00000025;border-radius:10px;padding:10px}
+.ok{outline:3px solid var(--good)!important}.bad{outline:3px solid var(--bad)!important}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.field{background:#ffffff0b;padding:12px;border-radius:12px}.field label{display:block;font-weight:800;margin-bottom:6px}
+.dialogue{display:grid;grid-template-columns:1.4fr .7fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff12}.dialogue:last-child{border-bottom:0}
+.sort{background:#ffffff0b;border-radius:13px;padding:12px;margin:12px 0}.chips,.zone{display:flex;gap:7px;flex-wrap:wrap;min-height:52px;padding:8px;border-radius:9px}.chips{background:#ffffff08}.zone{margin-top:8px;border:2px dashed #ffffff35}.chip{border:0;border-radius:9px;padding:8px 11px;background:var(--tile);color:#111;font-size:18px;font-weight:800;cursor:pointer}.chip.used{opacity:.25;pointer-events:none}.picked{background:#e6d399;color:#111}
+@media(max-width:650px){.app{padding:6px}.frame{border-width:6px}.row,.dialogue{grid-template-columns:1fr}.n{display:none}.zh{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="app"><div class="frame">
+<header><h1>个人信息 · Personal Information</h1><div>Students: Laura & Alina · Phone numbers · Addresses · Email</div></header>
+<div class="tabs">
+<button class="tab active" data-tab="p1">1. Match</button>
+<button class="tab" data-tab="p2">2. Lost Luggage</button>
+<button class="tab" data-tab="p3">3. Dialogue</button>
+<button class="tab" data-tab="p4">4. Address Order</button>
+</div>
+<main>
+<section id="p1" class="panel active">
+<h2>1. Match the questions and answers</h2><p class="note">Choose the correct answer for each question.</p>
+<div class="card">
+<div class="row"><div class="n">1</div><div><div class="zh">你家的电话号码是多少？</div><div class="py">Nǐ jiā de diànhuà hàomǎ shì duōshao?</div></div><select class="m" data-a="b"><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select></div>
+<div class="row"><div class="n">2</div><div><div class="zh">你的房间号是多少？</div><div class="py">Nǐ de fángjiān hào shì duōshao?</div></div><select class="m" data-a="d"><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select></div>
+<div class="row"><div class="n">3</div><div><div class="zh">我的手机号码是 1797833264，你的呢？</div><div class="py">Wǒ de shǒujī hàomǎ shì 1797833264, nǐ de ne?</div></div><select class="m" data-a="e"><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select></div>
+<div class="row"><div class="n">4</div><div><div class="zh">这是你的电话号码吗？</div><div class="py">Zhè shì nǐ de diànhuà hàomǎ ma?</div></div><select class="m" data-a="a"><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select></div>
+<div class="row"><div class="n">5</div><div><div class="zh">你住在 508 号房间吗？</div><div class="py">Nǐ zhù zài 508 hào fángjiān ma?</div></div><select class="m" data-a="c"><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select></div>
+</div>
+<div class="bank">
+<div class="ans"><b>a.</b> 不，这不是我的电话号码。</div><div class="ans"><b>b.</b> 010-23897768。</div><div class="ans"><b>c.</b> 是。</div><div class="ans"><b>d.</b> 113。</div><div class="ans"><b>e.</b> 我的手机号码是 19810787643。</div>
+</div>
+<div class="actions"><button class="btn secondary" id="r1">Reset</button><button class="btn" id="c1">Check</button></div><div class="feedback" id="f1">Match all five.</div>
+</section>
+
+<section id="p2" class="panel">
+<h2>2. Lost Luggage Office</h2><p class="note">Fill in the passenger information, then practise the questions aloud.</p>
+<div class="formgrid card">
+<div class="field"><label>姓名 · Name</label><div class="py">xìngmíng</div><input id="name"></div>
+<div class="field"><label>国籍 · Nationality</label><div class="py">guójí</div><input id="nat"></div>
+<div class="field"><label>电话号码 · Phone number</label><div class="py">diànhuà hàomǎ</div><input id="phone"></div>
+<div class="field"><label>地址 · Address</label><div class="py">dìzhǐ</div><input id="addr"></div>
+<div class="field"><label>电子邮箱 · Email</label><div class="py">diànzǐ yóuxiāng</div><input id="email"></div>
+</div>
+<div class="bank">
+<div class="ans">你叫什么名字？<div class="py">Nǐ jiào shénme míngzi?</div></div>
+<div class="ans">你是哪里人？<div class="py">Nǐ shì nǎli rén?</div></div>
+<div class="ans">你的电话号码是多少？<div class="py">Nǐ de diànhuà hàomǎ shì duōshao?</div></div>
+<div class="ans">你的地址是什么？<div class="py">Nǐ de dìzhǐ shì shénme?</div></div>
+<div class="ans">你的电子邮箱是什么？<div class="py">Nǐ de diànzǐ yóuxiāng shì shénme?</div></div>
+</div>
+<div class="actions"><button class="btn secondary" id="r2">Clear</button><button class="btn" id="c2">Complete</button></div><div class="feedback" id="f2">Fill in all five fields.</div>
+</section>
+
+<section id="p3" class="panel">
+<h2>3. Complete the dialogue</h2><p class="note">Choose the correct answer for Angela.</p>
+<div class="card">
+<div class="dialogue"><div><b>David:</b> 你的电话号码是 30541296 吗？<div class="py">Nǐ de diànhuà hàomǎ shì 30541296 ma?</div></div><select class="d" data-a="3"><option></option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+<div class="dialogue"><div><b>David:</b> 你的手机号码是多少？<div class="py">Nǐ de shǒujī hàomǎ shì duōshao?</div></div><select class="d" data-a="2"><option></option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+<div class="dialogue"><div><b>David:</b> 你住在哪里？<div class="py">Nǐ zhù zài nǎli?</div></div><select class="d" data-a="1"><option></option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+<div class="dialogue"><div><b>David:</b> 你的电子邮箱是什么？<div class="py">Nǐ de diànzǐ yóuxiāng shì shénme?</div></div><select class="d" data-a="4"><option></option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+</div>
+<div class="bank">
+<div class="ans"><b>1.</b> 我住在大学路 23 号。</div><div class="ans"><b>2.</b> 我的手机号码是 16628958763。</div><div class="ans"><b>3.</b> 是，这是我家的电话号码。</div><div class="ans"><b>4.</b> angela@DC.com</div>
+</div>
+<div class="actions"><button class="btn secondary" id="r3">Reset</button><button class="btn" id="c3">Check</button></div><div class="feedback" id="f3">Choose all four answers.</div>
+</section>
+
+<section id="p4" class="panel">
+<h2>4. Put the address in the correct order</h2><p class="note">Tap the parts to build each address. Tap a selected part to remove it.</p>
+<div id="sort"></div>
+<div class="actions"><button class="btn secondary" id="r4">Reset</button><button class="btn" id="c4">Check All</button></div><div class="feedback" id="f4">Build all six addresses.</div>
+</section>
+</main>
+</div></div>
+
+<script>
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];
+qa('.tab').forEach(b=>b.addEventListener('click',()=>{qa('.tab').forEach(x=>x.classList.remove('active'));qa('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');q('#'+b.dataset.tab).classList.add('active')}));
+function check(sel,fb,total){let n=0;qa(sel).forEach(x=>{let ok=x.value===x.dataset.a;x.classList.toggle('ok',ok);x.classList.toggle('bad',!ok);if(ok)n++});q(fb).textContent=n===total?'✓ All correct!':`Correct: ${n} / ${total}`}
+function reset(sel,fb,msg){qa(sel).forEach(x=>{x.value='';x.classList.remove('ok','bad')});q(fb).textContent=msg}
+q('#c1').onclick=()=>check('.m','#f1',5);q('#r1').onclick=()=>reset('.m','#f1','Match all five.');
+q('#c3').onclick=()=>check('.d','#f3',4);q('#r3').onclick=()=>reset('.d','#f3','Choose all four answers.');
+q('#c2').onclick=()=>{let ids=['name','nat','phone','addr','email'],n=0;ids.forEach(id=>{let x=q('#'+id),ok=x.value.trim();x.classList.toggle('ok',!!ok);x.classList.toggle('bad',!ok);if(ok)n++});q('#f2').textContent=n===5?'✓ Form complete. Practise the questions aloud.':`Completed: ${n} / 5`};
+q('#r2').onclick=()=>{['name','nat','phone','addr','email'].forEach(id=>{q('#'+id).value='';q('#'+id).classList.remove('ok','bad')});q('#f2').textContent='Fill in all five fields.'};
+
+const tasks=[
+ {p:['1319号房间','23号','大学路','大学生公寓'],a:['大学路','23号','大学生公寓','1319号房间']},
+ {p:['公园路','北京','26号','中国'],a:['中国','北京','公园路','26号']},
+ {p:['75号','新上海公寓','上海路'],a:['上海路','75号','新上海公寓']},
+ {p:['38号','北京路'],a:['北京路','38号']},
+ {p:['大学路','伦敦公寓','15号'],a:['大学路','15号','伦敦公寓']},
+ {p:['新大学生公寓','709号房间'],a:['新大学生公寓','709号房间']}
+];
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+function render(){
+ let w=q('#sort');w.innerHTML='';
+ tasks.forEach((t,i)=>{let box=document.createElement('div');box.className='sort';box.innerHTML=`<b>${i+1}. Build the address</b>`;let chips=document.createElement('div');chips.className='chips';let zone=document.createElement('div');zone.className='zone';zone.dataset.i=i;
+ shuffle(t.p).forEach(part=>{let b=document.createElement('button');b.className='chip';b.textContent=part;b.onclick=()=>{b.classList.add('used');let z=document.createElement('button');z.className='chip picked';z.textContent=part;z.onclick=()=>{z.remove();b.classList.remove('used')};zone.appendChild(z)};chips.appendChild(b)});
+ box.append(chips,zone);w.appendChild(box)})
+}
+q('#c4').onclick=()=>{let n=0;qa('.zone').forEach(z=>{let got=[...z.querySelectorAll('.picked')].map(x=>x.textContent),ok=JSON.stringify(got)===JSON.stringify(tasks[+z.dataset.i].a);z.classList.toggle('ok',ok);z.classList.toggle('bad',!ok);if(ok)n++});q('#f4').textContent=n===6?'✓ All six addresses are correct!':`Correct: ${n} / 6`};
+q('#r4').onclick=()=>{render();q('#f4').textContent='Build all six addresses.'};
+render();
+</script>
+</body></html>
