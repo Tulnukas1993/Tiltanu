@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文练习 · 电话、地址和短信</title>
+<style>
+:root{--board:#0d4b3b;--board2:#123e34;--wood:#6e472d;--tile:#fff8e7;--tile2:#e8d8b5;--ink:#1f2925;--gold:#d8b55d;--good:#4fc58a;--bad:#ed7169;--muted:#cfe5db}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,var(--board),var(--board2));color:#fff}
+.app{max-width:1180px;margin:auto;padding:18px}
+.frame{border:12px solid var(--wood);border-right-color:#49301f;border-bottom-color:#49301f;border-radius:26px;overflow:hidden;background:rgba(6,44,35,.72);box-shadow:0 18px 40px rgba(0,0,0,.32)}
+header{padding:22px 24px 18px;border-bottom:1px solid rgba(255,255,255,.13)}
+h1{margin:0;font-size:clamp(26px,4vw,42px)}
+header p{margin:6px 0 0;color:var(--muted)}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.12)}
+.tab{border:0;border-radius:12px;padding:11px 15px;font-weight:900;cursor:pointer;background:rgba(255,255,255,.12);color:#fff}
+.tab.active{background:var(--tile);color:var(--ink);box-shadow:0 4px 0 var(--tile2)}
+main{padding:18px}.panel{display:none}.panel.active{display:block}
+h2{font-size:28px;margin:0 0 8px}.note{color:var(--muted);margin:0 0 16px}
+.word-bank{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.tile{border:0;border-radius:12px;background:linear-gradient(155deg,#fffdf7,var(--tile),var(--tile2));color:var(--ink);padding:12px 16px;font-size:25px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #c7b993,0 10px 14px rgba(0,0,0,.25);user-select:none}
+.tile.selected{outline:4px solid var(--gold)}.tile.used{opacity:.35;pointer-events:none}
+.icon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.icon-card{background:#f8f0dd;color:var(--ink);border-radius:16px;min-height:175px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid transparent;cursor:pointer}
+.icon-card.correct{border-color:var(--good)}.icon-card.wrong{border-color:var(--bad)}
+.icon-wrap{width:100px;height:100px;display:flex;align-items:center;justify-content:center}.icon-wrap svg{width:92px;height:92px}
+.drop-label{margin-top:10px;min-height:42px;min-width:130px;border:2px dashed #b9aa83;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;padding:6px 10px}
+.feedback{margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.08);min-height:44px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{border:0;border-radius:11px;padding:10px 15px;font-weight:900;cursor:pointer;background:var(--gold);color:#342914;box-shadow:0 4px 0 #9d7e3e}
+.btn.secondary{background:rgba(255,255,255,.14);color:#fff;box-shadow:none}
+.pinyin-list{display:grid;gap:14px}
+.py-row{background:rgba(255,255,255,.07);border-radius:16px;padding:14px;display:grid;grid-template-columns:105px minmax(180px,1fr);gap:12px 16px;align-items:center}
+.hanzi{font-size:34px;font-weight:900;background:var(--tile);color:var(--ink);border-radius:12px;padding:10px;text-align:center;box-shadow:0 5px 0 var(--tile2)}
+.py-input-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.py-input{flex:1;min-width:190px;border:2px solid transparent;border-radius:10px;padding:11px 12px;font-size:20px;font-family:inherit}
+.py-input.ok{border-color:var(--good)}.py-input.bad{border-color:var(--bad)}
+.unlock{font-size:14px;color:var(--muted);margin-top:6px}
+.tone-options{grid-column:1/-1;display:none;grid-template-columns:repeat(3,1fr);gap:9px}
+.tone-options.show{display:grid}
+.tone-btn{border:0;border-radius:10px;padding:11px 9px;background:var(--tile);color:var(--ink);font-size:19px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--tile2)}
+.tone-btn.correct{outline:4px solid var(--good)}.tone-btn.wrong{outline:4px solid var(--bad)}
+.smallfb{grid-column:1/-1;min-height:24px;color:#f4e3ae;font-weight:800}
+.progress{height:10px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden;margin:14px 18px 0}.progress>div{height:100%;width:0;background:var(--gold);transition:.2s}
+.score{padding:8px 18px 0;color:#f2dfaa;font-weight:800}
+@media(max-width:800px){.icon-grid{grid-template-columns:repeat(2,1fr)}.tone-options{grid-template-columns:1fr}.py-row{grid-template-columns:1fr}}
+@media(max-width:520px){.app{padding:7px}.frame{border-width:7px;border-radius:18px}main{padding:12px}.icon-grid{grid-template-columns:1fr}}
+
+.address-list{display:grid;gap:16px}
+.address-card{background:rgba(255,255,255,.07);border-radius:16px;padding:14px}
+.address-no{font-weight:900;color:#f2dfaa;margin-bottom:10px}
+.address-pool,.address-zone{display:flex;gap:9px;flex-wrap:wrap;min-height:58px;padding:10px;border-radius:12px}
+.address-pool{background:rgba(255,255,255,.06)}
+.address-zone{margin-top:10px;border:2px dashed rgba(255,255,255,.28);background:rgba(0,0,0,.08)}
+.addr-chip{border:0;border-radius:10px;background:var(--tile);color:var(--ink);padding:8px 12px;cursor:pointer;box-shadow:0 4px 0 var(--tile2);font-weight:900}
+.addr-chip.used{opacity:.28;pointer-events:none}
+.addr-chip .py{display:block;font-size:12px;font-weight:700;color:#6c6659;margin-bottom:2px}
+.address-zone.ok{border-color:var(--good);background:rgba(79,197,138,.10)}
+.address-zone.bad{border-color:var(--bad);background:rgba(237,113,105,.10)}
+.address-hint{font-size:13px;color:var(--muted);margin-top:8px}
+
+</style>
+</head>
+<body>
+<div class="app"><div class="frame">
+<header><h1>中文练习 · 电话、地址和短信</h1><p>Интерактивная практика: иконки, pinyin и тоны</p></header>
+<div class="tabs">
+<button class="tab active" data-tab="t1">1. Иконки</button>
+<button class="tab" data-tab="t2">2. Pinyin + тоны</button>
+<button class="tab" data-tab="t3">3. Собери адрес</button>
+</div>
+<div class="progress"><div id="progressBar"></div></div><div class="score" id="score">Выполнено: 0 / 3</div>
+<main>
+<section id="t1" class="panel active">
+<h2>1. Соедини слово с иконкой</h2>
+<p class="note">Нажми на китайское слово, затем на подходящую иконку.</p>
+<div class="word-bank" id="wordBank"></div>
+<div class="icon-grid" id="iconGrid"></div>
+<div class="actions"><button class="btn secondary" onclick="resetIcons()">Сбросить</button><button class="btn" onclick="checkIcons()">Проверить</button></div>
+<div class="feedback" id="iconFeedback">Размести все 6 слов.</div>
+</section>
+
+<section id="t2" class="panel">
+<h2>2. Сначала напиши pinyin, потом выбери правильный тон</h2>
+<p class="note">Вводи pinyin <b>без тонов</b>. После правильного ввода откроются 3 варианта с тонами.</p>
+<div class="pinyin-list" id="pinyinList"></div>
+<div class="actions"><button class="btn secondary" onclick="resetPinyin()">Сбросить</button></div>
+<div class="feedback" id="pinyinFeedback">Сначала введи pinyin без тонов.</div>
+</section>
+
+<section id="t3" class="panel">
+<h2>3. Собери адрес в правильном порядке</h2>
+<p class="note">Нажимай на части адреса по порядку. Pinyin дан как подсказка. Если ошибся — нажми на плитку в строке ответа, чтобы вернуть её обратно.</p>
+<div class="address-list" id="addressList"></div>
+<div class="actions">
+  <button class="btn secondary" onclick="resetAddresses()">Сбросить всё</button>
+  <button class="btn" onclick="checkAddresses()">Проверить</button>
+</div>
+<div class="feedback" id="addressFeedback">Собери все 6 адресов.</div>
+</section>
+
+</main></div></div>
+
+<script>
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)],shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const state={done:new Set()};
+function markDone(n){state.done.add(n);q('#score').textContent=`Выполнено: ${state.done.size} / 3`;q('#progressBar').style.width=(state.done.size/3*100)+'%'}
+qa('.tab').forEach(b=>b.onclick=()=>{qa('.tab').forEach(x=>x.classList.remove('active'));qa('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');q('#'+b.dataset.tab).classList.add('active')});
+
+const iconData=[
+{word:'发件人',key:'sender',svg:`<svg viewBox="0 0 120 120"><circle cx="42" cy="34" r="18" fill="#79a9e8"/><path d="M18 91c0-23 13-36 27-36s27 13 27 36" fill="#79a9e8" stroke="#173e67" stroke-width="5"/><rect x="60" y="58" width="45" height="32" rx="5" fill="#fff7df" stroke="#173e67" stroke-width="5"/><path d="M62 61l20 16 20-16" fill="none" stroke="#173e67" stroke-width="4"/></svg>`},
+{word:'收件箱',key:'inbox',svg:`<svg viewBox="0 0 120 120"><path d="M24 48h72l12 48H12z" fill="#8fc0ef" stroke="#183e67" stroke-width="5"/><rect x="36" y="22" width="48" height="52" rx="4" fill="#fff" stroke="#183e67" stroke-width="5"/><path d="M44 36h31M44 48h31M44 60h21" stroke="#183e67" stroke-width="4"/></svg>`},
+{word:'收到',key:'receive',svg:`<svg viewBox="0 0 120 120"><path d="M58 16v49" stroke="#54a867" stroke-width="13" stroke-linecap="round"/><path d="M39 48l19 20 19-20" fill="none" stroke="#54a867" stroke-width="13" stroke-linecap="round"/><path d="M23 71v22h70V71" fill="none" stroke="#173e67" stroke-width="7"/></svg>`},
+{word:'发送',key:'send',svg:`<svg viewBox="0 0 120 120"><path d="M18 63L106 20 76 103 59 70z" fill="#9bc6ef" stroke="#173e67" stroke-width="6"/><path d="M60 70L106 20" stroke="#173e67" stroke-width="5"/><path d="M7 49h24M4 63h25M13 78h20" stroke="#e0a326" stroke-width="6"/></svg>`},
+{word:'退出',key:'exit',svg:`<svg viewBox="0 0 120 120"><path d="M55 18H25v84h30" fill="none" stroke="#173e67" stroke-width="7"/><path d="M52 60h50" stroke="#df4a46" stroke-width="9"/><path d="M83 43l19 17-19 17" fill="none" stroke="#df4a46" stroke-width="9"/></svg>`},
+{word:'新短信',key:'newmsg',svg:`<svg viewBox="0 0 120 120"><path d="M20 28h70v54H48L29 98V82h-9z" fill="#fff" stroke="#173e67" stroke-width="6"/><rect x="36" y="44" width="38" height="25" rx="3" fill="#fff7df" stroke="#173e67" stroke-width="4"/><path d="M38 46l17 13 17-13" fill="none" stroke="#173e67" stroke-width="3"/><circle cx="89" cy="29" r="18" fill="#e84e52"/><text x="89" y="36" text-anchor="middle" font-size="22" fill="#fff">1</text></svg>`}
+];
+let selectedWord=null;
+function renderIcons(){
+  q('#wordBank').innerHTML='';q('#iconGrid').innerHTML='';
+  shuffle(iconData).forEach(item=>{let b=document.createElement('button');b.className='tile';b.textContent=item.word;b.dataset.key=item.key;b.onclick=()=>{qa('#wordBank .tile').forEach(x=>x.classList.remove('selected'));if(!b.classList.contains('used')){b.classList.add('selected');selectedWord=b}};q('#wordBank').appendChild(b)});
+  shuffle(iconData).forEach(item=>{let d=document.createElement('div');d.className='icon-card';d.dataset.answer=item.key;d.innerHTML=`<div class="icon-wrap">${item.svg}</div><div class="drop-label">?</div>`;d.onclick=()=>{if(!selectedWord)return;const old=d.dataset.value;if(old){const x=qa('#wordBank .tile').find(z=>z.dataset.key===old);if(x)x.classList.remove('used','selected')}d.dataset.value=selectedWord.dataset.key;d.querySelector('.drop-label').textContent=selectedWord.textContent;selectedWord.classList.add('used');selectedWord.classList.remove('selected');selectedWord=null;d.classList.remove('correct','wrong')};q('#iconGrid').appendChild(d)})
+}
+function resetIcons(){selectedWord=null;renderIcons();q('#iconFeedback').textContent='Размести все 6 слов.'}
+function checkIcons(){let good=0,filled=0;qa('#iconGrid .icon-card').forEach(c=>{const v=c.dataset.value||'';if(v)filled++;const ok=v===c.dataset.answer;c.classList.toggle('correct',ok);c.classList.toggle('wrong',!!v&&!ok);if(ok)good++});q('#iconFeedback').textContent=good===6?'✓ Всё правильно!':filled<6?`Размещено ${filled} / 6.`:`Верно: ${good} / 6`;if(good===6)markDone(1)}
+
+const pyData=[
+{hanzi:'电话',plain:'dianhua',correct:'diànhuà',options:['diànhuà','diānhuá','diǎnhuà']},
+{hanzi:'手机',plain:'shouji',correct:'shǒujī',options:['shǒujī','shōují','shòujǐ']},
+{hanzi:'号码',plain:'haoma',correct:'hàomǎ',options:['hàomǎ','háomā','hǎomà']},
+{hanzi:'多少',plain:'duoshao',correct:'duōshao',options:['duōshao','duóshǎo','duǒshào']},
+{hanzi:'地址',plain:'dizhi',correct:'dìzhǐ',options:['dìzhǐ','dīzhí','dǐzhì']},
+{hanzi:'什么',plain:'shenme',correct:'shénme',options:['shénme','shěnmé','shènme']},
+{hanzi:'路',plain:'lu',correct:'lù',options:['lù','lú','lǔ']},
+{hanzi:'哪里',plain:'nali',correct:'nǎli',options:['nǎli','nàlǐ','nálì']}
+];
+function norm(s){return(s||'').toLowerCase().replace(/\s+/g,'').replace(/[üǖǘǚǜ]/g,'v').replace(/[āáǎà]/g,'a').replace(/[ēéěè]/g,'e').replace(/[īíǐì]/g,'i').replace(/[ōóǒò]/g,'o').replace(/[ūúǔù]/g,'u')}
+function renderPinyin(){
+  q('#pinyinList').innerHTML='';
+  pyData.forEach((item,i)=>{
+    let row=document.createElement('div');row.className='py-row';
+    row.innerHTML=`<div class="hanzi">${item.hanzi}</div><div><div class="py-input-wrap"><input class="py-input" data-i="${i}" placeholder="pinyin без тонов"><button class="btn secondary pycheck" data-i="${i}">Проверить pinyin</button></div><div class="unlock" id="unlock${i}">Сначала введи pinyin.</div></div><div class="tone-options" id="tones${i}"></div><div class="smallfb" id="fb${i}"></div>`;
+    q('#pinyinList').appendChild(row);
+    shuffle(item.options).forEach(opt=>{let b=document.createElement('button');b.className='tone-btn';b.textContent=opt;b.onclick=()=>{qa(`#tones${i} .tone-btn`).forEach(x=>x.classList.remove('correct','wrong'));const ok=opt===item.correct;b.classList.add(ok?'correct':'wrong');q(`#fb${i}`).textContent=ok?`✓ ${item.hanzi} = ${item.correct}`:'Проверь тоны ещё раз.';checkPinyinDone()};q(`#tones${i}`).appendChild(b)})
+  });
+  qa('.pycheck').forEach(btn=>btn.onclick=()=>{const i=+btn.dataset.i,inp=q(`.py-input[data-i="${i}"]`),ok=norm(inp.value)===norm(pyData[i].plain);inp.classList.toggle('ok',ok);inp.classList.toggle('bad',!ok);q(`#tones${i}`).classList.toggle('show',ok);q(`#unlock${i}`).textContent=ok?'✓ Pinyin верный. Теперь выбери правильные тоны.':'Pinyin пока неверный. Попробуй ещё.'});
+  qa('.py-input').forEach(inp=>inp.addEventListener('keydown',e=>{if(e.key==='Enter')q(`.pycheck[data-i="${inp.dataset.i}"]`).click()}))
+}
+function checkPinyinDone(){let good=0;pyData.forEach((item,i)=>{if(qa(`#tones${i} .tone-btn.correct`).some(b=>b.textContent===item.correct))good++});q('#pinyinFeedback').textContent=good===pyData.length?'✓ Все 8 слов выполнены!':`Правильные тоны: ${good} / ${pyData.length}`;if(good===pyData.length)markDone(2)}
+function resetPinyin(){renderPinyin();q('#pinyinFeedback').textContent='Сначала введи pinyin без тонов.'}
+
+const addressData=[
+  {
+    parts:[
+      ['1319号房间','1319 hào fángjiān'],
+      ['23号','23 hào'],
+      ['大学路','Dàxué Lù'],
+      ['大学生公寓','Dàxuéshēng gōngyù']
+    ],
+    answer:['大学路','23号','大学生公寓','1319号房间']
+  },
+  {
+    parts:[
+      ['公园路','Gōngyuán Lù'],
+      ['北京','Běijīng'],
+      ['26号','26 hào'],
+      ['中国','Zhōngguó']
+    ],
+    answer:['中国','北京','公园路','26号']
+  },
+  {
+    parts:[
+      ['75号','75 hào'],
+      ['新上海公寓','Xīn Shànghǎi gōngyù'],
+      ['上海路','Shànghǎi Lù']
+    ],
+    answer:['上海路','75号','新上海公寓']
+  },
+  {
+    parts:[
+      ['38号','38 hào'],
+      ['北京路','Běijīng Lù']
+    ],
+    answer:['北京路','38号']
+  },
+  {
+    parts:[
+      ['大学路','Dàxué Lù'],
+      ['伦敦公寓','Lúndūn gōngyù'],
+      ['15号','15 hào']
+    ],
+    answer:['大学路','15号','伦敦公寓']
+  },
+  {
+    parts:[
+      ['新大学生公寓','Xīn Dàxuéshēng gōngyù'],
+      ['709号房间','709 hào fángjiān']
+    ],
+    answer:['新大学生公寓','709号房间']
+  }
+];
+
+function renderAddresses(){
+  const wrap=q('#addressList');
+  wrap.innerHTML='';
+  addressData.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='address-card';
+    card.innerHTML=`
+      <div class="address-no">${i+1}.</div>
+      <div class="address-pool" data-i="${i}"></div>
+      <div class="address-zone" data-i="${i}"></div>
+      <div class="address-hint">Нажми на плитки в правильном порядке.</div>`;
+    wrap.appendChild(card);
+
+    const pool=card.querySelector('.address-pool');
+    shuffle(item.parts).forEach(([txt,py])=>{
+      const b=document.createElement('button');
+      b.className='addr-chip';
+      b.dataset.value=txt;
+      b.innerHTML=`<span class="py">${py}</span>${txt}`;
+      b.onclick=()=>{
+        if(b.classList.contains('used')) return;
+        b.classList.add('used');
+
+        const copy=document.createElement('button');
+        copy.className='addr-chip';
+        copy.dataset.value=txt;
+        copy.innerHTML=b.innerHTML;
+        copy.onclick=()=>{
+          copy.remove();
+          b.classList.remove('used');
+          card.querySelector('.address-zone').classList.remove('ok','bad');
+        };
+        card.querySelector('.address-zone').appendChild(copy);
+        card.querySelector('.address-zone').classList.remove('ok','bad');
+      };
+      pool.appendChild(b);
+    });
+  });
+}
+
+function checkAddresses(){
+  let good=0;
+  qa('.address-zone').forEach(zone=>{
+    const i=+zone.dataset.i;
+    const got=[...zone.querySelectorAll('.addr-chip')].map(x=>x.dataset.value);
+    const expected=addressData[i].answer;
+    const ok=got.length===expected.length && got.every((x,j)=>x===expected[j]);
+    zone.classList.toggle('ok',ok);
+    zone.classList.toggle('bad',!ok && got.length>0);
+    if(ok) good++;
+  });
+  q('#addressFeedback').textContent=
+    good===addressData.length ? '✓ Все адреса собраны правильно!' : `Правильно: ${good} / ${addressData.length}`;
+  if(good===addressData.length) markDone(3);
+}
+
+function resetAddresses(){
+  renderAddresses();
+  q('#addressFeedback').textContent='Собери все 6 адресов.';
+}
+
+renderIcons();renderPinyin();renderAddresses();
+</script>
+</body></html>
