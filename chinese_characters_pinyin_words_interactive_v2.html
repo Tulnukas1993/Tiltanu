@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>汉字练习 · Иероглифы, pinyin и слова</title>
+<style>
+:root{
+ --felt:#0e4c3d;--felt2:#123b32;--wood:#70472d;--wood2:#49301f;
+ --tile:#fff8e7;--tile2:#e5d5b3;--ink:#1d2925;--gold:#d7b35c;
+ --good:#52c78b;--bad:#eb7068;--muted:#cde3da;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;color:#fff;background:linear-gradient(135deg,var(--felt),var(--felt2))}
+.app{max-width:1180px;margin:auto;padding:16px}
+.frame{border:12px solid var(--wood);border-right-color:var(--wood2);border-bottom-color:var(--wood2);border-radius:26px;background:rgba(6,42,34,.72);overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.3)}
+header{padding:22px 24px 16px;border-bottom:1px solid rgba(255,255,255,.12)}
+h1{margin:0;font-size:clamp(27px,4vw,42px)} header p{margin:6px 0 0;color:var(--muted)}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.12)}
+.tab{border:0;border-radius:11px;padding:10px 14px;font-weight:900;cursor:pointer;background:rgba(255,255,255,.12);color:#fff}
+.tab.active{background:var(--tile);color:var(--ink);box-shadow:0 4px 0 var(--tile2)}
+main{padding:18px} .panel{display:none} .panel.active{display:block}
+h2{margin:0 0 8px;font-size:28px} .note{margin:0 0 16px;color:var(--muted)}
+.progress{height:10px;background:rgba(255,255,255,.13);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress>div{height:100%;width:0;background:var(--gold);transition:.2s}
+.score{padding:8px 18px 0;color:#f2dfaa;font-weight:800}
+
+.char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.char-card{background:var(--tile);color:var(--ink);border-radius:15px;padding:14px;text-align:center;box-shadow:0 6px 0 var(--tile2)}
+.char-main{font-size:46px;font-weight:900;line-height:1}
+.char-py{font-size:18px;font-weight:900;margin-top:8px;color:#775f2c}
+.char-meaning{font-size:14px;margin-top:5px;min-height:38px;display:flex;align-items:center;justify-content:center}
+.sound-btn{margin-top:8px;border:0;border-radius:9px;padding:8px 10px;background:#173d34;color:#fff;font-weight:800;cursor:pointer;min-height:42px}
+
+.py-list{display:grid;gap:13px}
+.py-row{background:rgba(255,255,255,.07);border-radius:15px;padding:14px;display:grid;grid-template-columns:90px minmax(220px,1fr);gap:12px 16px;align-items:center}
+.py-hanzi{background:var(--tile);color:var(--ink);font-size:36px;font-weight:900;text-align:center;border-radius:11px;padding:9px;box-shadow:0 5px 0 var(--tile2)}
+.input-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.py-input{flex:1;min-width:180px;padding:11px 12px;border-radius:9px;border:2px solid transparent;font-size:18px}
+.py-input.ok{border-color:var(--good)} .py-input.bad{border-color:var(--bad)}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer;background:var(--gold);color:#332813;box-shadow:0 4px 0 #9d7e3f}
+.btn.secondary{background:rgba(255,255,255,.14);color:#fff;box-shadow:none}
+.unlock{font-size:14px;color:var(--muted);margin-top:6px}
+.tone-box{grid-column:1/-1;display:none;grid-template-columns:repeat(4,1fr);gap:8px}
+.tone-box.show{display:grid}
+.tone-btn{border:0;border-radius:9px;padding:11px 8px;background:var(--tile);color:var(--ink);font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--tile2)}
+.tone-btn.correct{outline:4px solid var(--good)} .tone-btn.wrong{outline:4px solid var(--bad)}
+.smallfb{grid-column:1/-1;color:#f2dfaa;font-weight:800;min-height:22px}
+
+.fill-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.fill-card{background:rgba(255,255,255,.07);border-radius:15px;padding:14px}
+.fill-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.pattern{font-size:34px;font-weight:900;background:var(--tile);color:var(--ink);padding:9px 14px;border-radius:11px;box-shadow:0 5px 0 var(--tile2)}
+.meaning{color:var(--muted);font-size:14px}
+.answer-zone{min-height:52px;border:2px dashed rgba(255,255,255,.28);border-radius:10px;margin-top:10px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;padding:8px;cursor:pointer}
+.answer-zone.ok{border-color:var(--good);background:rgba(82,199,139,.1)} .answer-zone.bad{border-color:var(--bad);background:rgba(235,112,104,.1)}
+.bank{display:flex;gap:9px;flex-wrap:wrap;background:rgba(255,255,255,.06);padding:12px;border-radius:13px;margin-bottom:16px}
+.bank-char{border:0;border-radius:9px;background:var(--tile);color:var(--ink);font-size:25px;font-weight:900;padding:9px 13px;cursor:pointer;box-shadow:0 4px 0 var(--tile2)}
+.bank-char.selected{outline:4px solid var(--gold)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.feedback{margin-top:14px;padding:11px 13px;border-radius:11px;background:rgba(255,255,255,.08);min-height:44px}
+
+@media(max-width:760px){
+ .fill-list{grid-template-columns:1fr}
+ .tone-box{grid-template-columns:repeat(2,1fr)}
+ .py-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+ .app{padding:7px} .frame{border-width:7px;border-radius:18px} main{padding:12px}
+ .char-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app"><div class="frame">
+<header>
+<h1>汉字练习 · Иероглифы и pinyin</h1>
+<p>Значение → произношение → pinyin → тоны → слова</p>
+</header>
+
+<div class="tabs">
+<button class="tab active" data-tab="t1">1. Иероглифы</button>
+<button class="tab" data-tab="t2">2. Pinyin + тон</button>
+<button class="tab" data-tab="t3">3. Вставь иероглиф</button>
+</div>
+
+<div class="progress"><div id="progressBar"></div></div>
+<div class="score" id="score">Выполнено: 0 / 3</div>
+
+<main>
+<section id="t1" class="panel active">
+<h2>1. Иероглифы: смысл, pinyin и звучание</h2>
+<p class="note">Нажми 🔊, чтобы услышать иероглиф. Для 什 используется чтение shén в слове 什么.</p>
+<div class="char-grid" id="charGrid"></div>
+</section>
+
+<section id="t2" class="panel">
+<h2>2. Напиши pinyin, затем выбери правильный тон</h2>
+<p class="note">Сначала напиши чтение <b>без тона</b>. После правильного ответа появятся варианты с тонами.</p>
+<div class="py-list" id="pyList"></div>
+<div class="actions"><button class="btn secondary" id="resetPy">Сбросить</button></div>
+<div class="feedback" id="pyFeedback">Начни с первого иероглифа.</div>
+</section>
+
+<section id="t3" class="panel">
+<h2>3. Вставь иероглиф в правильное слово</h2>
+<p class="note">Каждое слово тренируется дважды: например <b>名？</b> и <b>？字</b>. Выбери иероглиф снизу и нажми на пропуск.</p>
+<div class="bank" id="fillBank"></div>
+<div class="fill-list" id="fillList"></div>
+<div class="actions">
+<button class="btn secondary" id="resetFill">Сбросить</button>
+<button class="btn" id="checkFill">Проверить</button>
+</div>
+<div class="feedback" id="fillFeedback">Заполни все пропуски.</div>
+</section>
+</main>
+</div></div>
+
+<script>
+const root=document;
+const q=s=>root.querySelector(s),qa=s=>[...root.querySelectorAll(s)];
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const chars=[{"ch": "一", "pinyin": "yī", "plain": "yi", "meaning": "один", "tones": ["yī", "yí", "yǐ", "yì"]}, {"ch": "二", "pinyin": "èr", "plain": "er", "meaning": "два", "tones": ["ēr", "ér", "ěr", "èr"]}, {"ch": "三", "pinyin": "sān", "plain": "san", "meaning": "три", "tones": ["sān", "sán", "sǎn", "sàn"]}, {"ch": "四", "pinyin": "sì", "plain": "si", "meaning": "четыре", "tones": ["sī", "sí", "sǐ", "sì"]}, {"ch": "五", "pinyin": "wǔ", "plain": "wu", "meaning": "пять", "tones": ["wū", "wú", "wǔ", "wù"]}, {"ch": "六", "pinyin": "liù", "plain": "liu", "meaning": "шесть", "tones": ["liū", "liú", "liǔ", "liù"]}, {"ch": "七", "pinyin": "qī", "plain": "qi", "meaning": "семь", "tones": ["qī", "qí", "qǐ", "qì"]}, {"ch": "八", "pinyin": "bā", "plain": "ba", "meaning": "восемь", "tones": ["bā", "bá", "bǎ", "bà"]}, {"ch": "九", "pinyin": "jiǔ", "plain": "jiu", "meaning": "девять", "tones": ["jiū", "jiú", "jiǔ", "jiù"]}, {"ch": "十", "pinyin": "shí", "plain": "shi", "meaning": "десять", "tones": ["shī", "shí", "shǐ", "shì"]}, {"ch": "你", "pinyin": "nǐ", "plain": "ni", "meaning": "ты", "tones": ["nī", "ní", "nǐ", "nì"]}, {"ch": "好", "pinyin": "hǎo", "plain": "hao", "meaning": "хороший; хорошо", "tones": ["hāo", "háo", "hǎo", "hào"]}, {"ch": "再", "pinyin": "zài", "plain": "zai", "meaning": "снова; ещё раз", "tones": ["zāi", "zái", "zǎi", "zài"]}, {"ch": "见", "pinyin": "jiàn", "plain": "jian", "meaning": "видеть; встречать", "tones": ["jiān", "jián", "jiǎn", "jiàn"]}, {"ch": "名", "pinyin": "míng", "plain": "ming", "meaning": "имя; название", "tones": ["mīng", "míng", "mǐng", "mìng"]}, {"ch": "字", "pinyin": "zì", "plain": "zi", "meaning": "иероглиф; письменный знак", "tones": ["zī", "zí", "zǐ", "zì"]}, {"ch": "什", "pinyin": "shén", "plain": "shen", "meaning": "что (в составе 什么)", "tones": ["shēn", "shén", "shěn", "shèn"]}, {"ch": "么", "pinyin": "me", "plain": "me", "meaning": "суффикс в 什么; нейтральный тон", "tones": ["mē", "mé", "mě", "me"]}, {"ch": "叫", "pinyin": "jiào", "plain": "jiao", "meaning": "называться; звать", "tones": ["jiāo", "jiáo", "jiǎo", "jiào"]}, {"ch": "月", "pinyin": "yuè", "plain": "yue", "meaning": "месяц; луна", "tones": ["yuē", "yué", "yuě", "yuè"]}, {"ch": "出", "pinyin": "chū", "plain": "chu", "meaning": "выходить; появляться", "tones": ["chū", "chú", "chǔ", "chù"]}, {"ch": "生", "pinyin": "shēng", "plain": "sheng", "meaning": "рождаться; жизнь", "tones": ["shēng", "shéng", "shěng", "shèng"]}, {"ch": "岁", "pinyin": "suì", "plain": "sui", "meaning": "лет (о возрасте)", "tones": ["suī", "suí", "suǐ", "suì"]}, {"ch": "日", "pinyin": "rì", "plain": "ri", "meaning": "день; дата; солнце", "tones": ["rī", "rí", "rǐ", "rì"]}, {"ch": "姓", "pinyin": "xìng", "plain": "xing", "meaning": "фамилия; быть по фамилии", "tones": ["xīng", "xíng", "xǐng", "xìng"]}, {"ch": "年", "pinyin": "nián", "plain": "nian", "meaning": "год", "tones": ["niān", "nián", "niǎn", "niàn"]}];
+const fillTasks=[{"display": "名？", "answer": "字", "word": "名字", "meaning": "имя"}, {"display": "？字", "answer": "名", "word": "名字", "meaning": "имя"}, {"display": "姓？", "answer": "名", "word": "姓名", "meaning": "имя и фамилия / полное имя"}, {"display": "？名", "answer": "姓", "word": "姓名", "meaning": "имя и фамилия / полное имя"}, {"display": "什？", "answer": "么", "word": "什么", "meaning": "что"}, {"display": "？么", "answer": "什", "word": "什么", "meaning": "что"}, {"display": "你？", "answer": "好", "word": "你好", "meaning": "здравствуйте / привет"}, {"display": "？好", "answer": "你", "word": "你好", "meaning": "здравствуйте / привет"}, {"display": "出？", "answer": "生", "word": "出生", "meaning": "родиться / рождение"}, {"display": "？生", "answer": "出", "word": "出生", "meaning": "родиться / рождение"}, {"display": "生？", "answer": "日", "word": "生日", "meaning": "день рождения"}, {"display": "？日", "answer": "生", "word": "生日", "meaning": "день рождения"}, {"display": "再？", "answer": "见", "word": "再见", "meaning": "до свидания"}, {"display": "？见", "answer": "再", "word": "再见", "meaning": "до свидания"}];
+const done=new Set();
+
+function markDone(n){
+ done.add(n);
+ q('#score').textContent=`Выполнено: ${done.size} / 3`;
+ q('#progressBar').style.width=(done.size/3*100)+'%';
+}
+
+qa('.tab').forEach(b=>b.addEventListener('click',()=>{
+ qa('.tab').forEach(x=>x.classList.remove('active'));
+ qa('.panel').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');q('#'+b.dataset.tab).classList.add('active');
+}));
+
+function speakChinese(text){
+ if(!('speechSynthesis' in window)) return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang='zh-CN';u.rate=.82;u.pitch=1;
+ const voices=speechSynthesis.getVoices();
+ const zh=voices.find(v=>/^zh(-|_)/i.test(v.lang)) || voices.find(v=>/Chinese|Mandarin/i.test(v.name));
+ if(zh)u.voice=zh;
+ speechSynthesis.speak(u);
+}
+
+function renderChars(){
+ const g=q('#charGrid');g.innerHTML='';
+ chars.forEach(item=>{
+  const c=document.createElement('div');c.className='char-card';
+  c.innerHTML=`<div class="char-main">${item.ch}</div><div class="char-py">${item.pinyin}</div><div class="char-meaning">${item.meaning}${item.ch==='什'?' · shén в 什么':''}</div><button type="button" class="sound-btn">🔊 Произношение</button>`;
+  c.querySelector('.sound-btn').addEventListener('click',()=>{
+    const speakText = item.ch==='什' ? '什么' : item.ch;
+    speakChinese(speakText);
+  });
+  g.appendChild(c);
+ });
+ markDone(1);
+}
+
+function normalizePinyin(s){
+ return (s||'').toLowerCase().trim().replace(/\s+/g,'')
+ .replace(/[āáǎà]/g,'a').replace(/[ēéěè]/g,'e').replace(/[īíǐì]/g,'i')
+ .replace(/[ōóǒò]/g,'o').replace(/[ūúǔù]/g,'u').replace(/[ǖǘǚǜü]/g,'v');
+}
+
+function renderPy(){
+ const wrap=q('#pyList');wrap.innerHTML='';
+ shuffle(chars).forEach((item)=>{ const i=chars.indexOf(item);
+  const row=document.createElement('div');row.className='py-row';
+  row.innerHTML=`<div class="py-hanzi">${item.ch}</div>
+  <div><div class="input-row"><input class="py-input" data-i="${i}" placeholder="pinyin без тона"><button type="button" class="btn secondary pycheck" data-i="${i}">Проверить</button></div><div class="unlock" id="unlock${i}">Сначала напиши чтение.</div></div>
+  <div class="tone-box" id="tone${i}"></div><div class="smallfb" id="fb${i}"></div>`;
+  wrap.appendChild(row);
+  const box=row.querySelector('.tone-box');
+  shuffle(item.tones).forEach(opt=>{
+    const b=document.createElement('button');b.type='button';b.className='tone-btn';b.textContent=opt;
+    b.addEventListener('click',()=>{
+      [...box.querySelectorAll('.tone-btn')].forEach(x=>x.classList.remove('correct','wrong'));
+      const ok=opt===item.pinyin;b.classList.add(ok?'correct':'wrong');
+      q('#fb'+i).textContent=ok?`✓ ${item.ch} = ${item.pinyin}`:'Попробуй другой тон.';
+      if(ok)b.dataset.correct='1';
+      updatePyProgress();
+    });
+    box.appendChild(b);
+  });
+ });
+
+ qa('.pycheck').forEach(btn=>btn.addEventListener('click',()=>{
+   const i=+btn.dataset.i,item=chars[i],inp=q(`.py-input[data-i="${i}"]`);
+   const ok=normalizePinyin(inp.value)===normalizePinyin(item.plain);
+   inp.classList.toggle('ok',ok);inp.classList.toggle('bad',!ok);
+   q('#tone'+i).classList.toggle('show',ok);
+   q('#unlock'+i).textContent=ok?'✓ Чтение верное. Теперь выбери тон.':'Pinyin неверный. Попробуй ещё.';
+ }));
+ qa('.py-input').forEach(inp=>inp.addEventListener('keydown',e=>{if(e.key==='Enter')q(`.pycheck[data-i="${inp.dataset.i}"]`).click()}));
+}
+
+function updatePyProgress(){
+ let n=0;
+ chars.forEach((item,i)=>{
+   if([...q('#tone'+i).querySelectorAll('.tone-btn.correct')].some(b=>b.textContent===item.pinyin))n++;
+ });
+ q('#pyFeedback').textContent=n===chars.length?'✓ Все иероглифы выполнены!':`Правильные тоны: ${n} / ${chars.length}`;
+ if(n===chars.length)markDone(2);
+}
+q('#resetPy').addEventListener('click',()=>{renderPy();q('#pyFeedback').textContent='Начни с первого иероглифа.'});
+
+let selectedFill=null;
+const fillBankChars=[...new Set(fillTasks.map(x=>x.answer))];
+function renderFill(){
+ selectedFill=null;
+ const bank=q('#fillBank');bank.innerHTML='';
+ shuffle(fillBankChars).forEach(ch=>{
+   const b=document.createElement('button');b.type='button';b.className='bank-char';b.textContent=ch;
+   b.addEventListener('click',()=>{
+     qa('.bank-char').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selectedFill=ch;
+   });bank.appendChild(b);
+ });
+ const wrap=q('#fillList');wrap.innerHTML='';
+ shuffle(fillTasks).forEach((t)=>{ const i=fillTasks.indexOf(t);
+   const card=document.createElement('div');card.className='fill-card';
+   card.innerHTML=`<div class="fill-top"><div class="pattern">${t.display}</div><div class="meaning">${t.meaning}</div></div><div class="answer-zone" data-i="${i}">?</div>`;
+   const zone=card.querySelector('.answer-zone');
+   zone.addEventListener('click',()=>{
+      if(!selectedFill)return;
+      zone.textContent=selectedFill;zone.dataset.value=selectedFill;zone.classList.remove('ok','bad');
+   });
+   wrap.appendChild(card);
+ });
+}
+q('#resetFill').addEventListener('click',()=>{renderFill();q('#fillFeedback').textContent='Заполни все пропуски.'});
+q('#checkFill').addEventListener('click',()=>{
+ let good=0;
+ qa('.answer-zone').forEach(z=>{
+   const t=fillTasks[+z.dataset.i],ok=z.dataset.value===t.answer;
+   z.classList.toggle('ok',ok);z.classList.toggle('bad',!ok);if(ok)good++;
+ });
+ q('#fillFeedback').textContent=good===fillTasks.length?'✓ Все слова собраны правильно!':`Верно: ${good} / ${fillTasks.length}`;
+ if(good===fillTasks.length)markDone(3);
+});
+
+renderChars();renderPy();renderFill();
+</script>
+</body>
+</html>
