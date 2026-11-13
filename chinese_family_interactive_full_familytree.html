@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文 · Семья и иероглифы</title>
+<style>
+:root{--bg:#0d4a3b;--bg2:#133a31;--wood:#70472d;--wood2:#49301f;--tile:#fff8e8;--tile2:#e4d4b2;--ink:#1e2925;--gold:#d8b55b;--good:#51c88a;--bad:#eb7169;--muted:#cfe4dc}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,var(--bg),var(--bg2));color:#fff}
+.app{max-width:1180px;margin:auto;padding:14px}
+.frame{border:11px solid var(--wood);border-right-color:var(--wood2);border-bottom-color:var(--wood2);border-radius:25px;overflow:hidden;background:rgba(4,37,30,.76);box-shadow:0 18px 40px rgba(0,0,0,.28)}
+header{padding:20px 22px 14px;border-bottom:1px solid rgba(255,255,255,.12)}
+h1{margin:0;font-size:clamp(26px,4vw,40px)} header p{margin:6px 0 0;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.12)}
+.tab{border:0;border-radius:10px;padding:10px 12px;font-weight:900;background:rgba(255,255,255,.12);color:#fff;cursor:pointer}
+.tab.active{background:var(--tile);color:var(--ink);box-shadow:0 4px 0 var(--tile2)}
+main{padding:17px}.panel{display:none}.panel.active{display:block}
+h2{margin:0 0 8px;font-size:27px}.note{margin:0 0 15px;color:var(--muted)}
+.card{background:rgba(255,255,255,.07);border-radius:15px;padding:14px}
+.feedback{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.08);min-height:42px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:9px;padding:9px 13px;font-weight:900;cursor:pointer;background:var(--gold);color:#342914;box-shadow:0 4px 0 #997b3d}
+.btn.secondary{background:rgba(255,255,255,.14);color:#fff;box-shadow:none}
+/* components */
+.component-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.parts-box{background:rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.parts-box h3{margin:0 0 10px;color:#f1dca2}
+.parts{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.part{border:0;border-radius:9px;background:var(--tile);color:var(--ink);min-height:55px;font-size:28px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--tile2)}
+.part.sel{outline:4px solid var(--gold)}.part.used{opacity:.28;pointer-events:none}
+.target-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.target{width:62px;height:68px;border-radius:9px;background:var(--tile);color:#9e302b;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;box-shadow:0 4px 0 var(--tile2)}
+.target.empty{background:rgba(255,255,255,.05);color:#fff;border:2px dashed rgba(255,255,255,.25);box-shadow:none}
+.build-display{display:flex;gap:10px;align-items:center;justify-content:center;font-size:34px;margin-top:14px}
+.build-slot{min-width:68px;min-height:64px;border:2px dashed rgba(255,255,255,.3);border-radius:10px;display:flex;align-items:center;justify-content:center}
+/* matching */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.match-list{display:grid;gap:8px}
+.match-item{border:2px solid transparent;border-radius:11px;background:rgba(255,255,255,.07);padding:11px;cursor:pointer;min-height:54px}
+.match-item.selected{border-color:var(--gold)}.match-item.ok{border-color:var(--good)}.match-item.bad{border-color:var(--bad)}
+.match-item.disabled{opacity:.55;pointer-events:none}
+/* choices */
+.choice-grid{display:grid;gap:12px}
+.choice-card{background:rgba(255,255,255,.07);border-radius:14px;padding:13px}
+.sentence{font-size:25px;font-weight:800;margin-bottom:10px}
+.choices{display:flex;gap:9px;flex-wrap:wrap}
+.choice{border:0;border-radius:9px;background:var(--tile);color:var(--ink);min-width:60px;min-height:52px;font-size:25px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--tile2)}
+.choice.correct{outline:4px solid var(--good)}.choice.wrong{outline:4px solid var(--bad)}
+/* reading */
+.read-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.read-card{background:rgba(255,255,255,.07);border-radius:14px;padding:14px}
+.read-card p{font-size:21px;line-height:1.65;margin:0 0 12px}
+.number-options{display:flex;gap:8px;flex-wrap:wrap}
+/* self */
+.self-grid{display:grid;gap:11px}
+.self-row{background:rgba(255,255,255,.06);border-radius:12px;padding:11px}
+.self-row label{display:block;font-size:20px;font-weight:800;margin-bottom:6px}
+.self-row input,.self-row textarea{width:100%;border:0;border-radius:9px;padding:11px 12px;font-size:17px;background:#fffdf5;color:#17221e}
+.self-row textarea{min-height:74px;resize:vertical}
+.script{margin-top:14px;background:#fff8e8;color:#1f2926;border-radius:14px;padding:15px;font-size:20px;line-height:1.7;white-space:pre-wrap}
+/* speaker */
+.speaker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.speaker-card{background:rgba(255,255,255,.07);border-radius:14px;padding:13px}
+.speaker-text{font-size:20px;line-height:1.55}
+.family{font-size:39px;display:flex;justify-content:center;gap:4px;flex-wrap:wrap;padding:12px 4px}
+.role-options{display:flex;gap:7px;flex-wrap:wrap}
+.role{border:0;border-radius:9px;background:var(--tile);color:var(--ink);padding:9px 12px;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 3px 0 var(--tile2)}
+.role.correct{outline:4px solid var(--good)}.role.wrong{outline:4px solid var(--bad)}
+@media(max-width:820px){.component-layout,.match-grid,.speaker-grid{grid-template-columns:1fr}.read-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.app{padding:6px}.frame{border-width:7px;border-radius:17px}main{padding:11px}.parts{grid-template-columns:repeat(4,1fr)}.sentence{font-size:22px}}
+
+/* improved family tree chooser */
+.tree-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.tree-card{background:rgba(255,255,255,.07);border-radius:16px;padding:12px}
+.tree-letter{width:42px;height:42px;border-radius:999px;background:var(--gold);color:#2f2414;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;margin:0 auto 10px}
+.family-board{background:#ebe2ce;border-radius:14px;padding:10px;min-height:205px;position:relative;color:#23322e}
+.tree-parents,.tree-children{display:flex;justify-content:center;gap:16px;position:relative;z-index:2}
+.tree-children{margin-top:46px;gap:10px;flex-wrap:nowrap}
+.tree-connect{position:absolute;left:0;right:0;top:68px;height:58px}
+.conn-v{position:absolute;left:50%;top:0;transform:translateX(-50%);width:3px;height:28px;background:#9e8c69;border-radius:2px}
+.conn-h{position:absolute;left:22%;right:22%;top:28px;height:3px;background:#9e8c69;border-radius:2px}
+.person{display:flex;flex-direction:column;align-items:center;min-width:52px}
+.avatar{width:42px;height:42px;border-radius:999px;position:relative;display:flex;align-items:center;justify-content:center}
+.avatar:before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:#ffd7b8}
+.avatar:after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:24px;height:16px;border-radius:11px 11px 8px 8px;background:#6aa9d9}
+.avatar.female:after{background:#f090ab}
+.avatar.child:after{width:22px;height:15px;background:#7ac77c}
+.avatar.middle:after{background:#d2a55b}
+.avatar.child:before,.avatar.middle:before{top:7px}
+.avatar .hair{position:absolute;top:3px;left:50%;transform:translateX(-50%);width:18px;height:11px;border-radius:10px 10px 6px 6px;background:#5c3a26}
+.avatar.female .hair{width:20px;height:13px;border-radius:12px 12px 7px 7px}
+.avatar.child .hair{width:17px}
+.avatar.middle .hair{width:18px}
+.person-label{margin-top:4px;font-size:14px;font-weight:800;color:#31443e;text-align:center;line-height:1.1}
+.tree-children .person{position:relative}
+.tree-children .person:before{content:"";position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:3px;height:20px;background:#9e8c69;border-radius:2px}
+.choose-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.choose-card{background:rgba(255,255,255,.07);border-radius:14px;padding:14px}
+.choose-text{font-size:20px;line-height:1.55}
+.letter-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.letter-btn{border:0;border-radius:10px;background:var(--tile);color:var(--ink);padding:9px 14px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 3px 0 var(--tile2)}
+.letter-btn.correct{outline:4px solid var(--good)} .letter-btn.wrong{outline:4px solid var(--bad)}
+@media(max-width:980px){.tree-gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:820px){.choose-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.tree-gallery{grid-template-columns:1fr}.tree-children{gap:6px}.person{min-width:44px}.person-label{font-size:12px}}
+
+</style>
+</head>
+<body><div class="app"><div class="frame">
+<header><h1>中文练习 · 家人</h1><p>Иероглифы, семья, счёт людей и разговор о себе</p></header>
+<div class="tabs">
+<button class="tab active" data-tab="t1">1. Собери иероглифы</button>
+<button class="tab" data-tab="t2">2. Вопрос ↔ ответ</button>
+<button class="tab" data-tab="t3">3. 个 или 口</button>
+<button class="tab" data-tab="t4">4. Сколько человек?</button>
+<button class="tab" data-tab="t5">5. О себе</button>
+<button class="tab" data-tab="t6">6. Кто говорит?</button>
+</div>
+<main>
+<section id="t1" class="panel active">
+<h2>1. Собери иероглифы из частей</h2>
+<p class="note">Выбери один элемент слева и один справа. Если комбинация верная, иероглиф появится внизу.</p>
+<div class="component-layout">
+<div class="parts-box"><h3>Radicals</h3><div class="parts" id="leftParts"></div></div>
+<div class="parts-box"><h3>Other parts</h3><div class="parts" id="rightParts"></div></div>
+</div>
+<div class="build-display"><div class="build-slot" id="slotA">?</div><span>＋</span><div class="build-slot" id="slotB">?</div><span>→</span><div class="build-slot" id="slotR">？</div></div>
+<div class="feedback" id="buildFb">Первый иероглиф уже дан: 谁</div>
+<div class="target-line" id="targets"></div>
+<div class="actions"><button class="btn secondary" id="restartBuild">Начать заново</button></div>
+</section>
+
+<section id="t2" class="panel">
+<h2>2. Соедини вопрос и ответ</h2>
+<p class="note">Сначала нажми на вопрос, затем на подходящий ответ.</p>
+<div class="match-grid"><div class="match-list" id="questions"></div><div class="match-list" id="answers"></div></div>
+<div class="feedback" id="matchFb">Соединено: 0 / 7</div>
+<div class="actions"><button class="btn secondary" id="resetMatch">Сбросить</button></div>
+</section>
+
+<section id="t3" class="panel">
+<h2>3. Выбери 个 или 口</h2>
+<p class="note">口 используется для количества людей в семье / домохозяйстве, 个 — для отдельных людей.</p>
+<div class="choice-grid" id="classifierGrid"></div>
+<div class="feedback" id="classFb">Правильно: 0 / 4</div>
+</section>
+
+<section id="t4" class="panel">
+<h2>4. Прочитай и посчитай членов семьи</h2>
+<p class="note">Не считай только перечисленные слова — не забудь самого человека, о котором идёт рассказ.</p>
+<div class="read-grid" id="readGrid"></div>
+<div class="feedback" id="readFb">Правильно: 0 / 3</div>
+</section>
+
+<section id="t5" class="panel">
+<h2>5. Ответь на вопросы о себе</h2>
+<p class="note">После заполнения нажми «Собрать текст» — ответы превратятся в черновик самопрезентации.</p>
+<div class="self-grid" id="selfGrid"></div>
+<div class="actions"><button class="btn" id="makeScript">Собрать текст</button><button class="btn secondary" id="clearSelf">Очистить</button></div>
+<div class="script" id="scriptBox">Здесь появится текст.</div>
+</section>
+
+
+<section id="t6" class="panel">
+<h2>6. Какая это семья?</h2>
+<p class="note">Смотри на нарисованные семьи A–D. У родителей и детей показаны связи. Прочитай текст и выбери правильный вариант.</p>
+<div class="tree-gallery" id="treeGallery"></div>
+<div class="choose-grid" id="speakerGrid"></div>
+<div class="feedback" id="speakerFb">Правильно: 0 / 4</div>
+</section>
+
+</main></div></div>
+<script>
+const componentTargets=[{"ch": "谁", "parts": ["讠", "隹"]}, {"ch": "好", "parts": ["女", "子"]}, {"ch": "妈", "parts": ["女", "马"]}, {"ch": "吗", "parts": ["口", "马"]}, {"ch": "字", "parts": ["宀", "子"]}, {"ch": "爸", "parts": ["父", "巴"]}, {"ch": "码", "parts": ["石", "马"]}, {"ch": "明", "parts": ["日", "月"]}, {"ch": "期", "parts": ["月", "其"]}, {"ch": "许", "parts": ["讠", "午"]}];
+const matchQuestions=["你爸爸有弟弟吗？", "你爸爸的弟弟多大？", "你弟弟几岁？", "你家有几口人？", "你家有什么人？", "你有几个兄弟姐妹？", "他是谁？"];
+const matchAnswers=["我家有五口人。", "他有哥哥，没有弟弟。", "他今年五十岁。", "我家有爸爸、妈妈、弟弟和我。", "他是我爸爸的弟弟。", "我有两个弟弟。", "他五岁。"];
+const matchMap=[1, 2, 6, 0, 3, 5, 4];
+const classifier=[{"text": "你有几（　）妹妹？", "ans": "个"}, {"text": "他家有四（　）人。", "ans": "口"}, {"text": "你有两（　）弟弟吗？", "ans": "个"}, {"text": "她的朋友家有五（　）人。", "ans": "口"}];
+const reading=[{"name": "小月", "text": "小月今年四岁。她有爸爸，没有妈妈。她有两个哥哥和一个妹妹。她没有弟弟，也没有姐姐。她家有几口人？", "ans": "5"}, {"name": "心心", "text": "心心今年十九岁。她有爸爸、妈妈。她没有哥哥和姐姐，也没有弟弟和妹妹。她家有几口人？", "ans": "3"}, {"name": "Joe", "text": "Joe今年三十岁。他有妈妈、爸爸、三个哥哥、一个妹妹和一个弟弟。他没有姐姐。他家有几口人？", "ans": "8"}];
+const selfQ=["你叫什么名字？", "你的朋友叫什么？", "你的家人叫什么？", "你家有几口人？", "你家有什么人？", "你爸爸有兄弟姐妹吗？", "你妈妈有兄弟姐妹吗？", "你有兄弟姐妹吗？他们是谁？叫什么名字？今年多大 / 几岁了？"];
+const speaker=[{"text":"我家有四口人。我有爸爸、妈妈。我没有弟弟，也没有哥哥和姐姐。我是谁？","ans":"A"},{"text":"我家有五口人。我有爸爸、妈妈、弟弟、妹妹。我没有哥哥，也没有姐姐。我是谁？","ans":"B"},{"text":"我家有七口人。我有爸爸、妈妈、一个哥哥、一个姐姐、一个弟弟、一个妹妹。我是谁？","ans":"C"},{"text":"我家有六口人。我有爸爸、妈妈、哥哥和姐姐。我有弟弟，没有妹妹。我是谁？","ans":"D"}];
+const familyCards=[
+ {"letter":"A","parents":[["爸爸","male"],["妈妈","female"]],"children":[["我","male"],["妹妹","child female"]]},
+ {"letter":"B","parents":[["爸爸","male"],["妈妈","female"]],"children":[["我","female"],["弟弟","child"],["妹妹","child female"]]},
+ {"letter":"C","parents":[["爸爸","male"],["妈妈","female"]],"children":[["哥哥","male"],["姐姐","female"],["我","middle"],["弟弟","child"],["妹妹","child female"]]},
+ {"letter":"D","parents":[["爸爸","male"],["妈妈","female"]],"children":[["哥哥","male"],["姐姐","female"],["我","middle"],["弟弟","child"]]}
+];
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)],shuffle=a=>[...a].sort(()=>Math.random()-.5);
+
+qa('.tab').forEach(b=>b.addEventListener('click',()=>{
+ qa('.tab').forEach(x=>x.classList.remove('active'));qa('.panel').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');q('#'+b.dataset.tab).classList.add('active');
+}));
+
+/* 1 components */
+const radicals=['亻','讠','女','口','宀','阝','日','月','石','父'];
+const others=['子','隹','十','午','巴','马','其','未','山','用'];
+let sa=null,sb=null,ba=null,bb=null,doneChars=new Set(['谁']);
+function renderParts(){
+ const l=q('#leftParts'),r=q('#rightParts');l.innerHTML='';r.innerHTML='';
+ shuffle(radicals).forEach(v=>{const b=document.createElement('button');b.className='part';b.textContent=v;b.onclick=()=>pick('a',v,b);l.appendChild(b)});
+ shuffle(others).forEach(v=>{const b=document.createElement('button');b.className='part';b.textContent=v;b.onclick=()=>pick('b',v,b);r.appendChild(b)});
+ renderTargets();
+}
+function pick(side,v,b){
+ if(side==='a'){qa('#leftParts .part').forEach(x=>x.classList.remove('sel'));sa=v;ba=b;b.classList.add('sel');q('#slotA').textContent=v}
+ else{qa('#rightParts .part').forEach(x=>x.classList.remove('sel'));sb=v;bb=b;b.classList.add('sel');q('#slotB').textContent=v}
+ if(sa&&sb)tryBuild();
+}
+function tryBuild(){
+ const m=componentTargets.find(x=>!doneChars.has(x.ch)&&((x.parts[0]===sa&&x.parts[1]===sb)||(x.parts[1]===sa&&x.parts[0]===sb)));
+ if(m){doneChars.add(m.ch);q('#slotR').textContent=m.ch;q('#buildFb').textContent=`✓ ${sa} + ${sb} → ${m.ch}`;renderTargets();setTimeout(clearPick,450)}
+ else{q('#slotR').textContent='×';q('#buildFb').textContent='Эта пара не даёт один из целевых иероглифов. Попробуй другую.'}
+}
+function clearPick(){sa=sb=ba=bb=null;qa('.part').forEach(x=>x.classList.remove('sel'));q('#slotA').textContent='?';q('#slotB').textContent='?';q('#slotR').textContent='？'}
+function renderTargets(){
+ const box=q('#targets');box.innerHTML='';
+ componentTargets.forEach(x=>{const d=document.createElement('div');d.className='target '+(doneChars.has(x.ch)?'':'empty');d.textContent=doneChars.has(x.ch)?x.ch:'？';box.appendChild(d)});
+ if(doneChars.size===componentTargets.length)q('#buildFb').textContent='✓ Все иероглифы собраны!';
+}
+q('#restartBuild').onclick=()=>{doneChars=new Set(['谁']);clearPick();renderParts();q('#buildFb').textContent='Первый иероглиф уже дан: 谁'};
+
+/* 2 matching */
+let selectedQ=null,matched=new Set();
+function renderMatch(){
+ const qbox=q('#questions'),abox=q('#answers');qbox.innerHTML='';abox.innerHTML='';matched.clear();selectedQ=null;
+ matchQuestions.forEach((t,i)=>{const d=document.createElement('div');d.className='match-item';d.dataset.i=i;d.textContent=`${i+1}. ${t}`;d.onclick=()=>{if(matched.has(i))return;qa('#questions .match-item').forEach(x=>x.classList.remove('selected'));selectedQ=i;d.classList.add('selected')};qbox.appendChild(d)});
+ shuffle(matchAnswers.map((t,i)=>({t,i}))).forEach(o=>{const d=document.createElement('div');d.className='match-item';d.dataset.i=o.i;d.textContent=o.t;d.onclick=()=>chooseAnswer(d,o.i);abox.appendChild(d)});
+ q('#matchFb').textContent='Соединено: 0 / 7';
+}
+function chooseAnswer(el,ai){
+ if(selectedQ===null)return;
+ const correct=matchMap[selectedQ]===ai;
+ const qel=q(`#questions .match-item[data-i="${selectedQ}"]`);
+ if(correct){qel.classList.add('ok','disabled');el.classList.add('ok','disabled');matched.add(selectedQ);selectedQ=null;q('#matchFb').textContent=matched.size===7?'✓ Всё правильно!':`Соединено: ${matched.size} / 7`}
+ else{el.classList.add('bad');setTimeout(()=>el.classList.remove('bad'),500)}
+}
+q('#resetMatch').onclick=renderMatch;
+
+/* 3 classifier */
+function renderClassifier(){
+ const box=q('#classifierGrid');box.innerHTML='';
+ classifier.forEach((x,i)=>{const c=document.createElement('div');c.className='choice-card';c.innerHTML=`<div class="sentence">${i+1}. ${x.text}</div><div class="choices"></div>`;const opts=c.querySelector('.choices');
+ ['个','口'].forEach(v=>{const b=document.createElement('button');b.className='choice';b.textContent=v;b.onclick=()=>{[...opts.children].forEach(z=>z.classList.remove('correct','wrong'));const ok=v===x.ans;b.classList.add(ok?'correct':'wrong');if(ok)c.dataset.done='1';else delete c.dataset.done;updateClass()};opts.appendChild(b)});box.appendChild(c)})
+}
+function updateClass(){const n=qa('#classifierGrid .choice-card[data-done="1"]').length;q('#classFb').textContent=n===classifier.length?'✓ Всё правильно!':`Правильно: ${n} / ${classifier.length}`}
+/* 4 reading */
+function renderReading(){
+ const box=q('#readGrid');box.innerHTML='';
+ reading.forEach((x,i)=>{const c=document.createElement('div');c.className='read-card';c.innerHTML=`<p>${x.text}</p><div class="number-options"></div>`;const opts=c.querySelector('.number-options');
+ ['3','4','5','6','7','8'].forEach(v=>{const b=document.createElement('button');b.className='choice';b.textContent=v;b.onclick=()=>{[...opts.children].forEach(z=>z.classList.remove('correct','wrong'));const ok=v===x.ans;b.classList.add(ok?'correct':'wrong');if(ok)c.dataset.done='1';else delete c.dataset.done;updateRead()};opts.appendChild(b)});box.appendChild(c)})
+}
+function updateRead(){const n=qa('#readGrid .read-card[data-done="1"]').length;q('#readFb').textContent=n===reading.length?'✓ Все семьи посчитаны правильно!':`Правильно: ${n} / ${reading.length}`}
+/* 5 self */
+function renderSelf(){
+ const box=q('#selfGrid');box.innerHTML='';
+ selfQ.forEach((t,i)=>{const d=document.createElement('div');d.className='self-row';d.innerHTML=`<label>${i+1}. ${t}</label>${i===7?`<textarea data-i="${i}" placeholder="用中文回答…"></textarea>`:`<input data-i="${i}" placeholder="用中文回答…">`}`;box.appendChild(d)})
+}
+q('#makeScript').onclick=()=>{
+ const a=qa('#selfGrid input,#selfGrid textarea').map(x=>x.value.trim());
+ const lines=[];
+ if(a[0]) lines.push(`我叫${a[0]}。`);
+ if(a[1]) lines.push(`我的朋友叫${a[1]}。`);
+ if(a[2]) lines.push(`我的家人叫${a[2]}。`);
+ if(a[3]) lines.push(`我家有${a[3]}口人。`);
+ if(a[4]) lines.push(`我家有${a[4]}。`);
+ if(a[5]) lines.push(`我爸爸的兄弟姐妹：${a[5]}。`);
+ if(a[6]) lines.push(`我妈妈的兄弟姐妹：${a[6]}。`);
+ if(a[7]) lines.push(`我的兄弟姐妹：${a[7]}。`);
+ q('#scriptBox').textContent=lines.length?lines.join('\n'):'Сначала ответь хотя бы на один вопрос.';
+}
+q('#clearSelf').onclick=()=>{qa('#selfGrid input,#selfGrid textarea').forEach(x=>x.value='');q('#scriptBox').textContent='Здесь появится текст.'};
+
+/* 6 speaker */
+function personHTML(label, cls){
+ return `<div class="person"><div class="avatar ${cls}"><div class="hair"></div></div><div class="person-label">${label}</div></div>`;
+}
+function renderSpeaker(){
+ const gallery=q('#treeGallery');gallery.innerHTML='';
+ familyCards.forEach(card=>{
+   const wrap=document.createElement('div');wrap.className='tree-card';
+   const parents = card.parents.map(([label,cls])=>personHTML(label,cls)).join('');
+   const children = card.children.map(([label,cls])=>personHTML(label,cls)).join('');
+   wrap.innerHTML=`<div class="tree-letter">${card.letter}</div>
+      <div class="family-board">
+        <div class="tree-parents">${parents}</div>
+        <div class="tree-connect"><div class="conn-v"></div><div class="conn-h"></div></div>
+        <div class="tree-children">${children}</div>
+      </div>`;
+   gallery.appendChild(wrap);
+ });
+ const box=q('#speakerGrid');box.innerHTML='';
+ speaker.forEach((x,i)=>{
+   const c=document.createElement('div');c.className='choose-card';
+   c.innerHTML=`<div class="choose-text">${i+1}. ${x.text}</div><div class="letter-options"></div>`;
+   const opts=c.querySelector('.letter-options');
+   ['A','B','C','D'].forEach(v=>{
+     const b=document.createElement('button');b.className='letter-btn';b.textContent=v;
+     b.onclick=()=>{
+       [...opts.children].forEach(z=>z.classList.remove('correct','wrong'));
+       const ok=v===x.ans;
+       b.classList.add(ok?'correct':'wrong');
+       c.dataset.done=ok?'1':'0';
+       updateSpeaker();
+     };
+     opts.appendChild(b);
+   });
+   box.appendChild(c);
+ });
+}
+function updateSpeaker(){
+ const n=qa('#speakerGrid .choose-card[data-done="1"]').length;
+ q('#speakerFb').textContent=n===speaker.length?'✓ Все варианты выбраны правильно!':`Правильно: ${n} / ${speaker.length}`;
+}
+
+renderParts();renderMatch();renderClassifier();renderReading();renderSelf();renderSpeaker();
+
+</script>
+</body></html>
