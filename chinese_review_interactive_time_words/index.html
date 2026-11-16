@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>中文复习 · Интерактивное повторение</title><link rel="stylesheet" href="style.css"></head><body><div class="app"><div class="shell">
+<header>
+  <div><h1>中文复习</h1><p>Слова · время · режим дня · вопросы и ответы</p></div>
+  <div class="badge">互动练习</div>
+</header>
+<div class="tabs">
+  <button class="tab active" data-tab="ws1">1. Слова I</button>
+  <button class="tab" data-tab="time">2. Часы</button>
+  <button class="tab" data-tab="ws2">3. Слова II</button>
+  <button class="tab" data-tab="routine">4. Режим дня</button>
+  <button class="tab" data-tab="dates">5. Даты</button>
+  <button class="tab" data-tab="personal">6. Личные данные</button>
+</div>
+
+<section class="panel active" id="ws1">
+  <h2>1. Найди слова мышкой</h2>
+  <p class="intro">Зажми кнопку мыши на первой букве и проведи по слову по прямой. Можно искать горизонтально, вертикально и по диагонали.</p>
+  <div class="ws-layout">
+    <div class="ws-grid" id="grid1"></div>
+    <div class="card">
+      <b>Найди слова:</b>
+      <div class="word-list" id="list1"></div>
+      <div class="feedback" id="fb1">Убрано 独生女. Добавлены 怎么样、哪国人、护士、经理、生日.</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="time">
+  <h2>2. Скажи время по-китайски</h2>
+  <p class="intro">Нажми на часы. Снизу появится клавиатура: сначала выбери часы, затем минуты / 一刻 / 半 / 三刻.</p>
+  <div class="clock-grid" id="clockGrid"></div>
+  <div class="clock-keyboard">
+    <div class="keyboard-title">① Часы</div>
+    <div class="keyrow" id="hourKeys"></div>
+    <div class="keyboard-title" style="margin-top:12px">② Минуты / четверть</div>
+    <div class="keyrow" id="minuteKeys"></div>
+    <div class="actions">
+      <button class="btn alt" onclick="clearClock()">Очистить выбранные часы</button>
+      <buttton class="btn" onclick="checkClocks()">Проверить все</button>
+    </div>
+    <div class="feedback" id="clockFb">Выбери любые часы выше.</div>
+  </div>
+</section>
+
+<section class="panel" id="ws2">
+  <h2>3. Найди слова мышкой</h2>
+  <p class="intro">Вторая кетка. Бере мышка изм можно писать послерав и по диагонали.</p>
+  <div class="ws-layout">
+    <div class="ws-grid" id="grid2"></div>
+    <div class="card">
+      <b>Найди слова:</b>
+      <div class="word-list" id="list2"></div>
+      <div class="feedback" id="fb2">Слова могут идти в любом из 8 направлений.</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="routine">
+  <h2>4. Соотнеси режим дня с изображениями</h2>
+  <p class="intro">Перетащи китайское слово на подходящую современную иллюстрацию.</p>
+  <div class="routine-grid" id="routineGrid"></div>
+  <div class="routine-bank" id="routineBank"></div>
+  <div class="actions"><button class="btn" onclick="checkRoutine()">Проверить</button><button class="btn alt" onclick="resetRoutine()">Сбросить</button></div>
+  <div class="feedback" id="routineFb">Перетащи все 6 слов.</div>
+</section>
+
+<section class="panel" id="dates">
+  <h2>5. Соедини вопрос и ответ: даты</h2>
+  <p class="intro">Сначала нажми на вопрос слева, затем на подходящий ответ справа.</p>
+  <div class="match-wrap">
+    <div class="match-col" id="dateQuestions"></div>
+    <div class="match-col" id="dateAnswers"></div>
+  </div>
+  <div class="feedback" id="dateFb">Найди 5 пар.</div>
+</section>
+
+<section class="panel" id="personal">
+  <h2>6. Соедини вопрос и ответ: личная информация</h2>
+  <p class="intro">Материал из задания на имя, день рождения, возраст, семью, страну и работу родителей.</p>
+  <div class="match-wrap">
+    <div class="match-col" id="personalQuestions"></div>
+    <div class="match-col" id="personalAnswers"></div>
+  </div>
+  <div class="feedback" id="personalFb">Найди 7 пар.</div>
+</section>
+</div></div><script src="app1.js"></script><script src="app2.js"></script></body></html>
