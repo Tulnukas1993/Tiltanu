@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Китайский: одежда, счётные слова и категории</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="w"><div class="s">
+<header>
+  <h1>Интерактивное задание по китайскому</h1>
+  <p>Одежда, счётные слова и категории лексики</p>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-t="a">1. Слово + картинка</button>
+  <button class="tab" data-t="b">2. Счётные слова</button>
+  <button class="tab" data-t="c">3. Собери и распредели</button>
+</div>
+
+<section id="a" class="p on">
+  <h2>1. Соотнеси иероглифы с картинками</h2>
+  <p class="note">Нажми слово снизу, затем поле рядом с подходящей картинкой.</p>
+  <div class="grid" id="fg"></div>
+  <div class="tiles" id="ft"></div>
+  <div class="actions">
+    <button class="btn" onclick="checkF()">Проверить</button>
+    <button class="btn alt" onclick="renderF()">Сбросить</button>
+  </div>
+  <div class="fb" id="ff">Выбери слово.</div>
+</section>
+
+<section id="b" class="p">
+  <h2>2. Распредели слова по счётным словам</h2>
+  <p class="note">Перетащи слова в 一件, 一条 или 一双.</p>
+  <div class="sort">
+    <div class="col"><h3>一件</h3><div class="drop" data-c="件"></div></div>
+    <div class="col"><h3>一条</h3><div class="drop" data-c="条"></div></div>
+    <div class="col"><h3>一双</h3><div class="drop" data-c="双"></div></div>
+  </div>
+  <div class="bank" id="mb"></div>
+  <div class="actions">
+    <button class="btn" onclick="checkM()">Проверить</button>
+    <button class="btn alt" onclick="renderM()">Сбросить</button>
+  </div>
+  <div class="fb" id="mf">Распредели все слова.</div>
+</section>
+
+<section id="c" class="p">
+  <h2>3. Собери слова из иероглифов и распредели по категориям</h2>
+  <p class="note">Нажимай крупные плитки-иероглифы по порядку. Готовое слово перенеси в нужную категорию.</p>
+  <div class="builder">
+    <div class="build">
+      <div class="cur" id="cur">—</div>
+      <div class="actions">
+        <button class="btn" onclick="build()">Готово</button>
+        <button class="btn alt" onclick="clearW()">Очистить</button>
+        <button class="btn alt" onclick="del()">Удалить 1</button>
+      </div>
+      <div class="prog" id="prog"></div>
+      <div class="kt">Иероглифы для сборки слов</div>
+      <div class="note">Все плитки перемешаны. Нажимай их по порядку.</div>
+      <div class="keys" id="keys"></div>
+      <div class="made" id="made"></div>
+    </div>
+
+    <div class="cats">
+      <div class="catgrid">
+        <div class="cat"><h4>交通 / Транспорт</h4><div class="cz" data-g="交通"></div></div>
+        <div class="cat"><h4>衣服 / Одежда</h4><div class="cz" data-g="衣服"></div></div>
+        <div class="cat"><h4>日常 / Рутина</h4><div class="cz" data-g="日常"></div></div>
+        <div class="cat"><h4>职业 / Профессии</h4><div class="cz" data-g="职业"></div></div>
+        <div class="cat"><h4>颜色 / Цвета</h4><div class="cz" data-g="颜色"></div></div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="checkC()">Проверить</button>
+        <button class="btn alt" onclick="resetCats()">Сбросить категории</button>
+      </div>
+      <div class="fb" id="cf">Собери слово и перенеси его в категорию.</div>
+    </div>
+  </div>
+</section>
+</div></div>
+<script src="app.js"></script>
+</body>
+</html>
