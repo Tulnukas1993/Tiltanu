@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Das Duell der Brüder: немецкий текст, иллюстрации и интерактивные упражнения с проверкой ответов.">
+<meta name="theme-color" content="#183e3a">
+<title>Das Duell der Brüder · Интерактивный документ</title>
+<style>
+:root{--paper:#fffdf8;--bg:#f2f1e9;--ink:#22332f;--muted:#586962;--green:#183e3a;--line:#d5ddd2;--gold:#d7ab60;--soft:#e9efe4;--ok:#226240;--bad:#9a4130;--badbg:#fcf0e9;--font:system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6}
+a{color:var(--green);text-underline-offset:3px}
+button,input,select,textarea{font:inherit}
+button,a,input,select,textarea,summary{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+button:disabled{cursor:default;opacity:.6}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #a67a31;outline-offset:4px}
+button{border:1px solid var(--line);border-radius:7px;padding:10px 16px;min-height:44px;background:var(--paper);color:var(--green);font-weight:600;transition:background .15s}
+button:hover{background:var(--soft)}
+button.primary{background:var(--green);color:#fffdf8;border-color:var(--green)}
+button.primary:hover{background:#26564b}
+button.small{font-size:.88rem;padding:7px 12px}
+button.text-button{border-color:transparent;background:transparent;padding:5px 0;min-height:36px;text-align:left;text-decoration:underline;text-underline-offset:4px;font-weight:500}
+.skip{position:absolute;left:12px;top:-70px;z-index:10;background:var(--paper);padding:12px}
+.skip:focus{top:12px}
+.shell{max-width:1160px;margin:0 auto;padding:0 32px}
+.masthead{display:flex;justify-content:space-between;align-items:center;gap:18px;padding-top:26px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.brand{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.76rem;color:var(--green)}
+.brand span{color:#876028}
+.mast-actions{display:flex;gap:10px;flex-wrap:wrap}
+.hero{display:grid;grid-template-columns:1fr 1.03fr;gap:48px;align-items:center;padding:50px 0 44px}
+.eyebrow{font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;color:#72511c;font-weight:700;margin:0 0 14px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.6rem,5.5vw,4.8rem);font-weight:500;letter-spacing:-.045em;line-height:1.05;margin:0 0 20px}
+.lead{font-size:1.04rem;color:var(--muted);max-width:39ch;margin:0 0 24px}
+.topicline{display:flex;gap:12px;flex-wrap:wrap;font-size:.8rem;color:var(--green)}
+.topicline span+span{border-left:1px solid #bbc6b8;padding-left:12px}
+figure{margin:0}
+img{display:block;max-width:100%;height:auto}
+.hero-photo{border-radius:3px;aspect-ratio:1.34;object-fit:contain;background:#e4e4dd;width:100%}
+figcaption{font-size:.78rem;color:var(--muted);padding-top:8px;line-height:1.5}
+.nav{position:sticky;top:0;background:rgba(242,241,233,.97);z-index:3;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;gap:4px 28px;flex-wrap:wrap;padding:14px 0}
+.nav a{font-size:.87rem;font-weight:600;text-decoration:none;min-height:30px;display:flex;align-items:center}
+.nav a:hover{text-decoration:underline}
+.nav .num{font-size:.72rem;color:#735b31;margin-right:8px}
+main{padding:32px 0 20px}
+.lesson-section{background:var(--paper);padding:38px 42px;margin-bottom:24px;border:1px solid var(--line);border-radius:4px;scroll-margin-top:90px}
+.section-heading{display:flex;gap:15px;align-items:baseline;margin-bottom:16px}
+.section-label{font-size:.76rem;letter-spacing:.06em;color:#84612b;font-weight:700;min-width:26px}
+h2{font-family:Georgia,"Times New Roman",serif;font-size:1.85rem;line-height:1.2;font-weight:500;margin:0}
+h3{font-size:1.08rem;margin:0 0 14px;line-height:1.45}
+p{margin:0 0 16px}
+.instruction{font-size:1.02rem;margin:0 0 8px;max-width:80ch}
+.helper{font-size:.85rem;color:var(--muted);margin:0 0 22px}
+.actions{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.read-controls{padding:15px 0 22px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.control-note{font-size:.78rem;color:var(--muted);margin:12px 0 0}
+.read-layout{display:grid;grid-template-columns:minmax(0,1fr) 205px;gap:36px;align-items:start}
+.article{font-family:Georgia,"Times New Roman",serif;font-size:1.16rem;line-height:1.8}
+.article p{margin-bottom:1.2em}
+.article p:first-child:first-letter{font-size:3.2rem;line-height:.9;float:left;padding:9px 8px 0 0;color:var(--green)}
+.article .marked{background:#fae5a7;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;border-radius:2px}
+.article.word-mode [data-word]{cursor:crosshair}
+.article.word-mode [data-word]:hover{background:var(--soft)}
+.side-images{display:grid;gap:28px}
+.side-images img{width:100%;object-fit:contain;border-radius:2px}
+.side-images .portrait{aspect-ratio:923/1200}
+.side-images .statue{aspect-ratio:368/490}
+.footnotes{font-size:.8rem;border-top:1px solid var(--line);padding-top:16px;margin-top:25px;color:var(--muted)}
+.footnotes p{margin:0 0 6px}
+.section-head-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.section-counter{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.questions-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;margin-top:26px}
+fieldset{min-width:0;border:0;padding:0;margin:0}
+.question{border-top:1px solid var(--line);padding:20px 0 12px;min-width:0}
+legend{padding:0 0 8px;font-weight:650;max-width:100%;width:100%;float:left}
+legend+.choices{clear:both}
+.q-number{font-size:.8rem;color:#80632e;margin-right:8px;font-family:var(--font)}
+.choices{display:grid;gap:6px}
+.choice{display:flex;gap:10px;align-items:baseline;font-size:.96rem;padding:8px 9px;border-radius:5px;cursor:pointer}
+.choice:hover{background:#f2f5ee}
+.choice:has(input:checked){background:var(--soft)}
+input[type=radio]{accent-color:var(--green);flex:0 0 auto;width:17px;height:17px;transform:translateY(2px);margin:0}
+.letter{font-weight:600;font-size:.88rem;color:var(--muted)}
+.feedback{margin:10px 0 0;font-size:.86rem;line-height:1.55;border-left:3px solid transparent;padding:0 0 0 11px}
+.feedback:empty{display:none}
+[data-grade=correct]>.feedback{color:var(--ok);border-color:var(--ok)}
+[data-grade=review]>.feedback{color:var(--bad);border-color:var(--bad)}
+[data-grade=empty]>.feedback{color:var(--muted);border-color:var(--line)}
+.feedback strong{font-weight:700}
+.answer-detail{font-size:.88rem;margin:12px 0 0}
+.answer-detail summary{cursor:pointer;color:var(--green);min-height:34px;padding:4px 0}
+.answer-detail p{margin:7px 0;color:var(--muted)}
+.answer-detail .model{color:var(--green);font-weight:550}
+.section-actions{margin-top:25px;border-top:1px solid var(--line);padding-top:22px}
+.inline-result{font-size:.88rem;color:var(--muted);margin:0}
+.vocab-form{display:grid;grid-template-columns:1fr 1.2fr auto;gap:12px;align-items:end;margin:25px 0}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-size:.82rem;color:var(--muted)}
+input[type=text],select,textarea{border:1px solid #b3c0b4;border-radius:6px;background:#fffefa;color:var(--ink);padding:11px 12px;min-width:0;max-width:100%;font-size:1rem}
+input[type=text]{width:100%}
+textarea{width:100%;resize:vertical;min-height:78px;line-height:1.6;overflow-y:hidden}
+.vocab-list{list-style:none;padding:0;margin:0 0 20px;display:grid}
+.vocab-entry{display:grid;grid-template-columns:minmax(100px,.7fr) minmax(0,1.3fr) auto;gap:12px;align-items:center;border-top:1px solid var(--line);padding:13px 0}
+.vocab-entry strong{overflow-wrap:anywhere;font-weight:600}
+.vocab-entry input{font-size:.92rem}
+.vocab-empty{color:var(--muted);font-size:.9rem}
+.dictionary{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:.9rem}
+.dictionary summary{cursor:pointer;font-weight:600;min-height:38px}
+.dictionary dl{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;margin:18px 0}
+.dictionary dt{font-weight:600}
+.dictionary dd{margin:0;color:var(--muted)}
+.dictionary .gloss-pair{padding:8px 0}
+.meaning-bank{display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:22px 0}
+.meaning-bank p{margin:0;display:flex;gap:10px;font-size:.95rem}
+.meaning-bank strong{color:#80632e;min-width:19px}
+.example{margin:22px 0;padding:17px 20px;background:var(--soft);border-radius:4px;font-size:.95rem}
+.example .example-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;display:block;color:var(--muted);margin-bottom:6px}
+.example p{margin:0}
+.example .example-answer{font-weight:600;margin-top:5px;color:var(--green)}
+.match-row{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:10px 20px;border-bottom:1px solid var(--line);padding:18px 0;align-items:center}
+.match-row label{font-size:.98rem}
+.match-row select{width:100%}
+.match-row .feedback,.match-row .answer-detail{grid-column:1/-1;margin-top:0}
+.grammar-note{border-left:3px solid var(--gold);padding:0 0 0 15px;margin:22px 0;color:var(--muted);font-size:.9rem}
+.special-chars{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:24px 0 14px}
+.special-chars span{font-size:.8rem;color:var(--muted);margin-right:7px}
+.special-chars button{min-width:37px;min-height:37px;padding:4px 10px;font-size:.92rem}
+.sentence-item{padding:23px 0;border-top:1px solid var(--line)}
+.sentence-prompt{font-weight:550;display:block;font-size:.98rem;line-height:1.6;margin-bottom:12px}
+.sentence-tools{display:flex;align-items:baseline;gap:12px 22px;flex-wrap:wrap;margin-top:8px}
+.sentence-tools .answer-detail{margin:0;flex:1 1 220px}
+.sentence-tools .answer-detail summary{display:inline-block}
+.sentence-tools .answer-detail[open]{flex-basis:100%;order:1}
+.sentence-item>.feedback{margin-top:12px}
+.print-answer{display:none}
+.summary{background:var(--green);color:#fffdf8;border-radius:4px;padding:30px 38px;margin-bottom:24px}
+.summary h2{font-size:1.65rem}
+.summary-top{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.score{font-family:Georgia,"Times New Roman",serif;font-size:2rem;white-space:nowrap}
+progress{width:100%;height:8px;border:0;border-radius:0;accent-color:var(--gold);display:block;background:#43635a}
+progress::-webkit-progress-bar{background:#43635a}
+progress::-webkit-progress-value{background:var(--gold)}
+progress::-moz-progress-bar{background:var(--gold)}
+.summary .summary-text{font-size:.88rem;color:#e3ece2;margin:15px 0 22px}
+.summary button.primary{color:var(--green);background:#f5ead1;border-color:#f5ead1}
+.summary button{color:#fffdf8;background:transparent;border-color:#6e8980}
+.summary button:hover{background:#2c5149}
+.summary button.primary:hover{background:#fff9e9}
+.storage-status{font-size:.78rem;color:#dbe8de;margin-top:17px}
+.footer{padding:8px 0 38px;font-size:.8rem;color:var(--muted)}
+.footer details{margin:10px 0}
+.footer summary{cursor:pointer;font-weight:600;min-height:38px}
+.footer ul{padding-left:20px}
+.footer li{margin:10px 0}
+.footer a{overflow-wrap:anywhere}
+.footer p{margin:10px 0}
+.notice{font-size:.84rem;color:var(--muted)}
+button[aria-pressed=true]{background:var(--soft);border-color:#72957c}
+.noscript{background:#fff3ce;padding:20px}
+@media(max-width:900px){.shell{padding:0 24px}.hero{gap:28px}.lesson-section{padding:30px}.read-layout{grid-template-columns:minmax(0,1fr) 160px;gap:24px}.nav{gap:4px 18px}.article{font-size:1.1rem}}
+@media(max-width:680px){.shell{padding:0 17px}.masthead{align-items:flex-start;padding:20px 0;gap:12px}.brand{max-width:105px;font-size:.69rem}.mast-actions{gap:7px;justify-content:flex-end}.mast-actions button{padding:7px 10px;font-size:.8rem}.hero{grid-template-columns:1fr;gap:25px;padding:30px 0}.hero h1{font-size:3.3rem;max-width:11ch}.hero-photo{max-height:none;aspect-ratio:1.34}.lead{max-width:47ch;font-size:.98rem}.eyebrow{margin-bottom:12px}.nav{position:static;gap:6px 22px;padding:12px 0}.nav a{font-size:.81rem}.lesson-section{padding:25px 20px;scroll-margin-top:16px}.read-layout{grid-template-columns:1fr}.side-images{grid-template-columns:1fr 1fr;gap:20px;max-width:410px}.side-images figure:first-child{order:1}.article{font-size:1.09rem;line-height:1.8}h2{font-size:1.55rem}.questions-grid{grid-template-columns:1fr;gap:5px}.vocab-form{grid-template-columns:1fr}.vocab-form button{justify-self:start}.vocab-entry{grid-template-columns:1fr auto;gap:8px}.vocab-entry input{grid-column:1/-1;grid-row:2}.vocab-entry button{grid-column:2;grid-row:1}.meaning-bank{grid-template-columns:1fr;gap:14px}.match-row{grid-template-columns:minmax(0,1fr) 80px;gap:10px}.section-heading{gap:10px}.summary{padding:26px 22px}.summary-top{gap:8px}.dictionary dl{grid-template-columns:1fr}.section-head-row{gap:6px}.sentence-tools .answer-detail{flex-basis:160px}.special-chars{gap:7px}.special-chars span{width:100%}}
+@media(max-width:360px){.shell{padding:0 12px}.lesson-section{padding:23px 16px}.hero h1{font-size:2.9rem}.mast-actions{max-width:160px}.topicline{font-size:.75rem;gap:8px}.topicline span+span{padding-left:8px}.nav{column-gap:14px}.nav .num{margin-right:5px}.summary{padding:24px 18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{
+ @page{size:A4;margin:16mm}
+ body{background:#fff;color:#111;font-size:10pt}
+ .shell{max-width:none;padding:0}
+ .masthead,.nav,.read-controls,.special-chars,.vocab-form,.section-actions,.sentence-tools>button,.mast-actions,.summary .actions,.skip,.footer>details,.text-button,.storage-status{display:none!important}
+ .hero{padding:0 0 18px;grid-template-columns:1.1fr 1fr;gap:25px}
+ h1,.hero h1{font-size:30pt;max-width:none}
+ .lead{font-size:10pt}.hero-photo{max-height:180px}
+ .lesson-section{border:0;border-radius:0;padding:18px 0;margin:0;break-before:auto}
+ h2{font-size:19pt}.section-heading{break-after:avoid}
+ .read-layout{grid-template-columns:minmax(0,1fr) 130px;gap:25px}
+ .article{font-size:11pt;line-height:1.6}
+ .article p{orphans:3;widows:3}
+ .questions-grid{grid-template-columns:1fr 1fr;gap:10px 25px}
+ .question,.sentence-item,.match-row,.vocab-entry{break-inside:avoid}
+ .question{padding:13px 0}
+ .choice{padding:3px 0;font-size:10pt}
+ .meaning-bank{grid-template-columns:1fr 1fr}
+ .feedback{font-size:9pt}
+ textarea{display:none}
+ .print-answer{display:block;min-height:28px;border-bottom:1px solid #888;white-space:pre-wrap;font-size:11pt;padding:4px 0;overflow-wrap:anywhere}
+ .sentence-item{padding:13px 0}
+ .sentence-tools .answer-detail:not([open]){display:none}
+ .sentence-tools .answer-detail{margin-top:2px}
+ .summary{background:#fff;color:#111;border-top:2px solid #333;padding:16px 0}
+ .summary .summary-text{color:#333;margin:6px 0}
+ .summary-top{margin-bottom:5px}
+ progress{display:none}
+ .score{font-size:20pt}
+ .footer{font-size:8pt;padding-bottom:0}
+ .dictionary:not([open]){display:none}
+ .vocab-entry button{display:none}
+ a{color:inherit}
+ .example{background:#f2f2f2}
+}
+</style>
+</head>
+<body>
+<a href="#reading" class="skip">Перейти к тексту</a>
+<div class="shell">
+ <header class="masthead">
+  <div class="brand">Deutsch <span>/</span> Lernheft</div>
+  <div class="mast-actions">
+   <button id="download-html" class="small">Скачать HTML</button>
+   <button id="print-document" class="small">Печать / PDF</button>
+  </div>
+ </header>
+ <div class="hero">
+  <div>
+   <p class="eyebrow">Читать. Понимать. Практиковаться.</p>
+   <h1 lang="de">Das Duell<br>der Brüder</h1>
+   <p class="lead">История семьи Дасслер и двух спортивных фирм. Прочитайте текст, выполните задания и проверьте ответы.</p>
+   <div class="topicline"><span>Полный текст</span><span>24 ответа</span><span>Präteritum</span></div>
+  </div>
+  <figure>
+   <img class="hero-photo" src="@@TOWN@@" alt="Фахверковые дома и средневековая башня Фентурм на главной улице Херцогенаураха" width="2288" height="1712">
+   <figcaption><span lang="de">Herzogenaurach: Altstadt</span> · Фото: Tilman AB, Wikimedia Commons.</figcaption>
+  </figure>
+ </div>
+ <nav class="nav" aria-label="Разделы документа">
+  <a href="#reading"><span class="num">15</span>Текст</a>
+  <a href="#exercise-a"><span class="num">16a</span>Понимание</a>
+  <a href="#exercise-b"><span class="num">16b</span>Слова</a>
+  <a href="#exercise-c"><span class="num">16c</span>Соответствия</a>
+  <a href="#exercise-e"><span class="num">e</span>Präteritum</a>
+  <a href="#results">Результат</a>
+ </nav>
+ <noscript><p class="noscript">Включите JavaScript, чтобы открыть текст упражнений и автоматическую проверку ответов.</p></noscript>
+ <main>
+  <section class="lesson-section" id="reading" aria-labelledby="reading-title">
+   <div class="section-heading"><span class="section-label">15</span><h2 id="reading-title">Текст для чтения</h2></div>
+   <p class="instruction" lang="de">Lesen und hören Sie den Text zunächst als Ganzes. Benutzen Sie noch kein Wörterbuch.</p>
+   <p class="helper">Сначала прочитайте текст целиком. На первом чтении попробуйте обойтись без словаря.</p>
+   <div class="read-controls">
+    <div class="actions">
+     <button id="speak" class="small">Озвучить по-немецки</button>
+     <button id="stop-speak" class="small" hidden>Остановить</button>
+     <button id="word-mode" class="small" aria-pressed="false">Выделение слов: выкл.</button>
+    </div>
+    <p class="control-note" id="speech-status" role="status">Синтез речи браузера; это не аудиозапись из учебника. Нужен установленный немецкий голос.</p>
+   </div>
+   <div class="read-layout">
+    <article class="article" id="article" lang="de" aria-label="Das Duell der Brüder"></article>
+    <aside class="side-images" aria-label="Иллюстрации к тексту">
+     <figure>
+      <img class="portrait" src="@@RUDOLF@@" width="923" height="1200" alt="Чёрно-белый портрет Рудольфа Дасслера в очках и костюме">
+      <figcaption><span lang="de">Rudolf Dassler</span><br>© PUMA SE / Archive, около 1965 года; Deutsche Biographie.</figcaption>
+     </figure>
+     <figure>
+      <img class="statue" src="@@STATUE@@" width="368" height="490" alt="Бронзовая скульптура Адольфа Дасслера, сидящего с футбольной бутсой в руках">
+      <figcaption><span lang="de">Skulptur von Adolf Dassler</span><br>Скульптор Josef Tabachnyk. Фото: Maxim560, CC BY-SA 3.0.</figcaption>
+     </figure>
+    </aside>
+   </div>
+   <div class="footnotes">
+    <p lang="de"><sup>1</sup> Waschküche: Raum für das Waschen der Wäsche.</p>
+    <p><sup>2</sup> <span lang="de">Bruch</span> — окончательный разрыв отношений. Пояснение добавлено для работы с текстом.</p>
+   </div>
+  </section>
+
+  <section class="lesson-section" id="exercise-a" aria-labelledby="a-title">
+   <div class="section-head-row">
+    <div class="section-heading"><span class="section-label">16a</span><h2 id="a-title" lang="de">Textarbeit</h2></div>
+    <span class="section-counter">6 вопросов</span>
+   </div>
+   <p class="instruction" lang="de">Was steht im Text? Kreuzen Sie an: a, b oder c.</p>
+   <p class="helper">Выберите один ответ на каждый вопрос. Ориентируйтесь на исходный учебный текст.</p>
+   <div class="questions-grid" id="mc-questions"></div>
+   <div class="section-actions actions">
+    <button class="primary" data-check-section="a">Проверить ответы</button>
+    <p class="inline-result" id="result-a" role="status"></p>
+   </div>
+  </section>
+
+  <section class="lesson-section" id="exercise-b" aria-labelledby="b-title">
+   <div class="section-heading"><span class="section-label">16b</span><h2 id="b-title">Слова и заметки</h2></div>
+   <p class="instruction" lang="de">Lesen Sie den Text noch einmal. Unterstreichen Sie wichtige Wörter, die Sie nicht verstehen. Fragen Sie andere Kursteilnehmer nach der Bedeutung oder schlagen Sie die Wörter im Wörterbuch nach.</p>
+   <p class="helper">Включите «Выделение слов» над текстом и нажимайте незнакомые слова. Они появятся здесь. Слово и значение можно добавить и с клавиатуры. Это задание без оценки.</p>
+   <form class="vocab-form" id="vocab-form">
+    <div class="field"><label for="new-word">Слово или выражение</label><input type="text" id="new-word" lang="de" maxlength="100" placeholder="Например: der Erfinder" autocomplete="off"></div>
+    <div class="field"><label for="new-meaning">Значение или заметка</label><input type="text" id="new-meaning" maxlength="500" placeholder="Например: изобретатель" autocomplete="off"></div>
+    <button type="submit">Добавить</button>
+   </form>
+   <p id="vocab-status" class="helper" role="status"></p>
+   <ul class="vocab-list" id="vocab-list" aria-label="Мой словарь"></ul>
+   <details class="dictionary">
+    <summary>Мини-словарь к тексту · открыть после первого чтения</summary>
+    <dl id="dictionary"></dl>
+   </details>
+  </section>
+
+  <section class="lesson-section" id="exercise-c" aria-labelledby="c-title">
+   <div class="section-head-row">
+    <div class="section-heading"><span class="section-label">16c</span><h2 id="c-title">Найдите соответствия</h2></div>
+    <span class="section-counter">4 соответствия</span>
+   </div>
+   <p class="instruction" lang="de">Was bedeuten die folgenden Sätze? Ordnen Sie zu.</p>
+   <p class="helper">Подберите объяснение a–e к каждому предложению. Вариант d уже использован в примере.</p>
+   <div class="meaning-bank" id="meaning-bank" lang="de"></div>
+   <div class="example" lang="de">
+    <span class="example-label" lang="ru">Пример</span>
+    <p>Adi machte aus seinem Interesse ein Geschäft.</p>
+    <p class="example-answer">→ d) Adi interessierte sich für Sport und gründete eine Sportschuh-Firma.</p>
+   </div>
+   <div id="match-questions"></div>
+   <div class="section-actions actions">
+    <button class="primary" data-check-section="c">Проверить соответствия</button>
+    <p class="inline-result" id="result-c" role="status"></p>
+   </div>
+  </section>
+
+  <section class="lesson-section" id="exercise-e" aria-labelledby="e-title">
+   <div class="section-head-row">
+    <div class="section-heading"><span class="section-label">e</span><h2 id="e-title" lang="de">Präteritum</h2></div>
+    <span class="section-counter">14 предложений</span>
+   </div>
+   <p class="instruction" lang="de">Vertiefen Sie den Wortschatz des Textes. Bilden Sie Sätze im Präteritum.</p>
+   <p class="helper">Составьте полные предложения, используя все данные слова. Нажмите «Проверить» под ответом или проверьте весь раздел.</p>
+   <div class="example" lang="de">
+    <span class="example-label" lang="ru">Пример из задания</span>
+    <p>Ende des 19. Jahrhunderts • Christoph und Paulina Dassler • nach Herzogenaurach • ziehen</p>
+    <p class="example-answer">Ende des 19. Jahrhunderts zogen Christoph und Paulina Dassler nach Herzogenaurach.</p>
+   </div>
+   <p class="grammar-note">Глагол в Präteritum обычно занимает второе место. У отделяемых глаголов приставка уходит в конец: <span lang="de">Rudolf <strong>stieg</strong> in das Unternehmen <strong>ein</strong>.</span></p>
+   <p class="helper">Проверка учитывает несколько вариантов порядка слов; регистр, кавычки, конечная пунктуация и лишние пробелы не влияют на результат. Для другого допустимого варианта сравните ответ с образцом: это проверка по подготовленным вариантам.</p>
+   <div class="special-chars" aria-label="Вставка немецких букв">
+    <span>Вставить в последнее поле:</span>
+    <button type="button" data-char="ä" aria-label="Вставить ä">ä</button>
+    <button type="button" data-char="ö" aria-label="Вставить ö">ö</button>
+    <button type="button" data-char="ü" aria-label="Вставить ü">ü</button>
+    <button type="button" data-char="ß" aria-label="Вставить ß">ß</button>
+    <button type="button" data-char="Ä" aria-label="Вставить Ä">Ä</button>
+    <button type="button" data-char="Ö" aria-label="Вставить Ö">Ö</button>
+    <button type="button" data-char="Ü" aria-label="Вставить Ü">Ü</button>
+   </div>
+   <div id="sentence-questions"></div>
+   <div class="section-actions actions">
+    <button class="primary" data-check-section="e">Проверить Präteritum</button>
+    <p class="inline-result" id="result-e" role="status"></p>
+   </div>
+  </section>
+
+  <section class="summary" id="results" aria-labelledby="results-title">
+   <div class="summary-top"><h2 id="results-title">Ваш результат</h2><div class="score" id="score">0 / 24</div></div>
+   <progress id="score-progress" max="24" value="0" aria-label="Количество верных ответов из 24"></progress>
+   <p class="summary-text" id="score-description" role="status">Заполнено: 0 из 24. Проверьте ответы, чтобы увидеть результат.</p>
+   <div class="actions">
+    <button class="primary" id="check-all">Проверить всё</button>
+    <button id="show-answers" aria-pressed="false">Показать ответы</button>
+    <button id="reset">Начать заново</button>
+   </div>
+   <p class="storage-status" id="storage-status">Прогресс сохраняется в этом браузере. «Скачать HTML» сохраняет отдельную копию с вашими ответами.</p>
+  </section>
+ </main>
+ <footer class="footer">
+  <p>Подготовлено по трём предоставленным изображениям: текст «Das Duell der Brüder», раздел «16 Textarbeit» (a, b, c) и упражнение e. Формулировки учебного текста сохранены; проверка относится к нему. Пояснения на русском и мини-словарь добавлены.</p>
+  <details>
+   <summary>Источники изображений и примечания</summary>
+   <ul>
+    <li><a href="https://commons.wikimedia.org/wiki/File:Herzogenaurach_Hauptstra%C3%9Fe_Fehnturm.jpg" target="_blank" rel="noopener">Herzogenaurach Hauptstraße Fehnturm</a> — Tilman AB, 20.04.2007; public domain. Фото встроено без изменений.</li>
+    <li><a href="https://commons.wikimedia.org/wiki/File:Adi.dassler_Skulptur.jpg" target="_blank" rel="noopener">Adi.dassler Skulptur</a> — фото Maxim560; скульптура Josef Tabachnyk, 2006. Лицензия фото: <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>. Фото встроено без изменений.</li>
+    <li><a href="https://www.deutsche-biographie.de/dbo027444-5.html" target="_blank" rel="noopener">Rudolf Dassler, около 1965 года</a> — PUMA SE / Archive; фотограф неизвестен. Источник: Deutsche Biographie / NDB-online. Права на фотографию принадлежат правообладателю.</li>
+   </ul>
+   <p>В четвёртом абзаце сохранён повтор «und» из предоставленного изображения. Определение слова Bruch добавлено: соответствующая сноска обрезана на снимке.</p>
+   <p>Текст, изображения и проверка встроены в файл. Для внешних источников нужен интернет; озвучивание зависит от возможностей браузера. Ответы не отправляются на сервер.</p>
+  </details>
+ </footer>
+</div>
+<script id="lesson-data" type="application/json">@@LESSON_DATA@@</script>
+<script id="initial-state" type="application/json">null</script>
+<script>
+(function(){
+ 'use strict';
+ var DATA=JSON.parse(document.getElementById('lesson-data').textContent);
+ var KEY='dassler-lernheft-v1';
+ var state={version:1,answers:{},checked:{},words:[],updatedAt:0};
+ var groups={a:[],c:[],e:[]};
+ var itemNodes={};
+ var wordMode=false,lastTextarea=null,allAnswersOpen=false;
+ var speechQueue=[],speaking=false;
+ var $=function(id){return document.getElementById(id);};
+ function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+ function norm(s){return String(s||'').normalize('NFC').toLocaleLowerCase('de').replace(/ß/g,'ss').replace(/[^\p{L}\p{N}]+/gu,' ').trim().replace(/\s+/g,' ');}
+ function cleanState(v){
+  if(!v||v.version!==1||!v.answers||typeof v.answers!=='object')return null;
+  var n={version:1,answers:{},checked:{},words:[],updatedAt:Number(v.updatedAt)||0};
+  ['a','c','e'].forEach(function(g){var len=g==='a'?6:g==='c'?4:14;for(var i=0;i<len;i++){var id=g+i;n.answers[id]=String(v.answers[id]||'').slice(0,2000);if(v.checked&&v.checked[id]===true)n.checked[id]=true;}});
+  if(Array.isArray(v.words))n.words=v.words.slice(0,150).filter(function(w){return w&&typeof w.word==='string'&&w.word.trim();}).map(function(w){return {word:w.word.slice(0,100),meaning:String(w.meaning||'').slice(0,500)};});
+  return n;
+ }
+ try{
+  var embedded=cleanState(JSON.parse($('initial-state').textContent));
+  var saved=cleanState(JSON.parse(localStorage.getItem(KEY)||'null'));
+  if(embedded&&(!saved||embedded.updatedAt>=saved.updatedAt))state=embedded;else if(saved)state=saved;
+ }catch(e){
+  try{var fallback=cleanState(JSON.parse($('initial-state').textContent));if(fallback)state=fallback;}catch(ignore){}
+ }
+ function save(){
+  state.updatedAt=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify(state));$('storage-status').textContent='Сохранено в этом браузере. «Скачать HTML» сохранит отдельную копию с вашими ответами.';}
+  catch(e){$('storage-status').textContent='Браузер не разрешает сохранять прогресс. Скачайте HTML, чтобы сохранить ваши ответы в отдельном файле.';}
+ }
+ function detail(model,why){
+  var d=el('details','answer-detail');d.dataset.answer='true';
+  var sum=el('summary','', 'Показать ответ');d.append(sum);
+  var p=el('p','model',model);p.lang='de';d.append(p);
+  if(why)d.append(el('p','',why));
+  d.addEventListener('toggle',function(){sum.textContent=d.open?'Скрыть ответ':'Показать ответ';});
+  return d;
+ }
+ function addItem(id,group,node,control,model,why,isSentence){
+  groups[group].push(id);
+  var feedback=el('div','feedback');feedback.id='feedback-'+id;
+  node.append(feedback);
+  var answerDetail=detail(model,why);
+  if(isSentence){
+   var tools=el('div','sentence-tools');
+   var check=el('button','small','Проверить');check.type='button';check.setAttribute('aria-label','Проверить предложение '+(Number(id.slice(1))+1));
+   check.addEventListener('click',function(){checkIds([id]);});
+   tools.append(check,answerDetail);node.append(tools);
+  }else node.append(answerDetail);
+  itemNodes[id]={node:node,control:control,feedback:feedback,detail:answerDetail,model:model,why:why};
+  if(control)control.setAttribute('aria-describedby',feedback.id);
+ }
+ function renderArticle(){
+  var article=$('article');article.replaceChildren();
+  DATA.article.forEach(function(text,index){
+   var p=el('p');p.dataset.paragraph=String(index);
+   var regex=/[\p{L}\p{M}]+(?:[’'-][\p{L}\p{M}]+)*/gu,match,at=0;
+   while((match=regex.exec(text))!==null){
+    p.append(document.createTextNode(text.slice(at,match.index)));
+    var w=el('span','',match[0]);w.dataset.word=norm(match[0]);p.append(w);
+    at=match.index+match[0].length;
+   }
+   p.append(document.createTextNode(text.slice(at)));
+   if(index===0){Array.from(p.querySelectorAll('span')).forEach(function(w){if(w.textContent==='Waschküche'){var s=el('sup','','1');w.after(s);}});}
+   if(index===3){var sup=el('sup','','2');p.append(sup);}
+   article.append(p);
+  });
+  article.addEventListener('click',function(e){var target=e.target.closest('[data-word]');if(wordMode&&target)addWord(target.textContent,'',true);});
+ }
+ function renderMC(){
+  var root=$('mc-questions');root.replaceChildren();
+  DATA.mc.forEach(function(q,i){
+   var id='a'+i,field=el('fieldset','question');field.id='item-'+id;
+   var legend=el('legend');legend.lang='de';legend.append(el('span','q-number',String(i+1).padStart(2,'0')),document.createTextNode(q.q));field.append(legend);
+   var choices=el('div','choices');
+   q.options.forEach(function(option,j){
+    var letter=String.fromCharCode(97+j),label=el('label','choice'),input=el('input');input.type='radio';input.name=id;input.value=letter;input.id=id+'-'+letter;input.checked=state.answers[id]===letter;
+    input.setAttribute('aria-describedby','feedback-'+id);
+    var text=el('span');text.lang='de';text.append(el('span','letter',letter+') '),document.createTextNode(option));label.append(input,text);choices.append(label);
+    input.addEventListener('change',function(){setAnswer(id,input.value);});
+   });
+   field.append(choices);
+   var keyIndex=q.key.charCodeAt(0)-97;
+   addItem(id,'a',field,null,q.key+') '+q.options[keyIndex],q.why,false);root.append(field);
+  });
+ }
+ function renderMatching(){
+  var bank=$('meaning-bank');bank.replaceChildren();
+  DATA.meanings.forEach(function(m){var p=el('p');p.append(el('strong','',m.letter+')'),el('span','',m.text));bank.append(p);});
+  var root=$('match-questions');root.replaceChildren();
+  DATA.matching.forEach(function(q,i){
+   var id='c'+i,row=el('div','match-row');row.id='item-'+id;
+   var label=el('label');label.htmlFor='answer-'+id;label.lang='de';label.append(el('span','q-number',String(i+1).padStart(2,'0')),document.createTextNode(q.q));
+   var select=el('select');select.id='answer-'+id;select.setAttribute('aria-label','Соответствие для предложения '+(i+1));
+   var empty=el('option','','—');empty.value='';select.append(empty);
+   DATA.meanings.forEach(function(m){var o=el('option','',m.letter);o.value=m.letter;select.append(o);});
+   select.value=state.answers[id]||'';
+   select.addEventListener('change',function(){setAnswer(id,select.value);});
+   row.append(label,select);
+   var meaning=DATA.meanings.find(function(m){return m.letter===q.key;});
+   addItem(id,'c',row,select,q.key+') '+meaning.text,q.why,false);root.append(row);
+  });
+ }
+ function fitTextarea(t){t.style.height='auto';t.style.height=t.scrollHeight+3+'px';}
+ function renderSentences(){
+  var root=$('sentence-questions');root.replaceChildren();
+  DATA.sentences.forEach(function(q,i){
+   var id='e'+i,row=el('div','sentence-item');row.id='item-'+id;
+   var label=el('label','sentence-prompt');label.htmlFor='answer-'+id;label.lang='de';label.append(el('span','q-number',String(i+1).padStart(2,'0')),document.createTextNode(q.prompt));
+   var t=el('textarea');t.id='answer-'+id;t.lang='de';t.rows=2;t.spellcheck=false;t.autocomplete='off';t.value=state.answers[id]||'';t.maxLength=2000;t.setAttribute('aria-label','Предложение '+(i+1)+' в Präteritum');
+   var print=el('div','print-answer',t.value||' ');print.lang='de';
+   t.addEventListener('input',function(){setAnswer(id,t.value);print.textContent=t.value||' ';fitTextarea(t);});
+   t.addEventListener('focus',function(){lastTextarea=t;});
+   row.append(label,t,print);
+   addItem(id,'e',row,t,q.model,q.hint,true);root.append(row);
+  });
+  requestAnimationFrame(function(){document.querySelectorAll('textarea').forEach(fitTextarea);});
+ }
+ function setAnswer(id,value){
+  state.answers[id]=value;delete state.checked[id];
+  paintFeedback(id);updateSummary();save();
+ }
+ function grade(id){
+  var value=(state.answers[id]||'').trim();
+  if(!value)return 'empty';
+  var i=Number(id.slice(1)),g=id[0];
+  if(g==='a')return value===DATA.mc[i].key?'correct':'review';
+  if(g==='c')return value===DATA.matching[i].key?'correct':'review';
+  return DATA.sentences[i].variants.some(function(v){return norm(v)===norm(value);})?'correct':'review';
+ }
+ function paintFeedback(id){
+  var item=itemNodes[id];if(!item)return;
+  var f=item.feedback;f.replaceChildren();item.node.removeAttribute('data-grade');
+  if(!state.checked[id])return;
+  var result=grade(id);item.node.dataset.grade=result;
+  var title,body;
+  if(result==='empty'){title='○ Ответ не заполнен.';body='Введите или выберите ответ и повторите проверку.';}
+  else if(result==='correct'){title='✓ Верно.';body=id[0]==='e'?'Предложение совпадает с одним из допустимых вариантов.':item.why;}
+  else if(id[0]==='e'){
+   title='↻ Проверьте предложение.';
+   body=DATA.sentences[Number(id.slice(1))].hint+' Если ваш порядок слов отличается, сравните его с образцом.';
+  }else{title='↻ Попробуйте ещё раз.';body='Ответ не совпадает с ключом. Объяснение доступно в «Показать ответ».';}
+  f.append(el('strong','',title),document.createTextNode(' '+body));
+ }
+ function checkIds(ids){
+  ids.forEach(function(id){state.checked[id]=true;paintFeedback(id);});
+  updateSummary();save();
+ }
+ function updateSummary(){
+  var total=0,filled=0,correct=0,review=0,checked=0;
+  Object.keys(groups).forEach(function(g){
+   var localCorrect=0,localChecked=0;
+   groups[g].forEach(function(id){
+    total++;if((state.answers[id]||'').trim())filled++;
+    if(state.checked[id]){checked++;localChecked++;if(grade(id)==='correct'){correct++;localCorrect++;}else if(grade(id)==='review')review++;}
+   });
+   $('result-'+g).textContent=localChecked?'Верно: '+localCorrect+' из '+groups[g].length+'. Проверено: '+localChecked+'.':'';
+  });
+  $('score').textContent=correct+' / '+total;
+  $('score-progress').value=correct;
+  var text='Заполнено: '+filled+' из '+total+'. ';
+  if(!checked)text+='Проверьте ответы, чтобы увидеть результат.';
+  else if(correct===total)text+='Все ответы верны. Отличная работа!';
+  else text+='Верно: '+correct+'. Нужно пересмотреть: '+review+'. '+(total-filled?'Не заполнено: '+(total-filled)+'. ':'')+(total-checked?'Ещё не проверено: '+(total-checked)+'.':'');
+  $('score-description').textContent=text;
+ }
+ function renderVocab(){
+  var list=$('vocab-list');list.replaceChildren();
+  if(!state.words.length)list.append(el('li','vocab-empty','Здесь появятся ваши слова и заметки.'));
+  state.words.forEach(function(w,i){
+   var row=el('li','vocab-entry'),word=el('strong','',w.word);word.lang='de';
+   var meaning=el('input');meaning.type='text';meaning.value=w.meaning;meaning.maxLength=500;meaning.placeholder='Добавить значение';meaning.setAttribute('aria-label','Значение слова '+w.word);
+   meaning.addEventListener('input',function(){state.words[i].meaning=meaning.value;save();});
+   var remove=el('button','small','Удалить');remove.type='button';remove.setAttribute('aria-label','Удалить слово '+w.word);
+   remove.addEventListener('click',function(){state.words.splice(i,1);renderVocab();markWords();save();$('vocab-status').textContent='Слово удалено.';});
+   row.append(word,meaning,remove);list.append(row);
+  });
+ }
+ function markWords(){
+  var set=new Set();
+  state.words.forEach(function(w){norm(w.word).split(' ').forEach(function(t){set.add(t);});});
+  document.querySelectorAll('#article [data-word]').forEach(function(w){w.classList.toggle('marked',set.has(w.dataset.word));});
+ }
+ function addWord(word,meaning,toggle){
+  word=word.trim();if(!word){$('vocab-status').textContent='Введите слово или выражение.';$('new-word').focus();return;}
+  var existing=state.words.findIndex(function(w){return norm(w.word)===norm(word);});
+  if(existing>=0){
+   if(toggle){state.words.splice(existing,1);$('vocab-status').textContent='Выделение снято: '+word+'.';}
+   else{$('vocab-status').textContent='Это слово уже есть в вашем словаре.';return;}
+  }else{
+   if(state.words.length>=150){$('vocab-status').textContent='В словаре уже 150 записей. Удалите ненужные, чтобы добавить новые.';return;}
+   state.words.push({word:word.slice(0,100),meaning:meaning.slice(0,500)});
+   $('vocab-status').textContent='Добавлено: '+word+'.';
+  }
+  renderVocab();markWords();save();
+ }
+ function renderDictionary(){
+  var d=$('dictionary');d.replaceChildren();
+  DATA.glossary.forEach(function(pair){var wrap=el('div','gloss-pair'),dt=el('dt','',pair[0]);dt.lang='de';wrap.append(dt,el('dd','',pair[1]));d.append(wrap);});
+ }
+ function download(){
+  save();
+  var copy=document.documentElement.cloneNode(true);
+  copy.querySelector('#initial-state').textContent=JSON.stringify(state).replace(/</g,'\\u003c');
+  var blob=new Blob(['\uFEFF<!doctype html>\n'+copy.outerHTML],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob),a=el('a');a.href=url;a.download='das-duell-der-brueder.html';document.body.append(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1500);
+ }
+ function stopSpeech(){
+  speaking=false;speechQueue=[];
+  if('speechSynthesis' in window)window.speechSynthesis.cancel();
+  $('stop-speak').hidden=true;$('speak').disabled=false;
+ }
+ function speakNext(voice){
+  if(!speaking||!speechQueue.length){stopSpeech();$('speech-status').textContent='Чтение завершено.';return;}
+  var u=new SpeechSynthesisUtterance(speechQueue.shift());u.lang='de-DE';u.voice=voice;u.rate=.88;
+  u.onend=function(){if(speaking)speakNext(voice);};
+  u.onerror=function(){if(speaking){stopSpeech();$('speech-status').textContent='Озвучивание недоступно. Проверьте настройки немецкого голоса в браузере.';}};
+  window.speechSynthesis.speak(u);
+ }
+ renderArticle();renderMC();renderMatching();renderSentences();renderVocab();markWords();renderDictionary();
+ $('article').classList.remove('word-mode');$('word-mode').textContent='Выделение слов: выкл.';$('word-mode').setAttribute('aria-pressed','false');
+ $('show-answers').textContent='Показать ответы';$('show-answers').setAttribute('aria-pressed','false');
+ $('speak').disabled=false;$('stop-speak').hidden=true;
+ $('speech-status').textContent='Синтез речи браузера; это не аудиозапись из учебника. Нужен установленный немецкий голос.';
+ Object.keys(itemNodes).forEach(paintFeedback);updateSummary();
+ document.querySelectorAll('[data-check-section]').forEach(function(b){b.addEventListener('click',function(){checkIds(groups[b.dataset.checkSection]);});});
+ document.querySelectorAll('[data-char]').forEach(function(b){b.addEventListener('click',function(){
+  var t=lastTextarea||$('answer-e0');t.focus();var start=t.selectionStart,end=t.selectionEnd;t.setRangeText(b.dataset.char,start,end,'end');t.dispatchEvent(new Event('input',{bubbles:true}));
+ });});
+ $('vocab-form').addEventListener('submit',function(e){e.preventDefault();var word=$('new-word').value;if(word.trim()){addWord(word,$('new-meaning').value,false);$('new-word').value='';$('new-meaning').value='';$('new-word').focus();}else addWord('','',false);});
+ $('word-mode').addEventListener('click',function(){wordMode=!wordMode;$('article').classList.toggle('word-mode',wordMode);this.setAttribute('aria-pressed',String(wordMode));this.textContent='Выделение слов: '+(wordMode?'вкл.':'выкл.');});
+ $('check-all').addEventListener('click',function(){checkIds([].concat(groups.a,groups.c,groups.e));});
+ $('show-answers').addEventListener('click',function(){
+  allAnswersOpen=!allAnswersOpen;
+  document.querySelectorAll('[data-answer]').forEach(function(d){d.open=allAnswersOpen;});
+  this.setAttribute('aria-pressed',String(allAnswersOpen));this.textContent=allAnswersOpen?'Скрыть ответы':'Показать ответы';
+ });
+ $('download-html').addEventListener('click',download);
+ $('print-document').addEventListener('click',function(){window.print();});
+ $('reset').addEventListener('click',function(){
+  if(!window.confirm('Очистить все ответы и ваш словарь в этом документе?'))return;
+  stopSpeech();state={version:1,answers:{},checked:{},words:[],updatedAt:Date.now()};
+  document.querySelectorAll('input[type=radio]').forEach(function(n){n.checked=false;});
+  document.querySelectorAll('#match-questions select').forEach(function(n){n.value='';});
+  document.querySelectorAll('#sentence-questions textarea').forEach(function(n){n.value='';fitTextarea(n);});
+  document.querySelectorAll('.print-answer').forEach(function(n){n.textContent=' ';});
+  document.querySelectorAll('[data-answer]').forEach(function(d){d.open=false;});
+  allAnswersOpen=false;$('show-answers').textContent='Показать ответы';$('show-answers').setAttribute('aria-pressed','false');
+  $('new-word').value='';$('new-meaning').value='';$('vocab-status').textContent='';
+  renderVocab();markWords();Object.keys(itemNodes).forEach(paintFeedback);updateSummary();save();
+ });
+ $('speak').addEventListener('click',function(){
+  if(!('speechSynthesis' in window)){this.disabled=true;$('speech-status').textContent='Этот браузер не поддерживает синтез речи.';return;}
+  var voice=window.speechSynthesis.getVoices().find(function(v){return /^de([-_]|$)/i.test(v.lang);});
+  if(!voice){$('speech-status').textContent='Немецкий голос пока недоступен. Установите его в настройках системы или попробуйте другой браузер.';return;}
+  stopSpeech();speaking=true;speechQueue=DATA.article.slice();this.disabled=true;$('stop-speak').hidden=false;$('speech-status').textContent='Чтение по-немецки. Голос: '+voice.name+'.';speakNext(voice);
+ });
+ $('stop-speak').addEventListener('click',function(){stopSpeech();$('speech-status').textContent='Чтение остановлено.';});
+ if('speechSynthesis' in window)window.speechSynthesis.getVoices();
+ window.addEventListener('pagehide',stopSpeech);
+ window.addEventListener('resize',function(){document.querySelectorAll('textarea').forEach(fitTextarea);});
+})();
+</script>
+</body>
+</html>

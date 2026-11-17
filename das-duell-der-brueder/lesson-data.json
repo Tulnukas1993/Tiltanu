@@ -1,0 +1,380 @@
+{
+  "article": [
+    "Als Christoph und Paulina Dassler Ende des 19. Jahrhunderts in einen kleinen Ort namens Herzogenaurach zogen und dort vier Kinder bekamen, spielte Sport in ihrem Leben keine große Rolle. Das änderte sich bald, denn der jüngste Sohn Adolf, genannt Adi, interessierte sich für viele Sportarten: Leichtathletik, Fußball, Boxen oder Eislaufen. Nach dem Ersten Weltkrieg (1914–1918) machte der Junge aus seinem Interesse ein Geschäft: Er produzierte Sportschuhe in der Waschküche seiner Mutter. Drei Jahre später stieg auch Adis Bruder Rudolf in das kleine Unternehmen ein. Zusammen gründeten sie 1924 die „Gebrüder Dassler Schuhfabrik“.",
+    "Adi und Rudolf waren sehr unterschiedlich, aber die Partnerschaft funktionierte am Anfang gut. Adi war eher ein Erfinder und arbeitete an der Weiterentwicklung der Schuhe, Rudolf war ein sehr guter Verkäufer. Leider verstanden sich die Ehefrauen der Brüder nicht gut, und es entstanden erste Konflikte.",
+    "Die Probleme wurden noch größer, als zur Zeit des Nationalsozialismus 1936 in Berlin die Olympischen Spiele stattfanden. Rudolf wollte seine Sportschuhe nur an deutsche Athleten verkaufen, aber Adi ging einen anderen Weg. Er fuhr nach Berlin und gab seine Schuhe dem Afroamerikaner Jesse Owens – und Owens gewann in Dasslers Schuhen vier Goldmedaillen.",
+    "Als der Zweite Weltkrieg (1939–1945) begann, musste Rudolf zur Armee, Adi nicht. Er führte die Firma alleine weiter. Politische Konflikte und nach dem Krieg und die privaten Probleme führten 1948 zum endgültigen Bruch.",
+    "Rudolf zog mit seiner Familie aus dem gemeinsamen Haus aus und die Brüder teilten die Firma. Adi blieb in der alten Fabrik und gab seiner Firma den Namen Adidas. Der Name besteht aus seinem Vornamen Adi und den ersten drei Buchstaben von Dassler. Rudolf zog in ein Fabrikgebäude auf die andere Seite des Orts um. Er gab seiner Firma den Namen Puma. Der kleine Ort Herzogenaurach ist geteilt durch einen Fluss, die Familie war es nun auch.",
+    "Schon nach kurzer Zeit machten Adidas und Puma Fortschritte und wurden zu Konkurrenten. Sie produzierten leichte Schuhe für Leichtathleten oder Fußballer. 1953 erfand Adolf Dassler den Stollenschuh, damit Fußballer sicherer laufen konnten. Mit diesen Schuhen gewann Adi auch das erste Duell der Brüder: Die deutsche Nationalmannschaft wurde 1954 Fußballweltmeister, in Adidas-Schuhen.",
+    "Adidas gegen Puma, das war nicht nur ein Zweikampf zwischen den beiden Brüdern, es war auch eine Rivalität der Familien von Adi und Rudolf. Die Söhne Horst Dassler (Adidas) und Armin Dassler (Puma) sowie deren Kinder führten den Kampf weiter, später die Enkelkinder. Es kam zu Intrigen, Streit und Prozessen vor Gericht. Am Ende haben die Familienmitglieder ihre Firmenanteile verkauft. Adidas und Puma gibt es in Herzogenaurach immer noch, aber sie werden von anderen Eigentümern geleitet."
+  ],
+  "mc": [
+    {
+      "q": "In dem Text geht es um",
+      "options": [
+        "eine Familiengeschichte.",
+        "die Erfolge einer Firma.",
+        "die Entwicklung der Sportschuhe."
+      ],
+      "key": "a",
+      "why": "Текст охватывает несколько поколений семьи Дасслер: родителей, братьев, их детей и внуков."
+    },
+    {
+      "q": "Für Sport interessierte sich",
+      "options": [
+        "die ganze Familie Dassler.",
+        "niemand in der Familie.",
+        "der jüngste Sohn Adolf."
+      ],
+      "key": "c",
+      "why": "В тексте: „der jüngste Sohn Adolf, genannt Adi, interessierte sich für viele Sportarten“."
+    },
+    {
+      "q": "Die Brüder Adolf und Rudolf",
+      "options": [
+        "hatten eine enge Freundschaft.",
+        "hatten unterschiedliche Talente.",
+        "wollten viel Geld verdienen."
+      ],
+      "key": "b",
+      "why": "Ади был изобретателем и совершенствовал обувь, а Рудольф был хорошим продавцом."
+    },
+    {
+      "q": "Der Streit zwischen den Brüdern",
+      "options": [
+        "hatte viele Ursachen.",
+        "entstand 1936.",
+        "entstand nach dem Zweiten Weltkrieg."
+      ],
+      "key": "a",
+      "why": "Сначала появились семейные конфликты, затем добавились политические разногласия и личные проблемы."
+    },
+    {
+      "q": "Im Jahre 1948",
+      "options": [
+        "zog Rudolf in einen anderen Ort.",
+        "wurde die Firma „Gebrüder Dassler Schuhfabrik“ geteilt.",
+        "verkaufte Rudolf die Schuhfabrik."
+      ],
+      "key": "b",
+      "why": "Братья разделили фирму. Рудольф переехал на другую сторону того же города."
+    },
+    {
+      "q": "Heute",
+      "options": [
+        "führen die Enkelkinder die Firmen Adidas und Puma.",
+        "gehören die Firmen nicht mehr der Familie Dassler.",
+        "gibt es keine Firmen mehr in Herzogenaurach."
+      ],
+      "key": "b",
+      "why": "По учебному тексту, семья продала доли, а Adidas и Puma управляются другими владельцами."
+    }
+  ],
+  "meanings": [
+    {
+      "letter": "a",
+      "text": "Auch in den nächsten Generationen gab es Rivalitäten."
+    },
+    {
+      "letter": "b",
+      "text": "Die Brüder arbeiteten gut zusammen."
+    },
+    {
+      "letter": "c",
+      "text": "Die beiden Brüder hatten immer mehr Probleme miteinander."
+    },
+    {
+      "letter": "d",
+      "text": "Adi interessierte sich für Sport und gründete eine Sportschuh-Firma."
+    },
+    {
+      "letter": "e",
+      "text": "Rudolf übernahm Aufgaben in der Firma."
+    }
+  ],
+  "matching": [
+    {
+      "q": "Die Partnerschaft funktionierte gut.",
+      "key": "b",
+      "why": "Партнёрство работало хорошо: братья успешно работали вместе."
+    },
+    {
+      "q": "Rudolf stieg in das Unternehmen ein.",
+      "key": "e",
+      "why": "„In ein Unternehmen einsteigen“ — присоединиться к предприятию и взять на себя работу в нём."
+    },
+    {
+      "q": "Die Söhne und Enkelsöhne führten den Kampf weiter.",
+      "key": "a",
+      "why": "Соперничество продолжилось и в следующих поколениях."
+    },
+    {
+      "q": "Das Verhältnis der beiden Brüder wurde immer schlechter.",
+      "key": "c",
+      "why": "Отношения ухудшались: проблем между братьями становилось всё больше."
+    }
+  ],
+  "sentences": [
+    {
+      "prompt": "sie • vier Kinder • bekommen",
+      "model": "Sie bekamen vier Kinder.",
+      "variants": [
+        "Sie bekamen vier Kinder.",
+        "vier Kinder bekamen sie."
+      ],
+      "verb": "bekamen",
+      "hint": "bekommen → bekamen: подлежащее sie во множественном числе."
+    },
+    {
+      "prompt": "der jüngste Sohn Adi • für viele Sportarten • sich interessieren",
+      "model": "Der jüngste Sohn Adi interessierte sich für viele Sportarten.",
+      "variants": [
+        "Der jüngste Sohn Adi interessierte sich für viele Sportarten.",
+        "Für viele Sportarten interessierte der jüngste Sohn Adi sich.",
+        "Für viele Sportarten interessierte sich der jüngste Sohn Adi."
+      ],
+      "verb": "interessierte",
+      "hint": "sich interessieren → interessierte sich. Не забудьте возвратное местоимение sich."
+    },
+    {
+      "prompt": "nach dem Ersten Weltkrieg • der Junge • aus seinem Interesse • ein Geschäft • machen",
+      "model": "Nach dem Ersten Weltkrieg machte der Junge aus seinem Interesse ein Geschäft.",
+      "variants": [
+        "Der Junge machte aus seinem Interesse ein Geschäft nach dem Ersten Weltkrieg.",
+        "Der Junge machte aus seinem Interesse nach dem Ersten Weltkrieg ein Geschäft.",
+        "Der Junge machte ein Geschäft aus seinem Interesse nach dem Ersten Weltkrieg.",
+        "Der Junge machte ein Geschäft nach dem Ersten Weltkrieg aus seinem Interesse.",
+        "Der Junge machte nach dem Ersten Weltkrieg aus seinem Interesse ein Geschäft.",
+        "Der Junge machte nach dem Ersten Weltkrieg ein Geschäft aus seinem Interesse.",
+        "Nach dem Ersten Weltkrieg machte der Junge aus seinem Interesse ein Geschäft.",
+        "aus seinem Interesse machte der Junge ein Geschäft nach dem Ersten Weltkrieg.",
+        "aus seinem Interesse machte der Junge nach dem Ersten Weltkrieg ein Geschäft.",
+        "ein Geschäft machte der Junge aus seinem Interesse nach dem Ersten Weltkrieg.",
+        "ein Geschäft machte der Junge nach dem Ersten Weltkrieg aus seinem Interesse.",
+        "nach dem Ersten Weltkrieg machte der Junge aus seinem Interesse ein Geschäft.",
+        "nach dem Ersten Weltkrieg machte der Junge ein Geschäft aus seinem Interesse."
+      ],
+      "verb": "machte",
+      "hint": "machen → machte. После начального обстоятельства глагол стоит на втором месте."
+    },
+    {
+      "prompt": "drei Jahre später • auch Adis Bruder Rudolf • in das kleine Unternehmen • einsteigen",
+      "model": "Drei Jahre später stieg auch Adis Bruder Rudolf in das kleine Unternehmen ein.",
+      "variants": [
+        "Auch Adis Bruder Rudolf stieg drei Jahre später in das kleine Unternehmen ein.",
+        "Auch Adis Bruder Rudolf stieg in das kleine Unternehmen drei Jahre später ein.",
+        "Drei Jahre später stieg auch Adis Bruder Rudolf in das kleine Unternehmen ein.",
+        "drei Jahre später stieg auch Adis Bruder Rudolf in das kleine Unternehmen ein.",
+        "in das kleine Unternehmen stieg auch Adis Bruder Rudolf drei Jahre später ein."
+      ],
+      "verb": "stieg",
+      "hint": "einsteigen → stieg … ein: отделяемая приставка ein — в конце предложения."
+    },
+    {
+      "prompt": "1924 • sie • zusammen • die „Gebrüder Dassler Schuhfabrik“ • gründen",
+      "model": "1924 gründeten sie zusammen die „Gebrüder Dassler Schuhfabrik“.",
+      "variants": [
+        "1924 gründeten sie die „Gebrüder Dassler Schuhfabrik“ zusammen.",
+        "1924 gründeten sie zusammen die „Gebrüder Dassler Schuhfabrik“.",
+        "Sie gründeten 1924 die „Gebrüder Dassler Schuhfabrik“ zusammen.",
+        "Sie gründeten 1924 zusammen die „Gebrüder Dassler Schuhfabrik“.",
+        "Sie gründeten die „Gebrüder Dassler Schuhfabrik“ 1924 zusammen.",
+        "Sie gründeten die „Gebrüder Dassler Schuhfabrik“ zusammen 1924.",
+        "Sie gründeten zusammen 1924 die „Gebrüder Dassler Schuhfabrik“.",
+        "Sie gründeten zusammen die „Gebrüder Dassler Schuhfabrik“ 1924.",
+        "die „Gebrüder Dassler Schuhfabrik“ gründeten sie 1924 zusammen.",
+        "die „Gebrüder Dassler Schuhfabrik“ gründeten sie zusammen 1924.",
+        "zusammen gründeten sie 1924 die „Gebrüder Dassler Schuhfabrik“.",
+        "zusammen gründeten sie die „Gebrüder Dassler Schuhfabrik“ 1924."
+      ],
+      "verb": "gründeten",
+      "hint": "gründen → gründeten: окончание -ten для sie во множественном числе."
+    },
+    {
+      "prompt": "die Partnerschaft • am Anfang • gut • funktionieren",
+      "model": "Die Partnerschaft funktionierte am Anfang gut.",
+      "variants": [
+        "Die Partnerschaft funktionierte am Anfang gut.",
+        "Die Partnerschaft funktionierte gut am Anfang.",
+        "am Anfang funktionierte die Partnerschaft gut.",
+        "gut funktionierte die Partnerschaft am Anfang."
+      ],
+      "verb": "funktionierte",
+      "hint": "funktionieren → funktionierte. Подлежащее die Partnerschaft — единственное число."
+    },
+    {
+      "prompt": "Adi • an der Weiterentwicklung der Schuhe • arbeiten",
+      "model": "Adi arbeitete an der Weiterentwicklung der Schuhe.",
+      "variants": [
+        "Adi arbeitete an der Weiterentwicklung der Schuhe.",
+        "an der Weiterentwicklung der Schuhe arbeitete Adi."
+      ],
+      "verb": "arbeitete",
+      "hint": "arbeiten → arbeitete. Сохраните сочетание an der Weiterentwicklung der Schuhe."
+    },
+    {
+      "prompt": "Rudolf • sie • verkaufen",
+      "model": "Rudolf verkaufte sie.",
+      "variants": [
+        "Rudolf verkaufte sie.",
+        "sie verkaufte Rudolf."
+      ],
+      "verb": "verkaufte",
+      "hint": "verkaufen → verkaufte. Местоимение sie здесь заменяет die Schuhe."
+    },
+    {
+      "prompt": "1936 • Adi • nach Berlin • fahren • und • seine Schuhe • Jesse Owens • geben",
+      "model": "1936 fuhr Adi nach Berlin und gab Jesse Owens seine Schuhe.",
+      "variants": [
+        "1936 fuhr Adi nach Berlin und Adi gab Jesse Owens seine Schuhe.",
+        "1936 fuhr Adi nach Berlin und Adi gab seine Schuhe Jesse Owens.",
+        "1936 fuhr Adi nach Berlin und er gab Jesse Owens seine Schuhe.",
+        "1936 fuhr Adi nach Berlin und er gab seine Schuhe Jesse Owens.",
+        "1936 fuhr Adi nach Berlin und gab Jesse Owens seine Schuhe.",
+        "1936 fuhr Adi nach Berlin und gab seine Schuhe Jesse Owens.",
+        "Adi fuhr 1936 nach Berlin und Adi gab Jesse Owens seine Schuhe.",
+        "Adi fuhr 1936 nach Berlin und Adi gab seine Schuhe Jesse Owens.",
+        "Adi fuhr 1936 nach Berlin und er gab Jesse Owens seine Schuhe.",
+        "Adi fuhr 1936 nach Berlin und er gab seine Schuhe Jesse Owens.",
+        "Adi fuhr 1936 nach Berlin und gab Jesse Owens seine Schuhe.",
+        "Adi fuhr 1936 nach Berlin und gab seine Schuhe Jesse Owens.",
+        "Adi fuhr nach Berlin 1936 und Adi gab Jesse Owens seine Schuhe.",
+        "Adi fuhr nach Berlin 1936 und Adi gab seine Schuhe Jesse Owens.",
+        "Adi fuhr nach Berlin 1936 und er gab Jesse Owens seine Schuhe.",
+        "Adi fuhr nach Berlin 1936 und er gab seine Schuhe Jesse Owens.",
+        "Adi fuhr nach Berlin 1936 und gab Jesse Owens seine Schuhe.",
+        "Adi fuhr nach Berlin 1936 und gab seine Schuhe Jesse Owens.",
+        "Nach Berlin fuhr Adi 1936 und Adi gab Jesse Owens seine Schuhe.",
+        "Nach Berlin fuhr Adi 1936 und Adi gab seine Schuhe Jesse Owens.",
+        "Nach Berlin fuhr Adi 1936 und er gab Jesse Owens seine Schuhe.",
+        "Nach Berlin fuhr Adi 1936 und er gab seine Schuhe Jesse Owens.",
+        "Nach Berlin fuhr Adi 1936 und gab Jesse Owens seine Schuhe.",
+        "Nach Berlin fuhr Adi 1936 und gab seine Schuhe Jesse Owens."
+      ],
+      "verb": "fuhr / gab",
+      "hint": "fahren → fuhr; geben → gab. В обеих частях нужны формы Präteritum."
+    },
+    {
+      "prompt": "Owens • in Dasslers Schuhen • vier Goldmedaillen • gewinnen",
+      "model": "Owens gewann in Dasslers Schuhen vier Goldmedaillen.",
+      "variants": [
+        "Owens gewann in Dasslers Schuhen vier Goldmedaillen.",
+        "Owens gewann vier Goldmedaillen in Dasslers Schuhen.",
+        "in Dasslers Schuhen gewann Owens vier Goldmedaillen.",
+        "vier Goldmedaillen gewann Owens in Dasslers Schuhen."
+      ],
+      "verb": "gewann",
+      "hint": "gewinnen → gewann. Проверьте также vier Goldmedaillen и in Dasslers Schuhen."
+    },
+    {
+      "prompt": "nach vielen Konflikten • die Brüder • die Firma • teilen",
+      "model": "Nach vielen Konflikten teilten die Brüder die Firma.",
+      "variants": [
+        "Die Brüder teilten die Firma nach vielen Konflikten.",
+        "Die Brüder teilten nach vielen Konflikten die Firma.",
+        "Nach vielen Konflikten teilten die Brüder die Firma.",
+        "die Firma teilten die Brüder nach vielen Konflikten.",
+        "nach vielen Konflikten teilten die Brüder die Firma."
+      ],
+      "verb": "teilten",
+      "hint": "teilen → teilten. Если предложение начинается с Nach vielen Konflikten, далее: teilten die Brüder."
+    },
+    {
+      "prompt": "Adi und Rudolf • ihren Firmen • die Namen Adidas und Puma • geben",
+      "model": "Adi und Rudolf gaben ihren Firmen die Namen Adidas und Puma.",
+      "variants": [
+        "Adi und Rudolf gaben die Namen Adidas und Puma ihren Firmen.",
+        "Adi und Rudolf gaben ihren Firmen die Namen Adidas und Puma.",
+        "die Namen Adidas und Puma gaben Adi und Rudolf ihren Firmen.",
+        "ihren Firmen gaben Adi und Rudolf die Namen Adidas und Puma."
+      ],
+      "verb": "gaben",
+      "hint": "geben → gaben. Кому? ihren Firmen. Что? die Namen Adidas und Puma."
+    },
+    {
+      "prompt": "die Söhne Horst und Armin Dassler • den Kampf der Väter • weiterführen",
+      "model": "Die Söhne Horst und Armin Dassler führten den Kampf der Väter weiter.",
+      "variants": [
+        "Die Söhne Horst und Armin Dassler führten den Kampf der Väter weiter.",
+        "den Kampf der Väter führten die Söhne Horst und Armin Dassler weiter."
+      ],
+      "verb": "führten",
+      "hint": "weiterführen → führten … weiter. Приставка weiter стоит в конце."
+    },
+    {
+      "prompt": "am Ende • die Familie Dassler • beide Firmen • verkaufen",
+      "model": "Am Ende verkaufte die Familie Dassler beide Firmen.",
+      "variants": [
+        "Am Ende verkaufte die Familie Dassler beide Firmen.",
+        "Die Familie Dassler verkaufte am Ende beide Firmen.",
+        "Die Familie Dassler verkaufte beide Firmen am Ende.",
+        "am Ende verkaufte die Familie Dassler beide Firmen.",
+        "beide Firmen verkaufte die Familie Dassler am Ende."
+      ],
+      "verb": "verkaufte",
+      "hint": "verkaufen → verkaufte: Familie — единственное число, даже если речь о нескольких людях."
+    }
+  ],
+  "glossary": [
+    [
+      "die Waschküche",
+      "помещение для стирки"
+    ],
+    [
+      "das Unternehmen",
+      "предприятие"
+    ],
+    [
+      "die Partnerschaft",
+      "партнёрство"
+    ],
+    [
+      "der Erfinder",
+      "изобретатель"
+    ],
+    [
+      "die Weiterentwicklung",
+      "дальнейшее развитие, усовершенствование"
+    ],
+    [
+      "der Verkäufer",
+      "продавец"
+    ],
+    [
+      "der Bruch",
+      "разрыв отношений"
+    ],
+    [
+      "die Firma teilen",
+      "разделить фирму"
+    ],
+    [
+      "umziehen",
+      "переезжать"
+    ],
+    [
+      "Fortschritte machen",
+      "добиваться прогресса"
+    ],
+    [
+      "der Konkurrent",
+      "конкурент"
+    ],
+    [
+      "der Stollenschuh",
+      "бутса с шипами"
+    ],
+    [
+      "die Rivalität",
+      "соперничество"
+    ],
+    [
+      "der Firmenanteil",
+      "доля в компании"
+    ],
+    [
+      "der Eigentümer",
+      "владелец"
+    ]
+  ]
+}
