@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Грамматика и лексика · English Practice</title>
+<style>
+:root{color-scheme:light;--ink:#192b38;--muted:#475b69;--accent:#006c67;--pale:#eaf4f2;--line:#8a9fa6}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f7f8;color:var(--ink);font:1rem/1.55 system-ui,sans-serif;border-top:6px solid var(--accent)}
+main{width:min(100% - 2rem,50rem);margin:2rem auto 4rem}
+header,section,details{background:white;border:1px solid #d8e3e5;border-radius:.75rem;padding:clamp(1rem,4vw,2rem);margin-bottom:1rem}
+h1,h2,h3,p{margin:0 0 .6rem} h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.15} h2{font-size:1.45rem} h3{font-size:1.05rem;color:var(--accent);margin-top:1rem}
+.eyebrow{color:var(--accent);font-size:.85rem;font-weight:700;letter-spacing:.08em}
+.instructions{color:var(--muted)} .note{padding:.8rem 1rem;background:var(--pale);border-radius:.4rem;margin:.8rem 0 1rem}
+.identity,.response,.score div{display:flex;gap:.65rem 1rem;flex-wrap:wrap;align-items:baseline}
+.item{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:.45rem;padding:.65rem 0;border-bottom:1px solid #e4ecee}
+.item:last-child{border-bottom:0}.number{color:var(--accent);font-weight:700}
+input,textarea,button{font:inherit;color:inherit}
+input:not([type=checkbox]),textarea{background:#f8fbfb;border:1px solid var(--line);border-radius:.25rem;padding:.2rem .4rem;max-width:100%}
+input[type=checkbox]{accent-color:var(--accent)} .tick{white-space:nowrap}
+input.blank{width:8rem;margin:.15rem 0} input.match{width:3rem;margin-left:.6rem;text-align:center}
+.score input{width:3.5rem} textarea{width:100%;resize:vertical;min-height:2.2rem}
+.response{margin-top:.4rem}.printed-answer{display:none}
+button,summary{cursor:pointer;font-weight:700} button{border:0;background:var(--accent);color:white;border-radius:.4rem;padding:.45rem .75rem;margin-top:1rem}
+summary{color:var(--accent)}
+.feedback{margin:.35rem 0 0;font-size:.88rem;font-weight:600}
+.feedback[data-state="ok"]{color:#086446}
+.feedback[data-state="wrong"]{color:#9d283a}
+.feedback[data-state="review"]{color:#805006}
+.check-panel{margin:0 0 1rem}.check-panel button{margin:0}
+#check-result{margin:.5rem 0 0}
+ :focus-visible{outline:2px solid #007c73;outline-offset:2px}
+@media print{
+  @page{size:A4;margin:13mm}
+  body{background:white;border:0;font-size:10pt} main{width:auto;margin:0}
+  header,section,details{padding:0;margin:0 0 1rem;border:0}
+  section+section,details[open]{break-before:page}
+  .item,.note{break-inside:avoid}
+  .item{padding:.35rem 0} .response{gap:.2rem;margin-top:.2rem} h1{font-size:22pt}
+  button,summary,details:not([open]),textarea,.check-panel,.feedback{display:none}
+  .printed-answer{display:block;width:100%;min-height:1.6rem;border-bottom:1px solid #888;white-space:pre-wrap;overflow-wrap:anywhere}
+  input:not([type=checkbox]){background:white}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+<p class="eyebrow" lang="en">ENGLISH PRACTICE</p>
+<h1>Грамматика и лексика</h1>
+<div class="identity"><label>Имя <input type="text" autocomplete="name" value="Vlad"></label>
+<label>Дата <input type="text"></label></div>
+<button type="button" id="print">Распечатать</button>
+</header>
+<section><h2>A. Habits and past events</h2><p class="instructions">Поставь ✓ рядом с правильными предложениями. Предложения с ошибками перепиши.</p><div class="note">Пример. I never use to eat spicy food, but I really like it now. →<br/>I never <b>used to</b> eat spicy food, but I really like it now.</div><div class="item" data-id="A1"><span class="number">1</span><div>I didn’t go out very often when I was young, but these days, I use to go out every week.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 1, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A1"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A2"><span class="number">2</span><div>I tend not spending as much time studying nowadays.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 2, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A2"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A3"><span class="number">3</span><div>As a child, I’d usually stay with my grandma in the summer, which I used to love.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 3, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A3"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A4"><span class="number">4</span><div>There was one time I’d break my leg when I fell off my bike.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 4, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A4"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A5"><span class="number">5</span><div>These days we tend to go out not as much as we’d like to.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 5, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A5"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A6"><span class="number">6</span><div>I hardly ever watch TV and I only go to the cinema once in a blue moon.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 6, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A6"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A7"><span class="number">7</span><div>When I was young, I was playing football in the park nearly every day.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 7, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A7"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="A8"><span class="number">8</span><div>I don’t train as much as I used to, but I will get out for a run at the weekend.<div class="response"><label class="tick"><input type="checkbox" aria-label="Раздел A, задание 8, предложение верно"> Верно</label><textarea rows="1" aria-label="Ответ на задание A8"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div></section><section><h2>B. Adverbs and adjectives</h2><p class="instructions">Вставь в каждый пункт одно наречие и одно прилагательное из списков. Используй каждое слово только один раз. Четыре слова останутся лишними.</p><div class="note"><b>Наречия</b><br/>apparently · cautiously · eagerly · fast · fortunately · highly · properly · rarely · ridiculously · terribly · virtually · well<br/><br/><b>Прилагательные</b><br/>anticipated · asleep · awake · aware · challenging · disappointed · dull · easy · impossible · likely · optimistic · sorry</div><div class="note">Пример. His explanation for not helping with the catering was <b>completely ridiculous</b>.</div><div class="item" data-id="B1"><span class="number">1</span><div>This prison is so secure that escape would be <input type="text" class="blank" aria-label="Раздел B, задание 1, пропуск 1"> <input type="text" class="blank" aria-label="Раздел B, задание 1, пропуск 2">.</div></div><div class="item" data-id="B2"><span class="number">2</span><div>I would say that an eruption on Mount Etna is <input type="text" class="blank" aria-label="Раздел B, задание 2, пропуск 1"> <input type="text" class="blank" aria-label="Раздел B, задание 2, пропуск 2"> in the next five years.</div></div><div class="item" data-id="B3"><span class="number">3</span><div>The dates of his <input type="text" class="blank" aria-label="Раздел B, задание 3, пропуск 1"> <input type="text" class="blank" aria-label="Раздел B, задание 3, пропуск 2"> world tour will be announced today.</div></div><div class="item" data-id="B4"><span class="number">4</span><div>Mia was very <input type="text" class="blank" aria-label="Раздел B, задание 4, пропуск 1"> with her results. <input type="text" class="blank" aria-label="Раздел B, задание 4, пропуск 2">, she’d forgotten about the test, so she hadn’t revised for it.</div></div><div class="item" data-id="B5"><span class="number">5</span><div>We put the children to bed an hour ago, so why are they still <input type="text" class="blank" aria-label="Раздел B, задание 5, пропуск 1">? <input type="text" class="blank" aria-label="Раздел B, задание 5, пропуск 2">, they don’t have to get up early tomorrow.</div></div><div class="item" data-id="B6"><span class="number">6</span><div>The team has spent three years working towards today’s launch, so we are <input type="text" class="blank" aria-label="Раздел B, задание 6, пропуск 1"> <input type="text" class="blank" aria-label="Раздел B, задание 6, пропуск 2"> it will go well.</div></div><div class="item" data-id="B7"><span class="number">7</span><div>Of course I got 100% on the test – it was <input type="text" class="blank" aria-label="Раздел B, задание 7, пропуск 1"> <input type="text" class="blank" aria-label="Раздел B, задание 7, пропуск 2">!</div></div><div class="item" data-id="B8"><span class="number">8</span><div>We are <input type="text" class="blank" aria-label="Раздел B, задание 8, пропуск 1"> <input type="text" class="blank" aria-label="Раздел B, задание 8, пропуск 2"> of our responsibilities and take them seriously.</div></div><div class="item" data-id="B9"><span class="number">9</span><div>I started a photography class last week. I’m gradually learning how to use the equipment <input type="text" class="blank" aria-label="Раздел B, задание 9, пропуск 1">, but it is very <input type="text" class="blank" aria-label="Раздел B, задание 9, пропуск 2">.</div></div><div class="item" data-id="B10"><span class="number">10</span><div>He <input type="text" class="blank" aria-label="Раздел B, задание 10, пропуск 1"> goes to exhibitions because he finds them <input type="text" class="blank" aria-label="Раздел B, задание 10, пропуск 2">.</div></div></section><section><h2>C. Future forms</h2><p class="instructions">Соотнеси выделенные формы будущего времени с их функциями (a–h). Впиши букву справа от каждого предложения.</p><div class="note"><b>a</b>  timetable (расписание)<br/><b>b</b>  offer (предложение помощи)<br/><b>c</b>  decision / intention (решение или намерение)<br/><b>d</b>  prediction (прогноз по ситуации)<br/><b>e</b>  arrangement (договорённость)<br/><b>f</b>  thing that we don’t think will happen (маловероятное событие)<br/><b>g</b>  thing that we see as almost inevitable (почти неизбежное событие)<br/><b>h</b>  thing that we expect to happen (ожидаемое событие)</div><div class="note">Пример. The cricket match <b>starts</b> at two o’clock, so don’t be late. → <b>a</b></div><div class="item" data-id="C1"><span class="number">1</span><div>He walked out three years ago. He’s <b>unlikely to come back</b> again.<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 1, буква от a до h"></div></div><div class="item" data-id="C2"><span class="number">2</span><div><b>I’ll give</b> you a lift. Where do you need to go?<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 2, буква от a до h"></div></div><div class="item" data-id="C3"><span class="number">3</span><div>The baby’s <b>due</b> in August.<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 3, буква от a до h"></div></div><div class="item" data-id="C4"><span class="number">4</span><div><b>I’m going to go</b> travelling after I’ve graduated from university.<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 4, буква от a до h"></div></div><div class="item" data-id="C5"><span class="number">5</span><div>Jamie, stop hitting Sami! <b>You’re going to hurt</b> her!<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 5, буква от a до h"></div></div><div class="item" data-id="C6"><span class="number">6</span><div>The term <b>starts</b> on September 3rd.<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 6, буква от a до h"></div></div><div class="item" data-id="C7"><span class="number">7</span><div><b>I’m meeting</b> Tori in Covent Garden tomorrow.<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 7, буква от a до h"></div></div><div class="item" data-id="C8"><span class="number">8</span><div>He’s worked hard, so he’s <b>bound to do</b> well in his exams.<input type="text" class="match" maxlength="1" aria-label="Раздел C, задание 8, буква от a до h"></div></div></section><section><h2>D. Relative clauses</h2><p class="instructions">Объедини каждую пару в одно предложение с относительным придаточным. Сохрани смысл и расставь запятые, где нужно.</p><div class="note">Пример. There were lots of teachers at the school. Most of them were really friendly.<br/>→ There were lots of teachers at the school, <b>most of whom</b> were really friendly.</div><div class="item" data-id="D1"><span class="number">1</span><div>We stayed on the island. The film <i>The Beach</i> was made there.<div class="response"><textarea rows="2" aria-label="Ответ на задание D1"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D2"><span class="number">2</span><div>We’ll meet Di. She’ll join us for lunch.<div class="response"><textarea rows="2" aria-label="Ответ на задание D2"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D3"><span class="number">3</span><div>We left Syria in May 2011. The civil war had already started.<div class="response"><textarea rows="2" aria-label="Ответ на задание D3"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D4"><span class="number">4</span><div>Daisy met Margot, Alison and Bobby. They were all absolutely fantastic.<div class="response"><textarea rows="2" aria-label="Ответ на задание D4"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D5"><span class="number">5</span><div>Martha’s father comes and visits as often as he can. Her father is Chinese.<div class="response"><textarea rows="2" aria-label="Ответ на задание D5"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D6"><span class="number">6</span><div>This is the town hall. I’m getting married there next week.<div class="response"><textarea rows="2" aria-label="Ответ на задание D6"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D7"><span class="number">7</span><div>I’m planning to go to the amusement park with Sarah. Her father used to work there.<div class="response"><textarea rows="2" aria-label="Ответ на задание D7"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div><div class="item" data-id="D8"><span class="number">8</span><div>Felix stayed a night in Paris and then flew down to Barcelona. He had dinner with his daughters in Paris.<div class="response"><textarea rows="2" aria-label="Ответ на задание D8"></textarea><div class="printed-answer" aria-hidden="true"></div></div></div></div></section><section><h2>E. Purpose and conditions</h2><p class="instructions">Заполни пропуски словами <b>so</b>, <b>if</b> или <b>to</b>. В каждый пропуск впиши одно слово.</p><div class="note"><b>Назначение предмета</b><br/>It’s used <b>for cleaning</b> bottles. / It’s used <b>to clean</b> bottles.<br/>You can use it <b>to open</b> a jar. / It could be used <b>to unblock</b> a sink.<br/><br/><b>Цель и условие</b><br/><b>to / in order to + глагол</b> — цель действия.<br/><b>so / so that + подлежащее и глагол</b> — желаемый результат.<br/><b>if + подлежащее и глагол</b> — условие.</div><div class="note">Пример. We’re staying in tonight <b>so</b> we can catch up on the housework.</div><div class="item" data-id="E1"><span class="number">1</span><div>You should use vinegar <input type="text" class="blank" aria-label="Раздел E, задание 1, пропуск 1"> you want to clean a mirror well.</div></div><div class="item" data-id="E2"><span class="number">2</span><div>I need to clear my desk <input type="text" class="blank" aria-label="Раздел E, задание 2, пропуск 1"> I can see what I’m doing.</div></div><div class="item" data-id="E3"><span class="number">3</span><div>Hello, I’m calling <input type="text" class="blank" aria-label="Раздел E, задание 3, пропуск 1"> find out if you need any household items.</div></div><div class="item" data-id="E4"><span class="number">4</span><div>Ben spent the entire day in his shed <input type="text" class="blank" aria-label="Раздел E, задание 4, пропуск 1"> that he could finish making the shelf.</div></div><div class="item" data-id="E5"><span class="number">5</span><div>You can use a toilet roll for this or even rolled up paper <input type="text" class="blank" aria-label="Раздел E, задание 5, пропуск 1"> you can’t find any cardboard.</div></div><div class="item" data-id="E6"><span class="number">6</span><div>The bolt needs to go through both pieces of wood in order <input type="text" class="blank" aria-label="Раздел E, задание 6, пропуск 1"> secure the structure.</div></div><div class="item" data-id="E7"><span class="number">7</span><div>Ask them to come to the shop <input type="text" class="blank" aria-label="Раздел E, задание 7, пропуск 1"> they want to see the bulb before they buy it.</div></div><div class="item" data-id="E8"><span class="number">8</span><div>Wear these overalls <input type="text" class="blank" aria-label="Раздел E, задание 8, пропуск 1"> your clothes don’t get dirty.</div></div></section>
+<div class="check-panel">
+<button type="button" id="check">Проверить ответы</button>
+<p id="check-result" role="status"></p>
+</div>
+<details><summary>Открыть ключ для самопроверки</summary><h3>Ключ для самопроверки</h3><p class="instructions">В A, C, D и E начисли по 1 баллу за пункт. В B начисли по 1 баллу за каждое верное слово. В A и D засчитывай грамматически верные варианты с тем же смыслом.</p><h3>A. Habits and past events · 8 баллов</h3><p>1. I didn’t go out very often when I was young, but these days, I <b>go out</b> every week.<br/>2. I tend <b>not to spend</b> as much time studying nowadays.<br/>3. ✓ &nbsp;&nbsp; 4. There was one time I <b>broke</b> my leg when I fell off my bike.<br/>5. These days we tend <b>not to go out as much as</b> we’d like to.<br/>6. ✓ &nbsp;&nbsp; 7. When I was young, I <b>used to play</b> football in the park nearly every day. (<b>played</b> и <b>would play</b> тоже подходят.)<br/>8. ✓ — <b>will</b> может обозначать привычное действие, если речь о выходных вообще.</p><h3>B. Adverbs and adjectives · 20 баллов</h3><p>1. virtually impossible &nbsp; 2. highly likely &nbsp; 3. eagerly anticipated<br/>4. disappointed / Apparently &nbsp; 5. awake / Fortunately &nbsp; 6. cautiously optimistic<br/>7. ridiculously easy &nbsp; 8. well aware &nbsp; 9. properly / challenging &nbsp; 10. rarely / dull<br/>Лишние слова: fast, terribly, asleep, sorry.</p><h3>C. Future forms · 8 баллов</h3><p>1. f &nbsp;&nbsp; 2. b &nbsp;&nbsp; 3. h &nbsp;&nbsp; 4. c &nbsp;&nbsp; 5. d &nbsp;&nbsp; 6. a &nbsp;&nbsp; 7. e &nbsp;&nbsp; 8. g</p><h3>D. Relative clauses · 8 баллов</h3><p>1. We stayed on the island <b>where</b> the film <i>The Beach</i> was made.<br/>2. We’ll meet Di, <b>who</b> will join us for lunch.<br/>3. We left Syria in May 2011, <b>when</b> the civil war had already started.<br/>4. Daisy met Margot, Alison and Bobby, <b>all of whom</b> were absolutely fantastic.<br/>5. Martha’s father, <b>who</b> is Chinese, comes and visits as often as he can.<br/>6. This is the town hall <b>where</b> I’m getting married next week.<br/>7. I’m planning to go to the amusement park with Sarah, <b>whose</b> father used to work there.<br/>8. Felix stayed a night in Paris, <b>where</b> he had dinner with his daughters, and then flew down to Barcelona.</p><h3>E. Purpose and conditions · 8 баллов</h3><p>1. if &nbsp;&nbsp; 2. so &nbsp;&nbsp; 3. to &nbsp;&nbsp; 4. so &nbsp;&nbsp; 5. if &nbsp;&nbsp; 6. to &nbsp;&nbsp; 7. if &nbsp;&nbsp; 8. so</p><div class="note score"><strong>Мой результат</strong><div><label>A <input type="number" min="0" max="8" aria-label="Баллы за раздел A"> / 8</label><label>B <input type="number" min="0" max="20" aria-label="Баллы за раздел B"> / 20</label><label>C <input type="number" min="0" max="8" aria-label="Баллы за раздел C"> / 8</label><label>D <input type="number" min="0" max="8" aria-label="Баллы за раздел D"> / 8</label><label>E <input type="number" min="0" max="8" aria-label="Баллы за раздел E"> / 8</label> <strong>Итого <output id="total">—</output> / 52</strong></div></div></details>
+</main>
+<script>
+document.querySelector('#print').addEventListener('click', () => window.print());
+window.addEventListener('beforeprint', () => {
+  for (const field of document.querySelectorAll('textarea')) {
+    field.nextElementSibling.textContent = field.value;
+  }
+});
+const scores = [...document.querySelectorAll('.score input')];
+for (const field of scores) field.addEventListener('input', updateTotal);
+const correct = {
+  A: [
+    [
+      'I didn’t go out very often when I was young, but these days, I go out every week.',
+      'I didn’t go out very often when I was young, but these days, I usually go out every week.'
+    ],
+    [
+      'I tend not to spend as much time studying nowadays.',
+      'I don’t tend to spend as much time studying nowadays.'
+    ],
+    true,
+    [
+      'There was one time I broke my leg when I fell off my bike.',
+      'There was one time when I broke my leg when I fell off my bike.',
+      'One time I broke my leg when I fell off my bike.'
+    ],
+    [
+      'These days we tend not to go out as much as we’d like to.',
+      'These days we don’t tend to go out as much as we’d like to.'
+    ],
+    true,
+    ['used to play', 'played', 'would play', '’d play'].map(verb =>
+      'When I was young, ' + (verb === '’d play' ? 'I' : 'I ') + verb +
+      ' football in the park nearly every day.'
+    ),
+    true
+  ],
+  B: [
+    ['virtually', 'impossible'], ['highly', 'likely'], ['eagerly', 'anticipated'],
+    ['disappointed', 'apparently'], ['awake', 'fortunately'], ['cautiously', 'optimistic'],
+    ['ridiculously', 'easy'], ['well', 'aware'], ['properly', 'challenging'], ['rarely', 'dull']
+  ],
+  C: 'fbhcdaeg',
+  D: [
+    ['We stayed on the island where the film The Beach was made.',
+      'We stayed on the island on which the film The Beach was made.'],
+    ['We’ll meet Di, who will join us for lunch.',
+      'We’ll meet Di, who’ll join us for lunch.'],
+    ['We left Syria in May 2011, when the civil war had already started.'],
+    ['Daisy met Margot, Alison and Bobby, all of whom were absolutely fantastic.'],
+    ['Martha’s father, who is Chinese, comes and visits as often as he can.'],
+    ['This is the town hall where I’m getting married next week.',
+      'This is the town hall in which I’m getting married next week.'],
+    ['I’m planning to go to the amusement park with Sarah, whose father used to work there.',
+      'I’m planning to go to the amusement park with Sarah, whose father used to work at the amusement park.'],
+    ['Felix stayed a night in Paris, where he had dinner with his daughters, and then flew down to Barcelona.']
+  ],
+  E: 'if so to so if to if so'.split(' ')
+};
+
+function normalize(text) {
+  return text.toLowerCase().replace(/[’‘]/g, "'")
+    .replace(/\bdidn't\b/g, 'did not').replace(/\bdon't\b/g, 'do not')
+    .replace(/\b(i|we|who|she|he|they)'ll\b/g, '$1 will')
+    .replace(/\b(i|we|you|she|he|they)'d like\b/g, '$1 would like')
+    .replace(/\bi'm\b/g, 'i am').replace(/[“”".!?]/g, '')
+    .replace(/,\s*/g, ', ').replace(/\s+/g, ' ').trim();
+}
+
+function comparable(text, requireCommas) {
+  const normalized = normalize(text);
+  return requireCommas
+    ? normalized.replace(/, and bobby/g, ' and bobby')
+    : normalized.replace(/,\s*/g, ' ');
+}
+
+function updateTotal() {
+  const valid = scores.every(field => field.value !== '' && field.validity.valid);
+  document.querySelector('#total').value = valid
+    ? scores.reduce((sum, field) => sum + field.valueAsNumber, 0)
+    : '—';
+}
+
+function evaluateItem(item, section, answer) {
+  const writing = item.querySelector('textarea');
+  if (!writing) {
+    const fields = [...item.querySelectorAll('input')];
+    const expected = Array.isArray(answer) ? answer : [answer];
+    const attempts = fields.map(field => normalize(field.value));
+    const points = attempts.filter((value, index) => value === expected[index]).length;
+    if (points === expected.length) return [points, 'ok', 'Верно'];
+    const feedback = attempts.some(Boolean) ? 'Проверь ответ' : 'Нет ответа';
+    if (section === 'B') {
+      const statuses = attempts.map((value, index) =>
+        !value ? 'пусто' : value === expected[index] ? 'верно' : 'ошибка'
+      );
+      return [points, 'wrong', statuses.map((status, index) => `Пропуск ${index + 1}: ${status}`).join(' · ')];
+    }
+    return [points, 'wrong', feedback];
+  }
+
+  const text = writing.value.trim();
+  const ticked = item.querySelector('[type=checkbox]')?.checked;
+  if (answer === true) {
+    if (ticked && !text) return [1, 'ok', 'Верно'];
+    return [0, 'wrong', text ? 'Здесь достаточно отметить «Верно»' : 'Нет ответа'];
+  }
+  if (ticked) return [0, 'wrong', 'Сними отметку «Верно» и исправь предложение'];
+  if (!text) return [0, 'wrong', 'Нет ответа'];
+  const actual = comparable(text, section === 'D');
+  if (answer.some(option => comparable(option, section === 'D') === actual)) {
+    return [1, 'ok', 'Верно'];
+  }
+  return [0, 'review', 'Сверь свой вариант с ключом. Если смысл и грамматика верны, добавь 1 балл в ключе.'];
+}
+
+document.querySelector('#check').addEventListener('click', () => {
+  const subtotals = {A:0, B:0, C:0, D:0, E:0};
+  let reviews = 0;
+  for (const item of document.querySelectorAll('.item')) {
+    const {id} = item.dataset;
+    const section = id[0];
+    const [points, state, message] = evaluateItem(item, section, correct[section][Number(id.slice(1)) - 1]);
+    let feedback = item.querySelector('.feedback');
+    if (!feedback) {
+      feedback = document.createElement('p');
+      feedback.className = 'feedback';
+      feedback.id = 'feedback-' + id;
+      item.lastElementChild.append(feedback);
+      for (const field of item.querySelectorAll('input, textarea')) {
+        field.setAttribute('aria-describedby', feedback.id);
+      }
+    }
+    feedback.dataset.state = state;
+    feedback.textContent = message;
+    subtotals[section] += points;
+    if (state === 'review') reviews += 1;
+  }
+  for (const [index, field] of scores.entries()) field.value = Object.values(subtotals)[index];
+  updateTotal();
+  const points = document.querySelector('#total').value;
+  document.querySelector('#check-result').textContent = reviews
+    ? `Автоматическая проверка: ${points} / 52. Ответов для сверки с ключом: ${reviews}. Повторная проверка пересчитает баллы.`
+    : `Результат: ${points} / 52.`;
+});
+
+</script>
+</body>
+</html>
