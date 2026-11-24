@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Chinese Interactive Workbook</title>
+<style>
+:root{
+  --blue:#2d63d6;
+  --blue2:#173a92;
+  --sky:#eef4ff;
+  --paper:#fffdf8;
+  --ink:#20283a;
+  --muted:#6c768e;
+  --line:#dbe4f4;
+  --green:#2f9d72;
+  --red:#d8505d;
+  --gold:#f0c35c;
+  --soft:#f7f9ff;
+  --shadow:0 14px 34px rgba(28,63,140,.10);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(180deg,#f6f9ff 0%, #fbf6ef 100%);
+  font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+}
+.app{
+  max-width:1280px;
+  margin:0 auto;
+  padding:18px;
+}
+.shell{
+  background:#fff;
+  border:1px solid #e0e7f2;
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 22px 60px rgba(25,58,130,.10);
+}
+header{
+  padding:24px 26px 18px;
+  background:linear-gradient(135deg,#ffffff,#eef4ff);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  flex-wrap:wrap;
+}
+header h1{
+  margin:0;
+  font-size:clamp(28px,4vw,42px);
+  color:var(--blue2);
+}
+header p{
+  margin:8px 0 0;
+  color:var(--muted);
+  line-height:1.5;
+}
+.badge{
+  padding:10px 15px;
+  border-radius:14px;
+  background:var(--blue);
+  color:#fff;
+  font-weight:800;
+  box-shadow:var(--shadow);
+}
+.tabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:14px 18px;
+  background:#f8faff;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.tab{
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid #ccd8ef;
+  background:#fff;
+  color:var(--blue2);
+  font-weight:800;
+  cursor:pointer;
+}
+.tab.active{
+  background:var(--blue);
+  color:#fff;
+  border-color:var(--blue);
+}
+.panel{display:none;padding:24px}
+.panel.active{display:block}
+h2{
+  margin:0 0 8px;
+  font-size:29px;
+  color:var(--blue2);
+}
+.intro{
+  margin:0 0 18px;
+  color:var(--muted);
+  line-height:1.6;
+}
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.actions{
+  margin-top:16px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.btn{
+  border:0;
+  border-radius:12px;
+  background:var(--blue);
+  color:#fff;
+  padding:10px 16px;
+  font-weight:800;
+  cursor:pointer;
+}
+.btn.alt{
+  background:#fff;
+  color:var(--blue2);
+  border:1px solid #cbd8ef;
+}
+.feedback{
+  margin-top:14px;
+  background:var(--soft);
+  border-radius:12px;
+  padding:12px 14px;
+  min-height:48px;
+}
+.good{color:var(--green);font-weight:900}
+.bad{color:var(--red);font-weight:900}
+.small{font-size:13px;color:var(--muted)}
+
+/* section 1 */
+.country-layout{
+  display:grid;
+  grid-template-columns:minmax(520px,1fr) 360px;
+  gap:20px;
+  align-items:start;
+}
+.country-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.picture-card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:12px;
+  background:#fff;
+  box-shadow:var(--shadow);
+}
+.picture-card .letter{
+  display:inline-block;
+  margin-bottom:8px;
+  width:30px;height:30px;line-height:30px;
+  border-radius:10px;
+  text-align:center;
+  background:var(--blue);
+  color:#fff;
+  font-weight:900;
+}
+.country-scene{
+  height:170px;
+  border-radius:16px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-weight:900;
+  margin-bottom:10px;
+  box-shadow:inset 0 -40px 60px rgba(0,0,0,.12);
+}
+.scene-aus{background:linear-gradient(180deg,#55c6ff,#1789ff 70%, #ffd774 70%, #f6b73c)}
+.scene-cn{background:linear-gradient(180deg,#87d0ff,#5fa7ff 60%, #c98a4b 60%, #a85a26)}
+.scene-uk{background:linear-gradient(180deg,#92d6ff,#4b92ff 65%, #98d49d 65%, #6bb36f)}
+.scene-ca{background:linear-gradient(180deg,#8fd4ff,#4a95ff 65%, #b7e6b8 65%, #7ac27d)}
+.scene-jp{background:linear-gradient(180deg,#99d9ff,#70b7ff 62%, #f7d2e4 62%, #f5a7ca)}
+.scene-kr{background:linear-gradient(180deg,#9dd6ff,#4da6ff 60%, #d8c3a2 60%, #b48655)}
+.scene-us{background:linear-gradient(180deg,#8fd0ff,#4f98ff 64%, #cfd7e1 64%, #98a8be)}
+.scene-fr{background:linear-gradient(180deg,#9fd8ff,#60b0ff 64%, #a6ddb0 64%, #6fb87d)}
+.scene-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+}
+.flag-big{font-size:38px;text-shadow:0 6px 15px rgba(0,0,0,.18)}
+.landmark{font-size:58px;line-height:1}
+.landmark-name{font-size:13px;letter-spacing:.4px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(2px)}
+.country-slot{
+  min-height:60px;
+  border:2px dashed #b7c6e7;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#8893aa;
+  font-weight:800;
+  padding:8px;
+}
+.country-slot.correct{background:#eaf9f1;border-color:var(--green);color:#176149}
+.country-slot.wrong{background:#fff1f3;border-color:var(--red);color:#912635}
+.bank-title{font-weight:800;color:var(--blue2);margin-bottom:10px}
+.label-bank{display:flex;flex-wrap:wrap;gap:10px}
+.label-chip{
+  background:#fff;
+  border:1px solid #cbd8ef;
+  border-radius:14px;
+  padding:10px 12px;
+  cursor:grab;
+  user-select:none;
+  box-shadow:0 5px 16px rgba(31,58,122,.09);
+}
+.label-chip .hanzi{font-size:24px;font-weight:900;color:var(--blue2)}
+.label-chip .py{font-size:13px;color:var(--muted)}
+.label-chip.selected{outline:3px solid var(--gold)}
+.label-chip.used{opacity:.35}
+
+/* common quiz */
+.quiz-list{display:flex;flex-direction:column;gap:14px}
+.quiz-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px;
+}
+.prompt{font-size:22px;font-weight:800;margin:4px 0 10px}
+.py{font-size:13px;color:var(--muted)}
+.option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.option{
+  border:1px solid #cad6ef;
+  border-radius:12px;
+  background:#fff;
+  color:var(--ink);
+  padding:10px 12px;
+  text-align:left;
+  cursor:pointer;
+  font-size:18px;
+}
+.option.selected{background:#fff8e9;border-color:var(--gold)}
+.option.correct{background:#eaf9f1;border-color:var(--green)}
+.option.wrong{background:#fff1f3;border-color:var(--red)}
+
+/* section 3 不 */
+.neg-list{display:flex;flex-direction:column;gap:16px}
+.neg-item{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+}
+.token-row,.slot-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.token{
+  min-width:58px;
+  text-align:center;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid #ccd7ef;
+  background:#fff;
+  cursor:grab;
+  font-weight:900;
+  font-size:22px;
+  user-select:none;
+}
+.token.fixed{cursor:default;background:#f8fbff}
+.token.neg{background:#fff6da;border-color:#f0d483}
+.token.selected{outline:3px solid var(--gold)}
+.slot{
+  min-width:66px;
+  min-height:54px;
+  padding:8px 10px;
+  border:2px dashed #b8c7e8;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;
+  font-weight:900;
+  font-size:22px;
+}
+.slot.active{outline:3px solid var(--gold)}
+.slot.correct{background:#eaf9f1;border-color:var(--green)}
+.slot.wrong{background:#fff1f3;border-color:var(--red)}
+.eq{font-weight:900;color:#9aa6be}
+.neg-note{margin-top:10px;color:var(--muted);font-size:14px}
+
+/* word bank fill */
+.word-bank{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.word-btn{
+  border:1px solid #ccd8ef;
+  background:#fff;
+  border-radius:12px;
+  color:var(--blue2);
+  padding:9px 12px;
+  cursor:pointer;
+  font-size:19px;
+  font-weight:800;
+}
+.word-btn.selected{outline:3px solid var(--gold)}
+.word-btn.used{opacity:.38}
+.dialogue{
+  font-size:22px;
+  line-height:2.05;
+}
+.blank{
+  display:inline-flex;
+  min-width:110px;
+  min-height:38px;
+  align-items:center;
+  justify-content:center;
+  padding:0 8px;
+  border-bottom:3px solid #96a8ce;
+  cursor:pointer;
+  color:var(--blue2);
+  font-weight:900;
+}
+.blank.active{background:#fff6da;border-radius:8px}
+.blank.ok{color:var(--green)}
+.blank.no{color:var(--red)}
+.subsection{
+  margin-top:28px;
+  padding-top:22px;
+  border-top:1px dashed #d6def0;
+}
+
+/* continents */
+.continent-wrap{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.continent-box{
+  background:#fff;
+  border:2px dashed #bfd0eb;
+  border-radius:18px;
+  min-height:240px;
+  padding:12px;
+}
+.continent-box h3{
+  margin:0 0 10px;
+  color:var(--blue2);
+  text-align:center;
+}
+.dropzone{
+  min-height:165px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-content:flex-start;
+}
+.drag-country{
+  border:1px solid #ccd8ef;
+  border-radius:11px;
+  background:#fff;
+  padding:8px 10px;
+  font-size:18px;
+  font-weight:800;
+  cursor:grab;
+}
+.drag-country small{display:block;color:var(--muted);font-size:12px}
+.drag-country.ok{background:#eaf9f1;border-color:var(--green)}
+.drag-country.no{background:#fff1f3;border-color:var(--red)}
+.drag-country.selected{outline:3px solid var(--gold)}
+
+/* builder */
+.builder-list{display:flex;flex-direction:column;gap:16px}
+.builder{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+}
+.answer-strip{
+  min-height:58px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  padding:10px;
+  border:2px dashed #b8c8e7;
+  border-radius:14px;
+  margin:12px 0;
+  background:#fbfdff;
+}
+.tile-bank{display:flex;flex-wrap:wrap;gap:8px}
+.tile{
+  border:1px solid #cad6ef;
+  border-radius:12px;
+  padding:8px 12px;
+  background:#fff;
+  cursor:pointer;
+  font-size:19px;
+  font-weight:800;
+}
+.tile.used{opacity:.35;cursor:default}
+.answer-tile{
+  border:1px solid #b8c7e8;
+  border-radius:10px;
+  background:#fff;
+  padding:7px 11px;
+  font-size:19px;
+  font-weight:800;
+}
+.builder .mini-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* 还是 */
+.haishi-list{display:flex;flex-direction:column;gap:14px}
+.haishi-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px;
+}
+.inline-blank{
+  display:inline-flex;
+  min-width:84px;
+  justify-content:center;
+  align-items:center;
+  padding:4px 8px;
+  border-bottom:3px solid #95a8cf;
+  color:var(--blue2);
+  font-weight:900;
+  cursor:pointer;
+}
+.inline-blank.active{background:#fff6da;border-radius:8px}
+.inline-blank.ok{color:var(--green)}
+.inline-blank.no{color:var(--red)}
+.inline-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.inline-option{
+  border:1px solid #ccd8ef;
+  border-radius:10px;
+  background:#fff;
+  padding:8px 12px;
+  cursor:pointer;
+  font-weight:800;
+}
+.inline-option.selected{outline:3px solid var(--gold)}
+.inline-option.used{opacity:.35}
+
+/* matching with lines */
+.match-stage{
+  position:relative;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:20px;
+  background:linear-gradient(180deg,#fff,#f7fbff);
+  min-height:540px;
+}
+.match-svg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+.match-cols{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:26px;
+}
+.match-col{display:flex;flex-direction:column;gap:12px}
+.match-node{
+  position:relative;
+  min-height:78px;
+  border:2px solid #d6e1f3;
+  border-radius:18px;
+  background:#fff;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+  box-shadow:0 5px 16px rgba(21,52,110,.05);
+}
+.match-node.selected{border-color:var(--gold);background:#fff8e9}
+.match-node.matched{border-color:var(--green);background:#eaf9f1}
+.match-node .dot{
+  position:absolute;
+  top:50%;
+  width:14px;height:14px;border-radius:50%;
+  background:#8091b6;
+  transform:translateY(-50%);
+}
+.match-left .dot{right:-7px}
+.match-right .dot{left:-7px}
+.match-text{font-size:22px;font-weight:700;line-height:1.4}
+
+/* utility */
+.center{display:flex;align-items:center;justify-content:center}
+.model-card{
+  background:#fffdf7;border:1px dashed #ead7a5;border-radius:16px;padding:14px;margin-bottom:14px
+}
+
+@media(max-width:1050px){
+  .country-layout{grid-template-columns:1fr}
+  .country-grid{grid-template-columns:repeat(2,1fr)}
+  .continent-wrap{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .panel{padding:16px}
+  .country-grid,.continent-wrap,.option-grid{grid-template-columns:1fr}
+  .match-cols{grid-template-columns:1fr}
+  .match-stage{min-height:860px}
+  .dialogue{font-size:19px}
+  .prompt{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="shell">
+    <header>
+      <div>
+        <h1>中文 Interactive Workbook</h1>
+        <p>A unified interactive design: drag and drop, fill in the blanks, build sentences, and connect answers with lines.</p>
+      </div>
+      <div class="badge">Chinese A1–A2</div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="s1">1. Countries</button>
+      <button class="tab" data-tab="s2">2. 哪里 / 哪国</button>
+      <button class="tab" data-tab="s3">3. 不</button>
+      <button class="tab" data-tab="s4">4. Brackets</button>
+      <button class="tab" data-tab="s5">5. Dialogue</button>
+      <button class="tab" data-tab="s6">6. Continents</button>
+      <button class="tab" data-tab="s7">7. 吗</button>
+      <button class="tab" data-tab="s8">8. 还是</button>
+      <button class="tab" data-tab="s9">9. Matching</button>
+    </div>
+
+    <!-- SECTION 1 -->
+    <section class="panel active" id="s1">
+      <h2>1. Match the country names with the pictures</h2>
+      <p class="intro">Drag the card with Chinese characters to the correct colored picture. You can also click a card and then click the correct picture.</p>
+      <div class="country-layout">
+        <div class="country-grid" id="pictureGrid"></div>
+        <div class="card">
+          <div class="bank-title">Country names</div>
+          <div class="small">The cards are shuffled automatically.</div>
+          <div class="label-bank" id="countryBank" style="margin-top:12px"></div>
+          <div class="actions">
+            <button class="btn" onclick="checkCountries()">Check</button>
+            <button class="btn alt" onclick="resetCountries()">Reset</button>
+          </div>
+          <div class="feedback" id="countryFb">Match all 8 countries.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="panel" id="s2">
+      <h2>2. Ask questions about the underlined parts</h2>
+      <p class="intro">Choose the correct question: 哪里 or 哪国.</p>
+      <div class="quiz-list" id="whereQuiz"></div>
+      <div class="actions"><button class="btn" onclick="checkQuiz('whereQuiz', whereQuiz)">Check</button></div>
+      <div class="feedback" id="whereQuizFb">Choose one option in each task.</div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="panel" id="s3">
+      <h2>3. Put 不 in the correct places</h2>
+      <p class="intro">Drag the card <b>不</b> to the correct place. Each sentence needs only one particle.</p>
+      <div class="neg-list" id="negList"></div>
+      <div class="actions">
+        <button class="btn" onclick="checkNegatives()">Check</button>
+        <button class="btn alt" onclick="resetNegatives()">Reset</button>
+      </div>
+      <div class="feedback" id="negFb">Complete all three sentences.</div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="panel" id="s4">
+      <h2>4. Complete the conversations using the correct words in brackets</h2>
+      <p class="intro">Click the correct option in each item.</p>
+      <div class="quiz-list" id="bracketQuiz"></div>
+      <div class="actions"><button class="btn" onclick="checkQuiz('bracketQuiz', bracketQuiz)">Check</button></div>
+      <div class="feedback" id="bracketQuizFb">Choose the correct words.</div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="panel" id="s5">
+      <h2>5. Complete the conversation with the words in the box</h2>
+      <p class="intro">Click a word in the word bank, then click the correct blank.</p>
+      <div class="card">
+        <div class="word-bank" id="dialogueBank"></div>
+        <div class="dialogue">
+          丁云：你好！我叫丁云。我是中国人，住在 (1) <span class="blank" data-answer="北京">______</span>。<br>
+          史蒂夫：丁云，(2) <span class="blank" data-answer="你好">______</span>！我叫史蒂夫。<br>
+          丁云：请问，你是 (3) <span class="blank" data-answer="哪国人">______</span>？<br>
+          史蒂夫：我是 (4) <span class="blank" data-answer="英国人">______</span>。<br>
+          丁云：你住在 (5) <span class="blank" data-answer="伦敦">______</span> 吗？<br>
+          史蒂夫：不，我 (6) <span class="blank" data-answer="住在">______</span> 北京。
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="checkDialogue()">Check</button>
+          <button class="btn alt" onclick="resetDialogue()">Reset</button>
+        </div>
+        <div class="feedback" id="dialogueFb">Fill in all the blanks.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="panel" id="s6">
+      <h2>6. Complete the table with the countries in the box</h2>
+      <p class="intro">Drag the countries to the correct continent: Asia, Europe, America, Africa.</p>
+      <div class="continent-wrap">
+        <div class="continent-box"><h3>Asia</h3><div class="dropzone" data-cont="Asia"></div></div>
+        <div class="continent-box"><h3>Europe</h3><div class="dropzone" data-cont="Europe"></div></div>
+        <div class="continent-box"><h3>America</h3><div class="dropzone" data-cont="America"></div></div>
+        <div class="continent-box"><h3>Africa</h3><div class="dropzone" data-cont="Africa"></div></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="bank-title">Country bank</div>
+        <div class="label-bank" id="continentBank"></div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="checkContinents()">Check</button>
+        <button class="btn alt" onclick="resetContinents()">Reset</button>
+      </div>
+      <div class="feedback" id="continentFb">Sort all the countries by continent.</div>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="panel" id="s7">
+      <h2>7. Ask questions using 吗</h2>
+      <p class="intro">Build the question from the cards. Click the words in order. If you make a mistake, use Clear.</p>
+      <div class="builder-list" id="maBuilders"></div>
+      <div class="actions"><button class="btn" onclick="checkBuilders()">Check</button></div>
+      <div class="feedback" id="builderFb">Build all 5 questions.</div>
+    </section>
+
+    <!-- SECTION 8 -->
+    <section class="panel" id="s8">
+      <h2>8. Complete the questions using 还是</h2>
+      <p class="intro">Click a word or phrase, then click the correct blank.</p>
+      <div class="model-card">
+        <b>Model:</b> 你在北京还是东京长大？ → 我在北京长大。
+      </div>
+      <div class="haishi-list" id="haishiList"></div>
+      <div class="actions">
+        <button class="btn" onclick="checkHaishi()">Check</button>
+        <button class="btn alt" onclick="resetHaishi()">Reset</button>
+      </div>
+      <div class="feedback" id="haishiFb">Fill in all the blanks in the questions.</div>
+    </section>
+
+    <!-- SECTION 9 -->
+    <section class="panel" id="s9">
+      <h2>9. Match each question to its correct answer</h2>
+      <p class="intro">Click a question on the left, then the correct answer on the right. A line will appear between matching pairs.</p>
+      <div class="match-stage" id="matchStage">
+        <svg class="match-svg" id="matchSvg"></svg>
+        <div class="match-cols">
+          <div class="match-col" id="leftCol"></div>
+          <div class="match-col" id="rightCol"></div>
+        </div>
+      </div>
+      <div class="actions"><button class="btn alt" onclick="resetMatch()">Reset lines</button></div>
+      <div class="feedback" id="matchFb">Match all 5 pairs.</div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+const shuffle = arr => [...arr].sort(()=>Math.random()-0.5);
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='s9'){setTimeout(drawMatchLines,60);}
+  };
+});
+
+/* ========= SECTION 1 ========= */
+const pictureData = [
+  {id:'a', key:'australia', scene:'scene-aus', flag:'🇦🇺', landmark:'🏛️', place:'Sydney Opera House', answer:'澳大利亚', py:'Àodàlìyà'},
+  {id:'b', key:'china', scene:'scene-cn', flag:'🇨🇳', landmark:'🏯', place:'Tiananmen', answer:'中国', py:'Zhōngguó'},
+  {id:'c', key:'uk', scene:'scene-uk', flag:'🇬🇧', landmark:'🕰️', place:'Big Ben', answer:'英国', py:'Yīngguó'},
+  {id:'d', key:'canada', scene:'scene-ca', flag:'🇨🇦', landmark:'🍁', place:'Canada', answer:'加拿大', py:'Jiānádà'},
+  {id:'e', key:'japan', scene:'scene-jp', flag:'🇯🇵', landmark:'🗻', place:'Mt. Fuji', answer:'日本', py:'Rìběn'},
+  {id:'f', key:'korea', scene:'scene-kr', flag:'🇰🇷', landmark:'🏯', place:'Gyeongbokgung', answer:'韩国', py:'Hánguó'},
+  {id:'g', key:'usa', scene:'scene-us', flag:'🇺🇸', landmark:'🗽', place:'Statue of Liberty', answer:'美国', py:'Měiguó'},
+  {id:'h', key:'france', scene:'scene-fr', flag:'🇫🇷', landmark:'🗼', place:'Eiffel Tower', answer:'法国', py:'Fǎguó'}
+];
+let selectedCountryChip = null;
+function createCountryChip(item){
+  const chip = document.createElement('div');
+  chip.className='label-chip';
+  chip.draggable=true;
+  chip.dataset.answer=item.answer;
+  chip.innerHTML=`<div class="hanzi">${item.answer}</div><div class="py">${item.py}</div>`;
+  chip.ondragstart=e=>e.dataTransfer.setData('text/plain', item.answer);
+  chip.onclick=()=>{
+    if(chip.classList.contains('used')) return;
+    document.querySelectorAll('#countryBank .selected').forEach(x=>x.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedCountryChip = item.answer;
+  };
+  return chip;
+}
+function resetCountries(){
+  selectedCountryChip = null;
+  const grid = document.getElementById('pictureGrid');
+  const bank = document.getElementById('countryBank');
+  grid.innerHTML=''; bank.innerHTML='';
+  pictureData.forEach(pic=>{
+    const card = document.createElement('div');
+    card.className='picture-card';
+    card.innerHTML=`
+      <div class="letter">${pic.id}</div>
+      <div class="country-scene ${pic.scene}">
+        <div class="scene-inner">
+          <div class="flag-big">${pic.flag}</div>
+          <div class="landmark">${pic.landmark}</div>
+          <div class="landmark-name">${pic.place}</div>
+        </div>
+      </div>
+      <div class="country-slot" data-answer="${pic.answer}">drag here</div>
+    `;
+    grid.appendChild(card);
+  });
+  shuffle(pictureData).forEach(item=>bank.appendChild(createCountryChip(item)));
+  document.querySelectorAll('.country-slot').forEach(slot=>{
+    slot.ondragover=e=>e.preventDefault();
+    slot.ondrop=e=>{
+      e.preventDefault();
+      placeCountry(slot, e.dataTransfer.getData('text/plain'));
+    };
+    slot.onclick=()=>{
+      if(selectedCountryChip) placeCountry(slot, selectedCountryChip);
+    };
+  });
+  document.getElementById('countryFb').textContent='Match all 8 countries.';
+}
+function placeCountry(slot, answer){
+  if(!answer) return;
+  if(slot.dataset.value){
+    const oldChip = document.querySelector(`#countryBank .label-chip[data-answer="${CSS.escape(slot.dataset.value)}"]`);
+    if(oldChip) oldChip.classList.remove('used');
+  }
+  slot.dataset.value = answer;
+  const info = pictureData.find(x=>x.answer===answer);
+  slot.innerHTML = `<b>${answer}</b><br><small>${info.py}</small>`;
+  const chip = document.querySelector(`#countryBank .label-chip[data-answer="${CSS.escape(answer)}"]`);
+  if(chip){ chip.classList.add('used'); chip.classList.remove('selected'); }
+  selectedCountryChip = null;
+  slot.classList.remove('correct','wrong');
+}
+function checkCountries(){
+  let correct = 0;
+  document.querySelectorAll('.country-slot').forEach(slot=>{
+    const ok = slot.dataset.value===slot.dataset.answer;
+    slot.classList.toggle('correct', ok);
+    slot.classList.toggle('wrong', !ok);
+    if(ok) correct++;
+  });
+  document.getElementById('countryFb').innerHTML = correct===pictureData.length
+    ? '<span class="good">Excellent! All countries are matched correctly.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/${pictureData.length}`;
+}
+resetCountries();
+
+/* ========= SECTION 2 ========= */
+const whereQuiz = [
+  {py:'Wǒ zhù zài Zhōngguó.', prompt:'1. 我住在 <u>中国</u>。', options:['你住在哪里？','你是哪国人？','你住在中国吗？'], answer:0},
+  {py:'Tā zhù zài Lúndūn.', prompt:'2. 他住在 <u>伦敦</u>。', options:['他住在哪里？','他是哪国人？','他是英国人吗？'], answer:0},
+  {py:'Shǐdìfū shì Yīngguórén.', prompt:'3. 史蒂夫是 <u>英国人</u>。', options:['史蒂夫住在哪里？','史蒂夫是哪国人？','史蒂夫是中国人吗？'], answer:1},
+  {py:'Tā shì Rìběnrén.', prompt:'4. 她是 <u>日本人</u>。', options:['她住在哪里？','她是哪国人？','她住在日本吗？'], answer:1}
+];
+function renderQuiz(containerId, data){
+  const box = document.getElementById(containerId);
+  box.innerHTML='';
+  data.forEach((q,i)=>{
+    const card = document.createElement('div');
+    card.className='quiz-card';
+    card.dataset.index=i;
+    card.innerHTML = `
+      <div class="py">${q.py}</div>
+      <div class="prompt">${q.prompt}</div>
+      <div class="option-grid">
+        ${q.options.map((op,j)=>`<button class="option" data-val="${j}">${String.fromCharCode(97+j)}) ${op}</button>`).join('')}
+      </div>
+    `;
+    card.querySelectorAll('.option').forEach(btn=>{
+      btn.onclick=()=>{
+        card.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));
+        btn.classList.add('selected');
+        card.dataset.choice = btn.dataset.val;
+      };
+    });
+    box.appendChild(card);
+  });
+}
+function checkQuiz(containerId, data){
+  let correct=0;
+  document.querySelectorAll(`#${containerId} .quiz-card`).forEach((card,i)=>{
+    const choice = Number(card.dataset.choice);
+    const answer = data[i].answer;
+    card.querySelectorAll('.option').forEach((btn,j)=>{
+      btn.classList.toggle('correct', j===answer);
+      btn.classList.toggle('wrong', j===choice && j!==answer);
+    });
+    if(choice===answer) correct++;
+  });
+  document.getElementById(containerId+'Fb').innerHTML = correct===data.length
+    ? '<span class="good">All answers are correct.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/${data.length}`;
+}
+renderQuiz('whereQuiz', whereQuiz);
+
+/* ========= SECTION 3 ========= */
+const negData = [
+  {words:['伦敦','在','美国。'], correct:1, full:'伦敦不在美国。'},
+  {words:['她','叫','马丽。'], correct:1, full:'她不叫马丽。'},
+  {words:['我','认识','安娜。'], correct:1, full:'我不认识安娜。'}
+];
+let selectedNegToken = null;
+function resetNegatives(){
+  selectedNegToken=null;
+  const box = document.getElementById('negList');
+  box.innerHTML='';
+  negData.forEach((row, idx)=>{
+    const item = document.createElement('div');
+    item.className='neg-item';
+    item.dataset.index=idx;
+    let slotsHTML='';
+    row.words.forEach((w, i)=>{
+      slotsHTML += `<span class="token fixed">${w}</span>`;
+      if(i<row.words.length-1){
+        slotsHTML += `<span class="slot" data-slot="${i+1}" data-parent="${idx}"></span>`;
+      }
+    });
+    item.innerHTML = `
+      <div class="token-row">
+        <span class="token neg" draggable="true" data-parent="${idx}" data-token="不">不</span>
+      </div>
+      <div class="slot-row" style="margin-top:12px">${slotsHTML}</div>
+      <div class="neg-note">Target: make the sentence negative.</div>
+    `;
+    box.appendChild(item);
+  });
+
+  document.querySelectorAll('.token.neg').forEach(token=>{
+    token.ondragstart=e=>{
+      e.dataTransfer.setData('text/plain', token.dataset.parent);
+      selectedNegToken = token.dataset.parent;
+    };
+    token.onclick=()=>{
+      document.querySelectorAll('.token.neg').forEach(x=>x.classList.remove('selected'));
+      token.classList.add('selected');
+      selectedNegToken = token.dataset.parent;
+    };
+  });
+
+  document.querySelectorAll('.slot').forEach(slot=>{
+    slot.ondragover=e=>e.preventDefault();
+    slot.ondrop=e=>{
+      e.preventDefault();
+      const parent = e.dataTransfer.getData('text/plain');
+      placeNeg(slot, parent);
+    };
+    slot.onclick=()=>{
+      if(selectedNegToken!==null) placeNeg(slot, selectedNegToken);
+    };
+  });
+  document.getElementById('negFb').textContent='Complete all three sentences.';
+}
+function placeNeg(slot, parentIndex){
+  if(slot.dataset.parent !== parentIndex) return;
+  document.querySelectorAll(`.slot[data-parent="${parentIndex}"]`).forEach(s=>{
+    s.textContent=''; s.dataset.value='';
+  });
+  slot.textContent='不';
+  slot.dataset.value='不';
+  slot.classList.remove('correct','wrong');
+  const token = document.querySelector(`.token.neg[data-parent="${parentIndex}"]`);
+  if(token) token.classList.remove('selected');
+  selectedNegToken = null;
+}
+function checkNegatives(){
+  let correct=0;
+  negData.forEach((row, idx)=>{
+    document.querySelectorAll(`.slot[data-parent="${idx}"]`).forEach(slot=>{
+      const ok = slot.dataset.value==='不' && Number(slot.dataset.slot)===row.correct;
+      slot.classList.toggle('correct', ok);
+      slot.classList.toggle('wrong', slot.dataset.value==='不' && !ok);
+      if(ok) correct++;
+    });
+  });
+  document.getElementById('negFb').innerHTML = correct===negData.length
+    ? '<span class="good">Excellent! The particle 不 is in the correct places.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/${negData.length}`;
+}
+resetNegatives();
+
+/* ========= SECTION 4 ========= */
+const bracketQuiz = [
+  {py:'Wáng Yù shì ___ rén?', prompt:'1A. 王玉是 ______ 人？', options:['哪国','住在'], answer:0},
+  {py:'Tā shì ____.', prompt:'1B. 她是 ______。', options:['中国人','中国'], answer:0},
+  {py:'Nǐ rènshi Mǎkè ___?', prompt:'2A. 你认识马克 ______？', options:['吗','呢'], answer:0},
+  {py:'Wǒ ___ rènshi Mǎkè.', prompt:'2B. 我 ______ 认识马克。', options:['不','不是'], answer:0},
+  {py:'Tāmen shì ____?', prompt:'3A. 他们是 ______？', options:['哪国人','美国'], answer:0},
+  {py:'____, wǒ bù zhīdào.', prompt:'3B. ______，我不知道。', options:['对不起','你好'], answer:0},
+];
+renderQuiz('bracketQuiz', bracketQuiz);
+
+/* ========= SECTION 5 ========= */
+const dialogueWords = ['哪国人','住在','伦敦','你好','英国人','北京'];
+let selectedWord = null;
+let activeBlank = null;
+function renderDialogueBank(){
+  const bank = document.getElementById('dialogueBank');
+  bank.innerHTML='';
+  shuffle(dialogueWords).forEach(w=>{
+    const btn = document.createElement('button');
+    btn.className='word-btn';
+    btn.textContent=w;
+    btn.dataset.word=w;
+    btn.onclick=()=>{
+      if(btn.classList.contains('used')) return;
+      bank.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedWord = w;
+      if(activeBlank) fillDialogueBlank(activeBlank, w);
+    };
+    bank.appendChild(btn);
+  });
+  document.querySelectorAll('#s5 .blank').forEach(blank=>{
+    blank.onclick=()=>{
+      document.querySelectorAll('#s5 .blank').forEach(x=>x.classList.remove('active'));
+      activeBlank = blank;
+      blank.classList.add('active');
+      if(selectedWord) fillDialogueBlank(blank, selectedWord);
+    };
+  });
+}
+function fillDialogueBlank(blank, word){
+  if(blank.dataset.value){
+    const old = document.querySelector(`#dialogueBank .word-btn[data-word="${CSS.escape(blank.dataset.value)}"]`);
+    if(old) old.classList.remove('used');
+  }
+  blank.textContent=word;
+  blank.dataset.value=word;
+  blank.classList.remove('active','ok','no');
+  const btn = document.querySelector(`#dialogueBank .word-btn[data-word="${CSS.escape(word)}"]`);
+  if(btn){ btn.classList.add('used'); btn.classList.remove('selected'); }
+  selectedWord = null;
+  activeBlank = null;
+}
+function resetDialogue(){
+  selectedWord = null; activeBlank = null;
+  document.querySelectorAll('#s5 .blank').forEach(blank=>{
+    blank.textContent='______';
+    blank.dataset.value='';
+    blank.classList.remove('active','ok','no');
+  });
+  renderDialogueBank();
+  document.getElementById('dialogueFb').textContent='Fill in all the blanks.';
+}
+function checkDialogue(){
+  let correct=0;
+  document.querySelectorAll('#s5 .blank').forEach(blank=>{
+    const ok = blank.dataset.value===blank.dataset.answer;
+    blank.classList.toggle('ok', ok);
+    blank.classList.toggle('no', !ok);
+    if(ok) correct++;
+  });
+  document.getElementById('dialogueFb').innerHTML = correct===6
+    ? '<span class="good">The dialogue is completed correctly.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/6`;
+}
+renderDialogueBank();
+
+/* ========= SECTION 6 ========= */
+const continentItems = [
+ ['英国','Yīngguó','Europe'],['美国','Měiguó','America'],['南非','Nánfēi','Africa'],['中国','Zhōngguó','Asia'],['新加坡','Xīnjiāpō','Asia'],
+ ['法国','Fǎguó','Europe'],['加拿大','Jiānádà','America'],['肯尼亚','Kěnníyà','Africa'],['日本','Rìběn','Asia'],['泰国','Tàiguó','Asia'],
+ ['德国','Déguó','Europe'],['墨西哥','Mòxīgē','America'],['埃及','Āijí','Africa'],['韩国','Hánguó','Asia'],['印度','Yìndù','Asia']
+];
+let selectedCont = null;
+function makeContChip(item){
+  const d = document.createElement('div');
+  d.className='drag-country';
+  d.draggable=true;
+  d.dataset.word=item[0];
+  d.dataset.cont=item[2];
+  d.innerHTML=`${item[0]}<small>${item[1]}</small>`;
+  d.ondragstart=e=>e.dataTransfer.setData('text/plain', item[0]);
