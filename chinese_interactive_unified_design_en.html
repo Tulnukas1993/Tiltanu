@@ -697,8 +697,7 @@ const pictureData = [
 let selectedCountryChip = null;
 function createCountryChip(item){
   const chip = document.createElement('div');
-  chip.className='label-chip';
-  chip.draggable=true;
+  chip.className='label-chip';  chip.draggable=true;
   chip.dataset.answer=item.answer;
   chip.innerHTML=`<div class="hanzi">${item.answer}</div><div class="py">${item.py}</div>`;
   chip.ondragstart=e=>e.dataTransfer.setData('text/plain', item.answer);
@@ -998,3 +997,317 @@ function makeContChip(item){
   d.dataset.cont=item[2];
   d.innerHTML=`${item[0]}<small>${item[1]}</small>`;
   d.ondragstart=e=>e.dataTransfer.setData('text/plain', item[0]);
+  d.onclick=()=>{
+    document.querySelectorAll('#continentBank .selected').forEach(x=>x.classList.remove('selected'));
+    d.classList.add('selected'); selectedCont=item[0];
+  };
+  return d;
+}
+function resetContinents(){
+  selectedCont=null;
+  document.querySelectorAll('.dropzone').forEach(z=>z.innerHTML='');
+  const bank = document.getElementById('continentBank');
+  bank.innerHTML='';
+  shuffle(continentItems).forEach(item=>bank.appendChild(makeContChip(item)));
+  document.querySelectorAll('.dropzone').forEach(zone=>{
+    zone.ondragover=e=>e.preventDefault();
+    zone.ondrop=e=>{
+      e.preventDefault();
+      dropCont(zone, e.dataTransfer.getData('text/plain'));
+    };
+    zone.onclick=()=>{
+      if(selectedCont) dropCont(zone, selectedCont);
+    };
+  });
+  document.getElementById('continentFb').textContent='Sort all the countries by continent.';
+}
+function dropCont(zone, word){
+  const chip = [...document.querySelectorAll('.drag-country')].find(x=>x.dataset.word===word);
+  if(!chip) return;
+  zone.appendChild(chip);
+  chip.classList.remove('selected');
+  chip.classList.remove('used');
+  selectedCont=null;
+}
+function checkContinents(){
+  let correct=0;
+  document.querySelectorAll('.dropzone').forEach(zone=>{
+    [...zone.children].forEach(chip=>{
+      const ok = chip.dataset.cont===zone.dataset.cont;
+      chip.classList.toggle('ok', ok);
+      chip.classList.toggle('no', !ok);
+      if(ok) correct++;
+    });
+  });
+  document.getElementById('continentFb').innerHTML = correct===continentItems.length
+    ? '<span class="good">All countries are sorted correctly.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/${continentItems.length}`;
+}
+resetContinents();
+
+/* ========= SECTION 7 ========= */
+const builderData = [
+  {statement:'王玉是中国人。', answer:['王玉','是','中国人','吗','？'], tiles:['王玉','是','中国人','吗','？','英国人']},
+  {statement:'我住在北京。', answer:['你','住在','北京','吗','？'], tiles:['你','住在','北京','吗','？','上海']},
+  {statement:'永民是韩国人。', answer:['永民','是','韩国人','吗','？'], tiles:['永民','是','韩国人','吗','？','中国人']},
+  {statement:'我不认识丁原。', answer:['你','认识','丁原','吗','？'], tiles:['你','认识','丁原','吗','？','不']},
+  {statement:'马克住在北京。', answer:['马克','住在','北京','吗','？'], tiles:['马克','住在','北京','吗','？','伦敦']}
+];
+function renderBuilders(){
+  const box = document.getElementById('maBuilders');
+  box.innerHTML='';
+  builderData.forEach((item, idx)=>{
+    const b = document.createElement('div');
+    b.className='builder';
+    b.dataset.index=idx;
+    b.innerHTML=`
+      <div class="py">Statement ${idx+1}</div>
+      <div class="prompt">${item.statement}</div>
+      <div class="answer-strip" data-index="${idx}"></div>
+      <div class="tile-bank">
+        ${shuffle(item.tiles).map(t=>`<button class="tile" data-index="${idx}" data-text="${t}">${t}</button>`).join('')}
+      </div>
+      <div class="mini-actions" style="margin-top:10px">
+        <button class="btn alt" data-clear="${idx}">Clear</button>
+      </div>
+    `;
+    box.appendChild(b);
+  });
+  document.querySelectorAll('.tile').forEach(tile=>{
+    tile.onclick=()=>{
+      if(tile.classList.contains('used')) return;
+      const idx = tile.dataset.index;
+      const strip = document.querySelector(`.answer-strip[data-index="${idx}"]`);
+      const span = document.createElement('span');
+      span.className='answer-tile';
+      span.textContent=tile.dataset.text;
+      strip.appendChild(span);
+      tile.classList.add('used');
+    };
+  });
+  document.querySelectorAll('[data-clear]').forEach(btn=>{
+    btn.onclick=()=>{
+      const idx = btn.dataset.clear;
+      document.querySelector(`.answer-strip[data-index="${idx}"]`).innerHTML='';
+      document.querySelectorAll(`.tile[data-index="${idx}"]`).forEach(t=>t.classList.remove('used'));
+    };
+  });
+}
+function checkBuilders(){
+  let correct=0;
+  document.querySelectorAll('.builder').forEach((builder, idx)=>{
+    const built = [...builder.querySelectorAll('.answer-strip .answer-tile')].map(x=>x.textContent).join('');
+    const target = builderData[idx].answer.join('');
+    const strip = builder.querySelector('.answer-strip');
+    strip.style.borderColor = built===target ? 'var(--green)' : 'var(--red)';
+    strip.style.background = built===target ? '#eaf9f1' : '#fff1f3';
+    if(built===target) correct++;
+  });
+  document.getElementById('builderFb').innerHTML = correct===builderData.length
+    ? '<span class="good">All questions with 吗 are built correctly.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/${builderData.length}`;
+}
+renderBuilders();
+
+/* ========= SECTION 8 ========= */
+const haishiData = [
+  {
+    prompt:'2. 他在日本 <span class="inline-blank" data-answer="还是">______</span> 中国出生？',
+    answerText:'他在日本出生。',
+    bank:['还是','也','吗']
+  },
+  {
+    prompt:'3. 她是英国人还是 <span class="inline-blank" data-answer="美国人">______</span>？',
+    answerText:'她是美国人。',
+    bank:['美国人','中国人','法国人']
+  },
+  {
+    prompt:'4. 你的妈妈喜欢住在 <span class="inline-blank" data-answer="法国">______</span> 还是 <span class="inline-blank" data-answer="德国">______</span>？',
+    answerText:'她喜欢住在法国。',
+    bank:['法国','德国','英国']
+  },
+  {
+    prompt:'5. <span class="inline-blank" data-answer="你有哥哥">______</span> 还是 <span class="inline-blank" data-answer="弟弟">______</span>？',
+    answerText:'我有一个弟弟。',
+    bank:['你有哥哥','弟弟','姐姐']
+  }
+];
+let activeInlineBlank = null;
+let selectedInlineOption = null;
+function renderHaishi(){
+  const box = document.getElementById('haishiList');
+  box.innerHTML='';
+  haishiData.forEach((item, idx)=>{
+    const card = document.createElement('div');
+    card.className='haishi-card';
+    card.dataset.index=idx;
+    card.innerHTML=`
+      <div class="prompt">${item.prompt}</div>
+      <div class="small" style="font-size:17px;color:#45506b"><b>A:</b> ${item.answerText}</div>
+      <div class="inline-bank">
+        ${shuffle(item.bank).map(w=>`<button class="inline-option" data-word="${w}" data-index="${idx}">${w}</button>`).join('')}
+      </div>
+    `;
+    box.appendChild(card);
+  });
+  document.querySelectorAll('.inline-option').forEach(btn=>{
+    btn.onclick=()=>{
+      if(btn.classList.contains('used')) return;
+      document.querySelectorAll(`.inline-option[data-index="${btn.dataset.index}"]`).forEach(x=>x.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedInlineOption = btn.dataset.word;
+      if(activeInlineBlank && activeInlineBlank.closest('.haishi-card').dataset.index===btn.dataset.index){
+        fillInline(activeInlineBlank, selectedInlineOption);
+      }
+    };
+  });
+  document.querySelectorAll('.inline-blank').forEach(blank=>{
+    blank.onclick=()=>{
+      document.querySelectorAll('.inline-blank').forEach(x=>x.classList.remove('active'));
+      activeInlineBlank = blank;
+      blank.classList.add('active');
+      const idx = blank.closest('.haishi-card').dataset.index;
+      const selected = document.querySelector(`.inline-option[data-index="${idx}"].selected`);
+      if(selected){ fillInline(blank, selected.dataset.word); }
+    };
+  });
+}
+function fillInline(blank, word){
+  const idx = blank.closest('.haishi-card').dataset.index;
+  if(blank.dataset.value){
+    const old = document.querySelector(`.inline-option[data-index="${idx}"][data-word="${CSS.escape(blank.dataset.value)}"]`);
+    if(old) old.classList.remove('used');
+  }
+  blank.textContent=word;
+  blank.dataset.value=word;
+  blank.classList.remove('active','ok','no');
+  const current = document.querySelector(`.inline-option[data-index="${idx}"][data-word="${CSS.escape(word)}"]`);
+  if(current){
+    current.classList.add('used');
+    current.classList.remove('selected');
+  }
+  activeInlineBlank = null;
+  selectedInlineOption = null;
+}
+function resetHaishi(){
+  activeInlineBlank=null; selectedInlineOption=null;
+  renderHaishi();
+  document.getElementById('haishiFb').textContent='Fill in all the blanks in the questions.';
+}
+function checkHaishi(){
+  let total=0, correct=0;
+  document.querySelectorAll('#haishiList .inline-blank').forEach(blank=>{
+    total++;
+    const ok = blank.dataset.value===blank.dataset.answer;
+    blank.classList.toggle('ok', ok);
+    blank.classList.toggle('no', !ok);
+    if(ok) correct++;
+  });
+  document.getElementById('haishiFb').innerHTML = correct===total
+    ? '<span class="good">Excellent! The questions with 还是 are completed correctly.</span>'
+    : `<span class="bad">Correct:</span> ${correct}/${total}`;
+}
+renderHaishi();
+
+/* ========= SECTION 9 ========= */
+const matchQuestions = [
+  {id:'q1', text:'你的好朋友是中国人吗？'},
+  {id:'q2', text:'他的妈妈是哪国人？'},
+  {id:'q3', text:'他在哪儿出生？'},
+  {id:'q4', text:'他也在北京长大吗？'},
+  {id:'q5', text:'他喜欢哪儿？北京还是上海？'}
+];
+const matchAnswers = [
+  {id:'q4', text:'不，他在上海长大。'},
+  {id:'q5', text:'他喜欢北京，也喜欢上海。'},
+  {id:'q1', text:'他是一半日本人，一半中国人。'},
+  {id:'q2', text:'她是日本人。'},
+  {id:'q3', text:'他在北京出生。'}
+];
+let selectedLeft = null;
+let matchPairs = [];
+function renderMatch(){
+  selectedLeft = null;
+  matchPairs = [];
+  const left = document.getElementById('leftCol');
+  const right = document.getElementById('rightCol');
+  left.innerHTML=''; right.innerHTML='';
+  matchQuestions.forEach(item=>{
+    const d = document.createElement('div');
+    d.className='match-node match-left';
+    d.dataset.id=item.id;
+    d.dataset.side='left';
+    d.innerHTML=`<div class="match-text">${item.text}</div><span class="dot"></span>`;
+    left.appendChild(d);
+  });
+  shuffle(matchAnswers).forEach(item=>{
+    const d = document.createElement('div');
+    d.className='match-node match-right';
+    d.dataset.id=item.id;
+    d.dataset.side='right';
+    d.innerHTML=`<span class="dot"></span><div class="match-text">${item.text}</div>`;
+    right.appendChild(d);
+  });
+  document.querySelectorAll('.match-left,.match-right').forEach(node=>{
+    node.onclick=()=>matchClick(node);
+  });
+  drawMatchLines();
+  document.getElementById('matchFb').textContent='Match all 5 pairs.';
+}
+function matchClick(node){
+  if(node.classList.contains('matched')) return;
+  if(node.dataset.side==='left'){
+    document.querySelectorAll('.match-left.selected').forEach(x=>x.classList.remove('selected'));
+    node.classList.add('selected');
+    selectedLeft = node;
+    return;
+  }
+  if(!selectedLeft){
+    document.getElementById('matchFb').innerHTML = '<span class="bad">First choose a question on the left.</span>';
+    return;
+  }
+  if(selectedLeft.dataset.id===node.dataset.id){
+    selectedLeft.classList.remove('selected');
+    selectedLeft.classList.add('matched');
+    node.classList.add('matched');
+    matchPairs.push(selectedLeft.dataset.id);
+    selectedLeft = null;
+    drawMatchLines();
+    document.getElementById('matchFb').innerHTML = `<span class="good">Correct!</span> ${matchPairs.length}/5`;
+  }else{
+    document.getElementById('matchFb').innerHTML = '<span class="bad">That is not the correct pair.</span>';
+  }
+}
+function drawMatchLines(){
+  const stage = document.getElementById('matchStage');
+  const svg = document.getElementById('matchSvg');
+  if(!stage || !svg) return;
+  const sr = stage.getBoundingClientRect();
+  svg.innerHTML='';
+  matchPairs.forEach(id=>{
+    const leftDot = document.querySelector(`.match-left[data-id="${id}"] .dot`);
+    const rightDot = document.querySelector(`.match-right[data-id="${id}"] .dot`);
+    if(!leftDot || !rightDot) return;
+    const lr = leftDot.getBoundingClientRect();
+    const rr = rightDot.getBoundingClientRect();
+    const x1 = lr.left + lr.width/2 - sr.left;
+    const y1 = lr.top + lr.height/2 - sr.top;
+    const x2 = rr.left + rr.width/2 - sr.left;
+    const y2 = rr.top + rr.height/2 - sr.top;
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1);
+    line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2);
+    line.setAttribute('y2',y2);
+    line.setAttribute('stroke','#2d63d6');
+    line.setAttribute('stroke-width','4');
+    line.setAttribute('stroke-linecap','round');
+    svg.appendChild(line);
+  });
+}
+function resetMatch(){ renderMatch(); }
+window.addEventListener('resize', drawMatchLines);
+renderMatch();
+</script>
+</body>
+</html>
